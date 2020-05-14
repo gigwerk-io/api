@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use App\Factories\ResponseFactory;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -50,6 +54,26 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        $render =  parent::render($request, $exception);
+
+        if($request->expectsJson()){
+            $message = $exception->getMessage();
+
+            if($exception instanceof ValidationException){
+                $message = array_values($exception->errors());
+            }
+
+            if($exception instanceof NotFoundHttpException){
+                $message = 'Route does not exist.';
+            }
+
+            if($exception instanceof MethodNotAllowedHttpException){
+                $message = sprintf('The request method %s is not allowed.', $request->method());
+            }
+
+            return ResponseFactory::error($message, null, $render->getStatusCode());
+        }
+
+        return $render;
     }
 }

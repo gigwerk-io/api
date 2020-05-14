@@ -30,5 +30,6 @@
         "commitizen": {
             "path": "git-cz"
         }
-    }
+    },
+    "dependencies": {}
 }

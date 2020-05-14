@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\User\Criteria\EmailOrUsernameCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Contracts\Repositories\UserRepository;
@@ -25,7 +26,19 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
         return User::class;
     }
 
-    
+    /**
+     * Find a user by email/username for login.
+     *
+     * @param string $text
+     * @return User|mixed|null
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
+     */
+    public function findByUsernameOrEmail(string $text)
+    {
+        $this->pushCriteria(new EmailOrUsernameCriteria($text));
+        return $this->first();
+    }
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +47,5 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
 }

@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Assembly",
+        "icon_image": "https://favr-images.s3.us-east-2.amazonaws.com/categories/gear.png"
+    },
+    {
+        "name": "Cleaning & Housekeeping",
+        "icon_image": "https://favr-images.s3.us-east-2.amazonaws.com/categories/mop.png"
+    },
+    {
+        "name": "Custom Task",
+        "icon_image": "https://favr-images.s3.us-east-2.amazonaws.com/categories/edit-favr.png"
+    },
+    {
+        "name": "Junk Removal",
+        "icon_image": "https://favr-images.s3.us-east-2.amazonaws.com/categories/recycling.png"
+    },
+    {
+        "name": "Lawn & Yard",
+        "icon_image": "https://favr-images.s3.us-east-2.amazonaws.com/categories/lawnmower.png"
+    },
+    {
+        "name": "Moving & Packing",
+        "icon_image": "https://favr-images.s3.us-east-2.amazonaws.com/categories/trolley.png"
+    },
+    {
+        "name": "Seasonal",
+        "icon_image": "https://favr-images.s3.us-east-2.amazonaws.com/categories/leaf.png"
+    },
+    {
+        "name": "Snow Removal",
+        "icon_image": "https://favr-images.s3.us-east-2.amazonaws.com/categories/snowman.png"
+    }
+]

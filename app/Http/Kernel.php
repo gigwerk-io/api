@@ -2,6 +2,12 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CanAccessBusiness;
+use App\Http\Middleware\ExpectsJsonMiddleware;
+use App\Http\Middleware\HasPaymentMethod;
+use App\Http\Middleware\HasPayoutMethod;
+use App\Http\Middleware\IsJobOwner;
+use App\Http\Middleware\JobExists;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -40,6 +46,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             'throttle:60,1',
+            ExpectsJsonMiddleware::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -55,9 +62,14 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'business.access' => CanAccessBusiness::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'has.payment.method' => HasPaymentMethod::class,
+        'has.payout.method' => HasPayoutMethod::class,
+        'job.exists' => JobExists::class,
+        'job.owner' => IsJobOwner::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
