@@ -27,7 +27,8 @@ class DevRequiredUsersSeeder extends Seeder
             'card_type' => 'Visa',
             'card_last4' => 4242,
             'exp_month' => 12,
-            'exp_year' => 2023
+            'exp_year' => 2023,
+            'default' => true
         ]);
 
         // Create business
