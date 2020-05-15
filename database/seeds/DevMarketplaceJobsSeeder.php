@@ -72,7 +72,7 @@ class DevMarketplaceJobsSeeder extends Seeder
                     $marketplaceJob->description
                 );
                 $marketplaceJob->payment()->create([
-                    'customer_id' => $marketplaceJob,
+                    'user_id' => $marketplaceJob->customer_id,
                     'amount' => $marketplaceJob->price,
                     'stripe_token' => $charge->id // stripe charge id
                 ]);
