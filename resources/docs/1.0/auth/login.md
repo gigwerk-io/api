@@ -1,0 +1,152 @@
+# Login
+
+These routes belong are responsible for creating deleting and validating login/session tokens.
+
+---
+
+- [Create Session](#login)
+
+
+- [Validate Session](#validate)
+
+
+- [End Session](#logout)
+
+
+
+<a name="login"></a>
+## Create Session
+
+Login to a user account and return a session token.
+### Endpoint
+|Method|URI|Authentication|
+|:-|:-|:-|
+|`POST`|`/login`|`false`|
+
+
+### Body Params
+|Name|Type|Status|Description|
+|:-|:-|:-|:-|
+|`username`|`string`|`required`|`The username or email of the user`|
+|`password`|`string`|`required`|`The password for the user`|
+
+
+> {success} Example Success Response
+Code `200`
+
+Content
+
+```json
+{
+    "success": true,
+    "message": "User has logged in",
+    "data": {
+        "user": {
+            "id": 1,
+            "first_name": "Irma",
+            "last_name": "Willard",
+            "username": "business_admin",
+            "email": "fstracke@example.org",
+            "phone": "1-685-852-2459",
+            "apn_token": null,
+            "fcm_token": null,
+            "email_verified_at": "2020-05-14T01:39:23.000000Z",
+            "last_seen_at": null,
+            "deleted_at": null,
+            "created_at": "2020-05-14T01:39:23.000000Z",
+            "updated_at": "2020-05-14T01:39:23.000000Z",
+            "business": {
+                "id": 1,
+                "owner_id": 1,
+                "unique_id": "1261f96b-76b8-3162-a284-8ae5fed371d7",
+                "name": "McKenzie, Sipes and Wiegand",
+                "subdomain_prefix": "langosh",
+                "stripe_connect_id": "acct_1F7RiLBKeAbZ6utM",
+                "image": "http://507outdoormanagement.com/wp-content/uploads/2019/10/foliage-2942282_1920-1920x730.jpg",
+                "cover": "http://507outdoormanagement.com/wp-content/uploads/2019/10/foliage-2942282_1920-1920x730.jpg",
+                "short_description": "Dolores distinctio qui aliquam ut ut temporibus.",
+                "long_description": "Sit consequuntur est fuga et minus. Atque ut vel repudiandae nesciunt aut. Earum suscipit animi nemo aut vel. Blanditiis id eius possimus mollitia nobis temporibus iusto aut. Totam maiores eum placeat et.",
+                "primary_color": "#6181a9",
+                "secondary_color": "#00bb55",
+                "created_at": "2020-05-14T01:39:23.000000Z",
+                "updated_at": "2020-05-14T01:39:23.000000Z",
+                "deleted_at": null,
+                "pivot": {
+                    "user_id": 1,
+                    "business_id": 1,
+                    "role_id": 1
+                }
+            },
+            "isActive": false,
+            "profile": {
+                "id": 1,
+                "user_id": 1,
+                "image": "https://i.picsum.photos/id/1019/600/600.jpg",
+                "description": "Occaecati ut praesentium est modi autem architecto labore.",
+                "created_at": "2020-05-14T01:39:23.000000Z",
+                "updated_at": "2020-05-14T01:39:23.000000Z"
+            }
+        },
+        "token": "6|H9YIrCrLccrE5BjCHwfnJJz5xck9cnvg1UIchFbavqVUXWbV7x2ZOpsamQGPnqrVVf3EPyPpTQDH1GPQ"
+    }
+}
+
+```
+
+
+
+<a name="validate"></a>
+## Validate Session
+
+Check if a users session token is still valid.
+### Endpoint
+|Method|URI|Authentication|
+|:-|:-|:-|
+|`GET`|`/validate`|`false`|
+
+
+
+> {success} Example Success Response
+Code `200`
+
+Content
+
+```json
+{
+    "success": true,
+    "message": "Token is valid.",
+    "data": {
+        "validToken": true
+    }
+}
+
+```
+
+
+
+<a name="logout"></a>
+## End Session
+
+Destroy a user session.
+### Endpoint
+|Method|URI|Authentication|
+|:-|:-|:-|
+|`POST`|`/logout`|`true`|
+
+
+
+> {success} Example Success Response
+Code `200`
+
+Content
+
+```json
+{
+    "success": true,
+    "message": "User has been logged out.",
+    "data": null
+}
+
+```
+
+

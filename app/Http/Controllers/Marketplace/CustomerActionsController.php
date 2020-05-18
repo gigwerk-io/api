@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Marketplace;
 
+use App\Annotation\BodyParam;
+use App\Annotation\Group;
+use App\Annotation\Meta;
+use App\Annotation\ResponseExample;
 use App\Contracts\Repositories\MarketplaceJobRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Contracts\Stripe\Connect;
@@ -14,6 +18,9 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 
+/**
+ * @Group(name="Customer Actions", description="These routes belong are responsible for managing customer actions on a job.")
+ */
 class CustomerActionsController extends Controller
 {
     /**
@@ -46,11 +53,9 @@ class CustomerActionsController extends Controller
     }
 
     /**
-     * Approved Freelancer
-     * Approve a freelancer's proposal.
-     * @urlParam unique_id required The uuid of the businesses marketplace. Example: 92c42544-773c-4ce9-9708-d67ffe17adfc
-     * @urlParam id required The ID of the job. Example: 1
-     * @urlParam freelancer_id required The ID of the worker. Example: 1
+     * @Meta(name="Approve Freelancer", href="approve", description="Accept a freelancers proposal on a job.")
+     * @ResponseExample(status=200, example="responses/marketplace/customer-actions/approve.freelancer-200.json")
+     * @ResponseExample(status=400, example="responses/marketplace/customer-actions/approve.freelancer-400.json")
      *
      * @param $freelancer_id
      * @param Request $request
@@ -84,11 +89,9 @@ class CustomerActionsController extends Controller
     }
 
     /**
-     * Reject Worker
-     * Reject a workers proposal on a job.
-     * @urlParam unique_id required The uuid of the businesses marketplace. Example: 92c42544-773c-4ce9-9708-d67ffe17adfc
-     * @urlParam id required The ID of the job. Example: 1
-     * @urlParam freelancer_id required The ID of the worker. Example: 1
+     * @Meta(name="Reject Worker", href="reject", description="Reject a workers proposal on a job.")
+     * @ResponseExample(status=200, example="responses/marketplace/customer-actions/reject.freelancer-200.json")
+     * @ResponseExample(status=400, example="responses/marketplace/customer-actions/reject.freelancer-400.json")
      *
      * @param $freelancer_id
      * @param Request $request
@@ -120,10 +123,9 @@ class CustomerActionsController extends Controller
     }
 
     /**
-     * Cancel Job
-     * Remove a job from the marketplace. The job must not be in progress or completed.
-     * @urlParam unique_id required The uuid of the businesses marketplace. Example: 92c42544-773c-4ce9-9708-d67ffe17adfc
-     * @urlParam id required The ID of the job. Example: 1
+     * @Meta(name="Cancel Job", href="cancel", description="Remove a job from the marketplace feed.")
+     * @ResponseExample(status=200, example="responses/marketplace/customer-actions/cancel.job-200.json")
+     * @ResponseExample(status=200, example="responses/marketplace/customer-actions/cancel.job-400.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -153,12 +155,10 @@ class CustomerActionsController extends Controller
     }
 
     /**
-     * Review Job
-     * Mark the job as complete.
-     * @urlParam unique_id required The uuid of the businesses marketplace. Example: 92c42544-773c-4ce9-9708-d67ffe17adfc
-     * @urlParam id required The ID of the job. Example: 1
-     * @bodyParam rating number required The rating of the worker. Example: 5
-     * @bodyParam review string optional The review of the worker. Example: This is worker did a good job!
+     * @Meta(name="Review Freelancer", href="complete", description="Review the freelancer and mark the job as complete.")
+     * @BodyParam(name="rating", type="number", status="required", description="The rating of the freelancer on the job.", example="5")
+     * @BodyParam(name="review", type="string", status="optional", description="The review of the freelancer on the job." example="This is worker did a good job!")
+     * @ResponseExample(status=200, example="responses/marketplace/customer-actions/complete.job-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response

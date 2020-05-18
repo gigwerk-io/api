@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Marketplace;
 
+use App\Annotation\Group;
 use App\Contracts\Stripe\Billing;
 use App\Enum\Marketplace\ProposalStatus;
 use App\Enum\Marketplace\Status;
@@ -14,6 +15,9 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 
+/**
+ * @Group(name="Freelancer Actions", description="These routes belong are responsible for managing freelancer actions on a job.")
+ */
 class FreelancerActionsController extends Controller
 {
     /**

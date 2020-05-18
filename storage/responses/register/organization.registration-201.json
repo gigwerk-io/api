@@ -1,0 +1,20 @@
+{
+    "success": true,
+    "message": "Organization has been created.",
+    "data": {
+        "name": "Foo Org",
+        "type_id": 1,
+        "total_goal": 1000,
+        "individual_goal": 50,
+        "purpose": "Foo bar",
+        "customer_range": "1-50",
+        "source": "Twitter",
+        "organizer_id": 332,
+        "email": "DBTPtYv54p@mail.com",
+        "phone": "598-646-8019 x4202",
+        "unique_id": "712dbf39-4e49-444e-9773-1d58425a2e60",
+        "updated_at": "2020-04-19 14:33:03",
+        "created_at": "2020-04-19 14:33:03",
+        "id": 12
+    }
+}

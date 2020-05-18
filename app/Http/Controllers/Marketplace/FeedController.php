@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Marketplace;
 
+use App\Annotation\Group;
 use App\Contracts\Geolocation\Geolocation;
 use App\Contracts\Repositories\MarketplaceJobRepository;
 use App\Contracts\Repositories\MarketplaceLocationRepository;
@@ -14,6 +15,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Stevebauman\Location\Location;
 
+/**
+ * @Group(name="Feed", description="These routes are responsible for viewing jobs on the feed or your own jobs.")
+ */
 class FeedController extends Controller
 {
     /**

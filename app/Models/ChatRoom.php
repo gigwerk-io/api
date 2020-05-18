@@ -20,7 +20,7 @@ class ChatRoom extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = ['pusher_id', 'users'];
+    protected $fillable = ['users', 'business_id'];
 
     /**
      * The attributes that should be cast.
@@ -35,4 +35,24 @@ class ChatRoom extends Model implements Transformable
      * @var array
      */
     protected $appends = [];
+
+    /**
+     * Chat room has many messages.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function messages()
+    {
+        return $this->hasMany(ChatMessage::class);
+    }
+
+    /**
+     * A chat room belongs to a businesses app
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function business()
+    {
+        return $this->belongsTo(Business::class);
+    }
 }

@@ -17,8 +17,10 @@ class CreateChatRoomsTable extends Migration
 	{
 		Schema::create('chat_rooms', function(Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->unsignedBigInteger('business_id');
             $table->text('users'); //json
 
+            $table->foreign('business_id')->references('id')->on('businesses');
             $table->timestamps();
 		});
 	}

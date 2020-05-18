@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Criteria\Chat\RoomParticipantCriteria;
+use App\Models\User;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Contracts\Repositories\ChatRoomRepository;
@@ -25,7 +27,7 @@ class ChatRoomRepositoryEloquent extends BaseRepository implements ChatRoomRepos
         return ChatRoom::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +36,17 @@ class ChatRoomRepositoryEloquent extends BaseRepository implements ChatRoomRepos
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
+    /**
+     * Check if a user is a participant of a chat room
+     *
+     * @param User $user
+     * @return $this|ChatRoomRepository
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
+     */
+    public function whereParticipant(User $user)
+    {
+        $this->pushCriteria(new RoomParticipantCriteria($user));
+        return $this;
+    }
 }

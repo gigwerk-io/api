@@ -1,0 +1,7 @@
+{
+    "success": true,
+    "message": "Token is valid.",
+    "data": {
+        "validToken": true
+    }
+}

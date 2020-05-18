@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Annotation\BodyParam;
+use App\Annotation\Group;
+use App\Annotation\Meta;
+use App\Annotation\ResponseExample;
 use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Factories\ResponseFactory;
@@ -10,7 +14,7 @@ use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Http\Request;
 
 /**
- * @group Auth-Login
+ * @Group(name="Login", description="These routes belong are responsible for creating deleting and validating login/session tokens.")
  */
 class LoginController extends Controller
 {
@@ -29,11 +33,6 @@ class LoginController extends Controller
      */
     private $businessRepository;
 
-    /**
-     * LoginController constructor.
-     * @param Hasher $hasher
-     * @param UserRepository $userRepository
-     */
     public function __construct(Hasher $hasher, UserRepository $userRepository, BusinessRepository $businessRepository)
     {
         $this->hasher = $hasher;
@@ -42,12 +41,10 @@ class LoginController extends Controller
     }
 
     /**
-     * @api {post} /login Login to a user account
-     * @apiName Login
-     * @apiGroup Auth
-     * @apiParam {String} [username]          Mandatory The username or email of the user.
-     * @apiParam {String} [password]          Mandatory The password of the user.
-     *
+     * @Meta(name="Create Session", description="Login to a user account and return a session token.", href="login")
+     * @BodyParam(name="username", type="string", status="required", description="The username or email of the user", example="business_admin")
+     * @BodyParam(name="password", type="string", status="required", description="The password for the user", example="business_admin")
+     * @ResponseExample(status=200, example="responses/auth/login/login-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response|\Laravel\Lumen\Http\ResponseFactory
@@ -59,12 +56,9 @@ class LoginController extends Controller
         $this->validate($request, [
             'username' => 'required',
             'password' => 'required',
-            'business_id' => ['required','exists:businesses,unique_id']
         ]);
 
         $user = $this->userRepository->findByUsernameOrEmail($request->username);
-
-        $business = $this->businessRepository->findByField('unique_id', $request->business_id)->first();
 
         if (is_null($user)) {
             return ResponseFactory::error(
@@ -84,15 +78,7 @@ class LoginController extends Controller
 
         $user->load(['profile']);
 
-        $user->business = $user->businesses()->where('business_id', '=', $business->id)->first();
-
-        if(is_null($user->business)){
-            return ResponseFactory::error('You do not have access to this business.', null, 403);
-        }
-
-        $token = $user->createToken($business->subdomain_prefix . ':login');
-
-
+        $token = $user->createToken('login');
 
         return ResponseFactory::success(
             'User has logged in',
@@ -101,9 +87,8 @@ class LoginController extends Controller
     }
 
     /**
-     * Logout
-     * Log a user out.
-     * @responseFile 200 responses/auth/login/logout-200.json
+     * @Meta(name="End Session", href="logout", description="Destroy a user session.")
+     * @ResponseExample(status=200, example="responses/auth/login/logout-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response|\Laravel\Lumen\Http\ResponseFactory
@@ -121,9 +106,8 @@ class LoginController extends Controller
     }
 
     /**
-     * Token Validation
-     * Validate a user has a valid token
-     * @responseFile 200 responses/auth/login/token.validation-200.json
+     * @Meta(name="Validate Session", href="validate", description="Check if a users session token is still valid.")
+     * @ResponseExample(status=200, example="responses/auth/login/token.validation-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response

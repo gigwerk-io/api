@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Annotation\BodyParam;
+use App\Annotation\Group;
+use App\Annotation\Meta;
+use App\Annotation\ResponseExample;
 use App\Contracts\Repositories\ApplicationRepository;
 use App\Contracts\Repositories\BusinessInvitationRepository;
 use App\Contracts\Repositories\BusinessRepository;
@@ -16,6 +20,9 @@ use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @Group(name="Register", description="These routes belong are responsible for registration processes.")
+ */
 class RegisterController extends Controller
 {
     /**
@@ -44,13 +51,6 @@ class RegisterController extends Controller
      */
     private $applicationRepository;
 
-    /**
-     * RegisterController constructor.
-     * @param Hasher $hasher
-     * @param Dispatcher $eventDispatcher
-     * @param UserRepository $userRepository
-     * @param BusinessRepository $businessRepository
-     */
     public function __construct(
         Hasher $hasher,
         Dispatcher $eventDispatcher,
@@ -67,18 +67,14 @@ class RegisterController extends Controller
     }
 
     /**
-     * User Registration
-     * Register a new user.
-     * @bodyParam first_name string required The first name of the user. Example: John
-     * @bodyParam last_name string required The last name of the user. Example: Doe
-     * @bodyParam username string required The username of the user. Example: test_user
-     * @bodyParam email string required The email of the user. Example: test_user@email.com
-     * @bodyParam phone string required The phone number of the user. Example: (901) 555-0125
-     * @bodyParam businesses_id string optional The unique of the business. Example: 49268990-a172-349b-9bdc-785197d80faf
-     * @bodyParam freelancer boolean optional Determine if user is freelancer or customer. Ex: true
-     * @bodyParam password string required The password for the user. Example: secret
-     * @responseFile 201 responses/auth/register/register-201.json
-     * @responseFile 422 responses/auth/register/register-422.json
+     * @Meta(name="User Register", description="Create a new account with Gigwerk.", href="register")
+     * @BodyParam(name="first_name", type="string", status="requred", description="The first name of the user.", example="John")
+     * @BodyParam(name="last_name", type="string", status="requred", description="The last name of the user.", example="Doe")
+     * @BodyParam(name="username", type="string", status="requred", description="The username of the user.", example="test_user")
+     * @BodyParam(name="email", type="string", status="requred", description="The email of the user.", example="test_user")
+     * @BodyParam(name="phone", type="string", status="requred", description="The phone number of the user.", example="555-555-0125")
+     * @BodyParam(name="password", type="string", status="required", description="The password for the user.", example="password1")
+     * @ResponseExample(status=201, example="responses/register/register-201.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -93,16 +89,9 @@ class RegisterController extends Controller
             'email' => ['required', 'email', 'unique:users,email'],
             'phone' => ['required'],
             'password' => ['required'],
-            'freelancer' => ['bool'],
         ]);
 
-        $business = $this->businessRepository->findWhere(['unique_id' => $request->business_id])->first();
-
         $data = $request->all();
-        if($request->has('freelancer')){
-            // default role is customer
-            $data['role_id'] = ($request->freelancer) ? Role::PENDING_FREELANCER : Role::CUSTOMER;
-        }
 
         $data['password'] = $this->hasher->make($request->password);
         $data['phone'] = "+1" . preg_replace('/\D+/', '', $request->phone);

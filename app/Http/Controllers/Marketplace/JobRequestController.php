@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Marketplace;
 
+use App\Annotation\BodyParam;
+use App\Annotation\Group;
+use App\Annotation\Meta;
+use App\Annotation\ResponseExample;
 use App\Contracts\Geolocation\Geolocation;
 use App\Contracts\Image\Base64Image;
 use App\Contracts\Repositories\BusinessRepository;
@@ -20,6 +24,9 @@ use Illuminate\Support\Str;
 use LVR\State\Abbr;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @Group(name="Job Request", description="These routes are responsible for requesting and editing jobs.")
+ */
 class JobRequestController extends Controller
 {
     /**
@@ -70,7 +77,20 @@ class JobRequestController extends Controller
     }
 
     /**
-     * Submit a marketplace job
+     * @Meta(name="Request Job", href="submit", description="Submit a job to the marketplace feed.")
+     * @BodyParam(name="description", type="string", status="required", description="The description of the job.", example=" I need my lawn mowed.")
+     * @BodyParam(name="complete_before", type="string", status="required", description="The deadline for the job.", example=" 03/11/2020 12:00:00")
+     * @BodyParam(name="street_address", type="string", status="required", description="The address of the job location", example="123 Main St NE")
+     * @BodyParam(name="city", type="string", status="required", description="The city of the job location.", example="Rochester")
+     * @BodyParam(name="state", type="string", status="required", description="The state of the job location.", example="MN")
+     * @BodyParam(name="zip", type="string", status="required", description="The zip code of the job location.", example="55901")
+     * @BodyParam(name="category_id", type="numeric", status="required", description="The category id of the job.", example="1")
+     * @BodyParam(name="business_id", type="string", status="required", description="The uuid of the business marketplace.", example="67327c61-b00d-4820-b764-94529a17bf45")
+     * @BodyParam(name="price", type="numeric", status="required", description="The price of the job.", example="50.00")
+     * @BodyParam(name="image_one", type="string", status="optional", description="Base64 encoded image of job.")
+     * @BodyParam(name="image_two", type="string", status="optional", description="Base64 encoded image of job.")
+     * @BodyParam(name="image_three", type="string", status="optional", description="Base64 encoded image of job.")
+     * @ResponseExample(status=201, example="responses/marketplace/request/submit.job-201.json")
      *
      * @param SubmitJobRequest $request
      * @return \Illuminate\Http\Response
@@ -128,7 +148,7 @@ class JobRequestController extends Controller
 
         return ResponseFactory::success(
             'Favr Successfully Posted!',
-            ['id' => $marketplace->id],
+            $marketplace,
             Response::HTTP_CREATED
         );
     }

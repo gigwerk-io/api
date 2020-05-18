@@ -21,6 +21,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::namespace('Auth')->group(function (){
     Route::post('register', 'RegisterController@userRegistration')->name('user.registration');
     Route::post('login', 'LoginController@login')->name('login');
+    Route::get('validate', 'LoginController@tokenValidation')->name('validate.token');
+
+    Route::middleware(['auth:sanctum'])->group(function (){
+        Route::post('logout', 'LoginController@logout')->name('logout');
+    });
+
 });
 
 Route::prefix('business/{unique_id}')->group(function (){
@@ -42,6 +48,11 @@ Route::prefix('business/{unique_id}')->group(function (){
                 // Must be job owner to perform actions:
                 Route::middleware('job.owner')->group(function (){
                     Route::patch('marketplace/job/{id}', 'JobRequestController@edit')->name('edit.job');
+
+                    Route::post('marketplace/job/{id}/approve/{freelancer_id}', 'CustomerActionsController@approve')->name('approve.freelancer');
+                    Route::post('marketplace/job/{id}/reject/{freelancer_id}', 'CustomerActionsController@reject')->name('reject.freelancer');
+                    Route::delete('marketplace/job/{id}', 'CustomerActionsController@cancel')->name('cancel.job');
+                    Route::post('marketplace/job/{id}/complete', 'CustomerActionsController@complete')->name('complete.job');
                 });
             });
 
