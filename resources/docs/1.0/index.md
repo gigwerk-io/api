@@ -4,12 +4,12 @@
   - [Models](/{{route}}/{{version}}/models)
 - ## Endpoints
     - [Auth](#)
-        - [Register](/{{route}}/{{version}}/Auth/register)
-        - [Login](/{{route}}/{{version}}/Auth/login)
+        - [Register](/{{route}}/{{version}}/auth/register)
+        - [Login](/{{route}}/{{version}}/auth/login)
     
     - [Marketplace](#)
-        - [Job Request](/{{route}}/{{version}}/Marketplace/job-request)
-        - [Feed](/{{route}}/{{version}}/Marketplace/feed)
-        - [Customer Actions](/{{route}}/{{version}}/Marketplace/customer-actions)
+        - [Job Request](/{{route}}/{{version}}/marketplace/job-request)
+        - [Feed](/{{route}}/{{version}}/marketplace/feed)
+        - [Customer Actions](/{{route}}/{{version}}/marketplace/customer-actions)
     
   

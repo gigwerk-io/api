@@ -12,6 +12,7 @@ class DevSeeder extends Seeder
     public function run()
     {
         $this->call(DevRequiredUsersSeeder::class);
-        $this->call(DevMarketplaceJobsSeeder::class);
+        $this->call(DevUsersSeeder::class);
+        // $this->call(DevMarketplaceJobsSeeder::class);
     }
 }

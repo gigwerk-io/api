@@ -29,8 +29,8 @@ class IsJobOwner
      */
     public function handle($request, Closure $next)
     {
-        $marketplace = $request->get('marketplace');
-        if($marketplace->customer_id != $this->user->id){
+        $job = $request->get('job');
+        if($job->customer_id != $this->user->id){
             return ResponseFactory::error(
                 'You are not the owner of this job!',
                 null,

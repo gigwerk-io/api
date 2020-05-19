@@ -6,7 +6,7 @@
   @foreach($namespaces as $namespaceKey => $namespaceValue)
   - [{{$namespaceKey}}](#)
     @foreach($namespaceValue as $classKey => $classValue)
-    - [{{$classValue->group->name}}](/&#123;&#123;route&#125;&#125;/&#123;&#123;version&#125;&#125;/{{$namespaceKey}}/{{str_replace(' ', '-', strtolower($classValue->group->name))}})
+    - [{{$classValue->group->name}}](/&#123;&#123;route&#125;&#125;/&#123;&#123;version&#125;&#125;/{{strtolower($namespaceKey)}}/{{str_replace(' ', '-', strtolower($classValue->group->name))}})
     @endforeach
 
   @endforeach

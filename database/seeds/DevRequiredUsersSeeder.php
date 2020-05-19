@@ -2,10 +2,14 @@
 
 use App\Enum\User\ApplicationStatus;
 use App\Enum\User\Role;
+use App\Models\Business;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Tests\Factories\BusinessFactory;
 use Tests\Factories\BusinessLocationFactory;
+use Tests\Factories\BusinessProfileFactory;
 use Tests\Factories\PaymentMethodFactory;
+use Tests\Factories\PayoutMethodFactory;
 use Tests\Factories\UserFactory;
 use Tests\Factories\UserProfileFactory;
 
@@ -18,48 +22,105 @@ class DevRequiredUsersSeeder extends Seeder
      */
     public function run()
     {
-        // Create business admin
-        $admin = UserFactory::new()->withProfile(UserProfileFactory::new())
-            ->create(['username' => 'business_admin']);
-        $admin->paymentMethods()->create([
-            'stripe_customer_id' => 'cus_FsQcawWaxlmfbs',
-            'stripe_card_id' => 'card_1FMflHD2YnIDoaEIqLthZhO8',
-            'card_type' => 'Visa',
-            'card_last4' => 4242,
-            'exp_month' => 12,
-            'exp_year' => 2023,
-            'default' => true
-        ]);
+        /** @var User $businessAdminOne */
+        $businessAdminOne = UserFactory::new()->withAttributes(['username' => 'admin_one'])
+            ->withProfile(UserProfileFactory::new())
+            ->withPaymentMethods(PaymentMethodFactory::new())
+            ->create();
 
-        // Create business
-        $business = BusinessFactory::new()->create(['owner_id' => $admin->id]);
+        $businessOne = BusinessFactory::new()->withAttributes(['name' => 'First Business Inc.', 'subdomain_prefix' => 'demo'])
+            ->withProfile(BusinessProfileFactory::new()->withAttributes())
+            ->withLocation(BusinessLocationFactory::new())
+            ->make(['owner_id' => $businessAdminOne->id]);
 
-        // Attach admin to business
-        $business->users()->attach($admin, ['role_id' => Role::VERIFIED_FREELANCER]);
+        $businessOne = $businessAdminOne->businesses()->save($businessOne, ['role_id' => Role::VERIFIED_FREELANCER]);
 
-        // Create approved worker and application
-        $worker = UserFactory::new()->withProfile(UserProfileFactory::new())->create(['username' => 'business_worker']);
-        $business->users()->attach($worker, ['role_id' => Role::VERIFIED_FREELANCER]);
-        $business->applications()->create([
-            'user_id' => $worker->id,
-            'status_id' => ApplicationStatus::APPROVED
-        ]);
+        // Create a verified freelancer for business one
+        UserFactory::new()
+            ->withProfile(UserProfileFactory::new())
+            ->withPayoutMethod(PayoutMethodFactory::new())
+            ->withAttributes(['username' => 'worker_one'])
+            ->afterCreating(function (User $user) use ($businessOne){
+                $businessOne->users()->attach($user, ['role_id' => Role::VERIFIED_FREELANCER]);
+                $businessOne->applications()->create([
+                    'user_id' => $user->id,
+                    'status_id' => ApplicationStatus::APPROVED
+                ]);
+            })->create();
 
-        // Create pending worker w/ approved application
-        $pendingWorker = UserFactory::new()->withProfile(UserProfileFactory::new())->create(['username' => 'business_pending_worker']);
-        $business->users()->attach($pendingWorker, ['role_id' => Role::PENDING_FREELANCER]);
-        $business->applications()->create([
-            'user_id' => $pendingWorker->id,
-            'status_id' => ApplicationStatus::APPROVED
-        ]);
+        // Create a pending freelancer for business one
+        UserFactory::new()
+            ->withProfile(UserProfileFactory::new())
+            ->withPayoutMethod(PayoutMethodFactory::new())
+            ->withAttributes(['username' => 'pending_one'])
+            ->afterCreating(function (User $user) use ($businessOne){
+                $businessOne->users()->attach($user, ['role_id' => Role::PENDING_FREELANCER]);
+                $businessOne->applications()->create([
+                    'user_id' => $user->id,
+                    'status_id' => ApplicationStatus::APPROVED
+                ]);
+            })->create();;
+        // Create a pending application for business one
+        UserFactory::new()
+            ->withProfile(UserProfileFactory::new())
+            ->withPayoutMethod(PayoutMethodFactory::new())
+            ->withAttributes(['username' => 'applicant_one'])
+            ->afterCreating(function (User $user) use ($businessOne){
+                $businessOne->applications()->create([
+                    'user_id' => $user->id,
+                    'status_id' => ApplicationStatus::PENDING
+                ]);
+            })->create();
 
-        // create pending worker w/ pending application
-        $pWorker = UserFactory::new()->withProfile(UserProfileFactory::new())->create(['username' => 'business_pending_worker_2']);
-        $business->users()->attach($pWorker, ['role_id' => Role::PENDING_FREELANCER]);
-        $business->applications()->create([
-            'user_id' => $pWorker->id,
-            'status_id' => ApplicationStatus::PENDING
-        ]);
+        /** @var User $businessAdminTwo */
+        $businessAdminTwo = UserFactory::new()->withAttributes(['username' => 'admin_two'])
+            ->withProfile(UserProfileFactory::new())
+            ->withPaymentMethods(PaymentMethodFactory::new())
+            ->create();
 
+        $businessTwo = BusinessFactory::new()->withAttributes(['name' => 'Second Business LLC', 'subdomain_prefix' => 'test'])
+            ->withProfile(BusinessProfileFactory::new()->withAttributes())
+            ->withLocation(BusinessLocationFactory::new())
+            ->make(['owner_id' => $businessAdminTwo->id]);
+
+        $businessTwo = $businessAdminTwo->businesses()->save($businessTwo, ['role_id' => Role::VERIFIED_FREELANCER]);
+
+        // Create a verified freelancer for business one
+        UserFactory::new()
+            ->withProfile(UserProfileFactory::new())
+            ->withPayoutMethod(PayoutMethodFactory::new())
+            ->withAttributes(['username' => 'worker_two'])
+            ->afterCreating(function (User $user) use ($businessTwo){
+                $businessTwo->users()->attach($user, ['role_id' => Role::VERIFIED_FREELANCER]);
+                $businessTwo->applications()->create([
+                    'user_id' => $user->id,
+                    'status_id' => ApplicationStatus::APPROVED
+                ]);
+            })->create();
+
+        // Create a pending freelancer for business two
+        UserFactory::new()
+            ->withProfile(UserProfileFactory::new())
+            ->withPayoutMethod(PayoutMethodFactory::new())
+            ->withAttributes(['username' => 'pending_two'])
+            ->afterCreating(function (User $user) use ($businessTwo){
+                $businessTwo->users()->attach($user, ['role_id' => Role::PENDING_FREELANCER]);
+                $businessTwo->applications()->create([
+                    'user_id' => $user->id,
+                    'status_id' => ApplicationStatus::APPROVED
+                ]);
+            })->create();
+
+        // Create a pending application for business two
+        UserFactory::new()
+            ->withProfile(UserProfileFactory::new())
+            ->withPayoutMethod(PayoutMethodFactory::new())
+            ->withAttributes(['username' => 'applicant_two'])
+            ->afterCreating(function (User $user) use ($businessTwo){
+                $businessTwo->applications()->create([
+                    'user_id' => $user->id,
+                    'status_id' => ApplicationStatus::PENDING
+                ]);
+            })->create();
     }
 }

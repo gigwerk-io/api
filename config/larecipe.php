@@ -145,15 +145,15 @@ return [
     */
 
     'seo'                 => [
-        'author'          => '',
-        'description'     => '',
-        'keywords'        => '',
+        'author'          => 'Solomon Antoine',
+        'description'     => 'The Gigwerk API documentation is where you can get information about endpoints, api methods, etc.',
+        'keywords'        => 'Gigwerk Documentation, Gigwerk API, Gigwerk',
         'og'              => [
-            'title'       => '',
+            'title'       => 'Gigwerk API',
             'type'        => 'article',
             'url'         => '',
             'image'       => '',
-            'description' => '',
+            'description' => 'The Gigwerk API documentation is where you can get information about endpoints, api methods, etc.',
         ]
     ],
 
