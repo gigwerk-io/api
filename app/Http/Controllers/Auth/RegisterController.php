@@ -6,6 +6,7 @@ use App\Annotation\BodyParam;
 use App\Annotation\Group;
 use App\Annotation\Meta;
 use App\Annotation\ResponseExample;
+use App\Contracts\Geolocation\Geolocation;
 use App\Contracts\Repositories\ApplicationRepository;
 use App\Contracts\Repositories\BusinessInvitationRepository;
 use App\Contracts\Repositories\BusinessRepository;
@@ -15,9 +16,15 @@ use App\Enum\User\Role;
 use App\Events\User\UserHasRegistered;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\BusinessRegisterRequest;
+use App\Http\Requests\Auth\UserRegisterRequest;
+use App\Models\Business;
+use App\Models\User;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use LVR\State\Abbr;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -51,12 +58,18 @@ class RegisterController extends Controller
      */
     private $applicationRepository;
 
+    /**
+     * @var Geolocation
+     */
+    private $geolocation;
+
     public function __construct(
         Hasher $hasher,
         Dispatcher $eventDispatcher,
         UserRepository $userRepository,
         BusinessRepository $businessRepository,
-        ApplicationRepository $applicationRepository
+        ApplicationRepository $applicationRepository,
+        Geolocation $geolocation
     )
     {
         $this->hasher = $hasher;
@@ -64,33 +77,24 @@ class RegisterController extends Controller
         $this->userRepository = $userRepository;
         $this->businessRepository = $businessRepository;
         $this->applicationRepository = $applicationRepository;
+        $this->geolocation = $geolocation;
     }
 
     /**
-     * @Meta(name="User Register", description="Create a new account with Gigwerk.", href="register")
+     * @Meta(name="Create User", description="Create a new account with Gigwerk.", href="register-user")
      * @BodyParam(name="first_name", type="string", status="requred", description="The first name of the user.", example="John")
      * @BodyParam(name="last_name", type="string", status="requred", description="The last name of the user.", example="Doe")
      * @BodyParam(name="username", type="string", status="requred", description="The username of the user.", example="test_user")
      * @BodyParam(name="email", type="string", status="requred", description="The email of the user.", example="test_user")
      * @BodyParam(name="phone", type="string", status="requred", description="The phone number of the user.", example="555-555-0125")
      * @BodyParam(name="password", type="string", status="required", description="The password for the user.", example="password1")
-     * @ResponseExample(status=201, example="responses/register/register-201.json")
+     * @ResponseExample(status=201, example="responses/auth/register/user.registration-201.json")
      *
-     * @param Request $request
+     * @param UserRegisterRequest $request
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Validation\ValidationException
      */
-    public function userRegistration(Request $request)
+    public function userRegistration(UserRegisterRequest $request)
     {
-        $this->validate($request, [
-            'first_name' => ['required'],
-            'last_name' => ['required'],
-            'username' => ['required', 'string', 'unique:users,username'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'phone' => ['required'],
-            'password' => ['required'],
-        ]);
-
         $data = $request->all();
 
         $data['password'] = $this->hasher->make($request->password);
@@ -99,34 +103,95 @@ class RegisterController extends Controller
         $user = $this->userRepository->create($data);
         $user->profile()->create();
 
-        // Create application
-        $this->applicationRepository->create(['business_id' => $business->id, 'user_id' => $user->id, 'status_id' => ApplicationStatus::PENDING]);
 
         $this->eventDispatcher->dispatch(new UserHasRegistered($user));
 
+        $user->load(['profile']);
+
         return ResponseFactory::success(
             'User has been successfully registered.',
-            null,
+            ['user' => $user],
             Response::HTTP_CREATED
         );
     }
 
-    public function businessRegistration(Request $request)
+
+    /**
+     * @Meta(name="Create Business", description="Create a business account with Gigwerk.", href="register-business")
+     * @BodyParam(name="name", type="string", status="required", description="The name of the business", example="507 Outdoor Management")
+     * @BodyParam(name="subdomain_prefix", type="string", status="required", description="The subdomain for the business", example="507outdoor")
+     * @BodyParam(name="street_address", type="string", status="required", description="The address of the job location", example="123 Main St NE")
+     * @BodyParam(name="city", type="string", status="required", description="The city of the job location.", example="Rochester")
+     * @BodyParam(name="state", type="string", status="required", description="The state of the job location.", example="MN")
+     * @BodyParam(name="zip", type="string", status="required", description="The zip code of the job location.", example="55901")
+     * @ResponseExample(status=201, example="responses/auth/register/business.registration-201.json")
+     *
+     * @param BusinessRegisterRequest $request
+     * @return \Illuminate\Http\Response
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function businessRegistration(BusinessRegisterRequest $request)
     {
-        $this->validate($request, [
-            'name' => ['required'],
-            'subdomain_prefix' => ['required', 'unique:businesses,subdomain_prefix'],
-            'short_description' => ['required']
-        ]);
+        /** @var User $user */
+        $user = $request->user();
+
+        $data = $request->all();
+        $data['owner_id'] = $user->id;
+        $data['unique_id'] = Str::uuid();
+        /** @var Business $business */
+        $business = $user->businesses()->create($data, ['role_id' => Role::VERIFIED_FREELANCER]);
+
+        $location = [
+            'street_address' => $request->street_address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'zip' => $request->zip
+        ];
+
+        $coords = $this->geolocation->geoLocate($location);
+        $location['lat'] = $coords->lat;
+        $location['long'] = $coords->lng;
+
+        $business->location()->create($location);
+        $business->profile()->create();
+
+        $business->load(['profile', 'location']);
+
+        return ResponseFactory::success(
+            'Your business has been created',
+            $business,
+            Response::HTTP_CREATED
+        );
     }
 
+
+    /**
+     * @Meta(name="Join Business", description="Request to join a business marketplace as a worker.", href="join-business")
+     * @ResponseExample(status=200, example="responses/auth/register/join.business-200.json")
+     * @ResponseExample(status=400, example="responses/auth/register/join.business-400.json")
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function joinBusiness(Request $request)
     {
-        $this->validate($request, [
-            'business_id' => ['required', 'unique:businesses,unique_id'],
-            'is_freelancer' => ['required', 'bool']
-        ]);
+        /** @var User $user */
+        $user = $request->user();
 
+        /** @var Business $business */
+        $business = $this->businessRepository->findByField('unique_id', $request->unique_id)->first();
 
+        if ($business->users()->where('id', '=', $user->id)->exists()) {
+            return ResponseFactory::error('You are already a member of this business marketplace');
+        }
+
+        if ($business->applications()->where('user_id', '=', $user->id)->exists()) {
+            return ResponseFactory::error('You have already a applied to this business marketplace');
+        }
+
+        // TODO: Send out notification to business.
+        $business->applications()->create(['user_id' => $user->id, 'status_id' => ApplicationStatus::PENDING]);
+
+        return ResponseFactory::success('Your application has been sent');
     }
 }

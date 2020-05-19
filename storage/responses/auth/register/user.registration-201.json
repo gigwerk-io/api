@@ -1,0 +1,25 @@
+{
+    "success": true,
+    "message": "User has been successfully registered.",
+    "data": {
+        "user": {
+            "first_name": "Ima",
+            "last_name": "Casper",
+            "username": "SbA1ZmSRie",
+            "email": "SbA1ZmSRie@mail.com",
+            "phone": "+115515942179",
+            "updated_at": "2020-05-19T03:55:50.000000Z",
+            "created_at": "2020-05-19T03:55:50.000000Z",
+            "id": 10,
+            "isActive": false,
+            "profile": {
+                "id": 10,
+                "user_id": 10,
+                "image": "https:\/\/s3.us-east-2.amazonaws.com\/favr-images\/user.png",
+                "description": null,
+                "created_at": "2020-05-19T03:55:50.000000Z",
+                "updated_at": "2020-05-19T03:55:50.000000Z"
+            }
+        }
+    }
+}

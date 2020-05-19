@@ -11,7 +11,6 @@ use App\Contracts\Documentation\Extractor;
 use App\Exceptions\Documentation\DocumentationException;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
-use Illuminate\Validation\ValidationException;
 use Minime\Annotations\Interfaces\ReaderInterface;
 use ReflectionClass;
 
@@ -92,78 +91,58 @@ class DocumentationProvider implements Documentation
     }
 
     /**
-     * Get all of the endpoints
+     * Get docs for an endpoint.
      *
-     * @param Collection $endpoints
-     * @return Collection|Endpoint[]
+     * @param Endpoint $endpoint
+     * @return Endpoint
+     * @throws DocumentationException
+     * @throws \ReflectionException
      */
-    public function getMethodDocBlocks(Collection $endpoints)
+    public function getMethodDocBlock(Endpoint $endpoint)
     {
-        return $endpoints->map(function (Endpoint $endpoint) {
-            $annotations = $this->reader->getMethodAnnotations($endpoint->class, $endpoint->classMethod);
-            $metaAnnotations = $annotations->get(self::META);
-            $responseAnnotations = $annotations->get(self::RESPONSE);
-            $bodyAnnotations = $annotations->get(self::BODY_PARAM);
-            $queryAnnotations = null;
+        $annotations = $this->reader->getMethodAnnotations($endpoint->class, $endpoint->classMethod);
+        $metaAnnotations = $annotations->get(self::META);
+        $responseAnnotations = $annotations->get(self::RESPONSE);
+        $bodyAnnotations = $annotations->get(self::BODY_PARAM);
+        $queryAnnotations = null;
 
-            if (!is_null($metaAnnotations)) {
-                if (is_array($metaAnnotations)) {
-                    throw new DocumentationException(
-                        sprintf(
-                            'The method %s in %s can only have one @Meta annotation',
-                            $endpoint->classMethod,
-                            $endpoint->class
-                        )
-                    );
-                }
-
-                try {
-                    $endpoint->meta = $this->extractor->meta($metaAnnotations);
-                }catch (DocumentationException $documentationException) {
-                    dd($documentationException);
-                }
-
+        if (!is_null($metaAnnotations)) {
+            if (is_array($metaAnnotations)) {
+                throw new DocumentationException(
+                    sprintf(
+                        'The method %s in %s can only have one @Meta annotation',
+                        $endpoint->classMethod,
+                        $endpoint->class
+                    )
+                );
             }
 
+            $endpoint->meta = $this->extractor->meta($metaAnnotations);
 
-            if (!is_null($responseAnnotations)) {
-                try {
-                    if (is_array($responseAnnotations)) {
-                        foreach ($responseAnnotations as $responseAnnotation) {
-                            $endpoint->response[] = $this->extractor->response($responseAnnotation);
-                        }
-                    } else {
-                        $endpoint->response = $this->extractor->response($responseAnnotations);
-                    }
-                }catch (ValidationException $validationException) {
-                    foreach ($validationException->errors() as $error) {
-                        $error = sprintf('%s. Please see the method %s in %s', $error[0], $endpoint->classMethod, $endpoint->class);
-                        throw new DocumentationException($error);
-                    }
+        }
+
+
+        if (!is_null($responseAnnotations)) {
+            if (is_array($responseAnnotations)) {
+                foreach ($responseAnnotations as $responseAnnotation) {
+                    $endpoint->response[] = $this->extractor->response($responseAnnotation);
                 }
-
+            } else {
+                $endpoint->response = $this->extractor->response($responseAnnotations);
             }
+        }
 
-            if (!is_null($bodyAnnotations)) {
-                try {
-                    if (is_array($bodyAnnotations)) {
-                        foreach ($bodyAnnotations as $bodyAnnotation) {
-                            $endpoint->bodyParams[] = $this->extractor->body($bodyAnnotation);
-                        }
-                    } else {
-                        $endpoint->bodyParams = $this->extractor->body($bodyAnnotations);
-                    }
-                }catch (ValidationException $validationException) {
-                    foreach ($validationException->errors() as $error) {
-                        $error = sprintf('%s. Please see the method %s in %s', $error[0], $endpoint->classMethod, $endpoint->class);
-                        throw new DocumentationException($error);
-                    }
+        if (!is_null($bodyAnnotations)) {
+            if (is_array($bodyAnnotations)) {
+                foreach ($bodyAnnotations as $bodyAnnotation) {
+                    $endpoint->bodyParams[] = $this->extractor->body($bodyAnnotation);
                 }
+            } else {
+                $endpoint->bodyParams = $this->extractor->body($bodyAnnotations);
             }
+        }
 
-
-            return $endpoint;
-        });
+        return $endpoint;
     }
 
     /**

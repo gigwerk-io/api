@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Marketplace;
 
 use App\Annotation\Group;
+use App\Annotation\Meta;
+use App\Annotation\ResponseExample;
 use App\Contracts\Geolocation\Geolocation;
 use App\Contracts\Repositories\MarketplaceJobRepository;
 use App\Contracts\Repositories\MarketplaceLocationRepository;
@@ -53,6 +55,14 @@ class FeedController extends Controller
         $this->ipLocation = $ipLocation;
     }
 
+    /**
+     * @Meta(name="Job Feed", description="View the active jobs on the marketplace feed", href="feed")
+     * @ResponseExample(status=200, example="responses/marketplace/feed/job.feed-200.json")
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function feed(Request $request)
     {
         /** @var User $user */
@@ -116,8 +126,8 @@ class FeedController extends Controller
     }
 
     /**
-     * View job
-     * Show the details of a single job.
+     * @Meta(name="Show Job", description="Show the details of a single job request.", href="view-job")
+     * @ResponseExample(status=200, example="responses/marketplace/feed/view.job-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -178,7 +188,8 @@ class FeedController extends Controller
     }
 
     /**
-     * A customers job.
+     * @Meta(name="My Job Requests", description="Show a customers requested jobs.", href="customer-jobs")
+     * @ResponseExample(status=200, example="responses/marketplace/feed/customer.jobs-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -213,8 +224,8 @@ class FeedController extends Controller
     }
 
     /**
-     * Worker Proposals
-     * The past proposals a worker has made on jobs.
+     * @Meta(name="My Proposals", description="The active/past proposals a worker has made on jobs.", href="worker-jobs")
+     * @ResponseExample(status=200, example="responses/marketplace/feed/worker.jobs-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response

@@ -61,6 +61,7 @@ class WriterProvider implements Writer
     {
         $blade =  $this->filesystem->get(resource_path('views/docs/page-skeleton.blade.php'));
         $markdown = $this->stringBlade->render($blade, ['group' => $endpoints->group, 'endpoints' => $endpoints]);
+        $markdown = $this->replaceQuotes($markdown);
         $path = resource_path('docs/' .config('larecipe.versions.default') . DIRECTORY_SEPARATOR . strtolower($name));
         $fileName = $path . DIRECTORY_SEPARATOR . str_replace(' ', '-', strtolower($endpoints->group->name)) .'.md';
         if(!$this->filesystem->isDirectory($path)) {
@@ -80,5 +81,16 @@ class WriterProvider implements Writer
     {
         $markdown = str_replace(array("&#123;"), '{', $markdown);
         return str_replace(array("&#125;"), '}', $markdown);
+    }
+
+    /**
+     * Sometimes the json quotes aren't always escaped properly, so this replaces the &quot; in the markdown.
+     *
+     * @param $markdown
+     * @return string|string[]
+     */
+    private function replaceQuotes($markdown)
+    {
+        return str_replace("&quot;", '"', $markdown);
     }
 }

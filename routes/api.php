@@ -24,12 +24,18 @@ Route::namespace('Auth')->group(function (){
     Route::get('validate', 'LoginController@tokenValidation')->name('validate.token');
 
     Route::middleware(['auth:sanctum'])->group(function (){
+        Route::post('business-register', 'RegisterController@businessRegistration')->name('business.registration');
         Route::post('logout', 'LoginController@logout')->name('logout');
     });
 
 });
 
 Route::prefix('business/{unique_id}')->group(function (){
+    Route::namespace('Auth')->group(function () {
+        Route::post('join', 'RegisterController@joinBusiness')->name('join.business');
+        Route::post('login', 'LoginController@businessLogin')->name('business.login');
+    });
+
     Route::namespace('Marketplace')->group(function (){
         Route::middleware(['auth:sanctum', 'business.access'])->group(function (){
             // Job Request Controller Route:

@@ -6,6 +6,7 @@ namespace App\Documentation;
 
 use App\Annotation\BodyParam;
 use App\Annotation\Meta;
+use App\Annotation\QueryParam;
 use App\Annotation\ResponseExample;
 use App\Contracts\Documentation\Extractor;
 use App\Rules\ResponseExampleExists;
@@ -184,9 +185,41 @@ class ExtractorProvider implements Extractor
         return $body;
     }
 
+    /**
+     * Strip the query param annotation from the controller.
+     *
+     * @param string $query
+     * @return QueryParam|string
+     * @throws ValidationException
+     */
     public function query(string $query)
     {
-        // TODO: Implement query() method.
+        $stringedArray = explode(',', str_replace(array( '(', ')'), '', $query));
+        $params = [];
+        $query = new QueryParam();
+        foreach ($stringedArray as $arr) {
+            $data = explode('=', $arr);
+
+            $name = preg_replace('/\s+/', '', $data[0]);
+
+            $params[$name] = $data[1];
+        }
+
+        $validator = $this->validator->make($params, [
+            'name' => ['required', 'string'],
+        ]);
+
+        if(!$validator->passes()) {
+            throw new ValidationException($validator);
+        }
+
+
+        foreach ($params as $item => $value) {
+            $query->$item = str_replace('"', '', $value);
+        }
+
+
+        return $query;
     }
 
 }

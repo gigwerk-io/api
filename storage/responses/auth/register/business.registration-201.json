@@ -1,0 +1,37 @@
+{
+    "success": true,
+    "message": "Your business has been created",
+    "data": {
+        "name": "Christiansen PLC",
+        "subdomain_prefix": "feest",
+        "owner_id": 1,
+        "unique_id": "78716621-5da5-4e16-813c-10d44113542b",
+        "updated_at": "2020-05-19T03:55:50.000000Z",
+        "created_at": "2020-05-19T03:55:50.000000Z",
+        "id": 11,
+        "profile": {
+            "id": 7,
+            "business_id": 11,
+            "image": null,
+            "cover": null,
+            "short_description": null,
+            "long_description": null,
+            "primary_color": null,
+            "secondary_color": null,
+            "created_at": "2020-05-19T03:55:51.000000Z",
+            "updated_at": "2020-05-19T03:55:51.000000Z"
+        },
+        "location": {
+            "id": 7,
+            "business_id": 11,
+            "street_address": "820 Schaden Locks Apt. 320",
+            "city": "Rochester",
+            "state": "MN",
+            "zip": "55901",
+            "lat": 44.0780552,
+            "long": -92.5098914,
+            "created_at": "2020-05-19T03:55:51.000000Z",
+            "updated_at": "2020-05-19T03:55:51.000000Z"
+        }
+    }
+}

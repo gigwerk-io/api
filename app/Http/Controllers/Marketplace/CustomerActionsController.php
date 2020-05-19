@@ -125,7 +125,7 @@ class CustomerActionsController extends Controller
     /**
      * @Meta(name="Cancel Job", href="cancel", description="Remove a job from the marketplace feed.")
      * @ResponseExample(status=200, example="responses/marketplace/customer-actions/cancel.job-200.json")
-     * @ResponseExample(status=200, example="responses/marketplace/customer-actions/cancel.job-400.json")
+     * @ResponseExample(status=400, example="responses/marketplace/customer-actions/cancel.job-400.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response

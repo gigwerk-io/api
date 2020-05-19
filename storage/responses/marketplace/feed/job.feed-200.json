@@ -1,0 +1,60 @@
+{
+    "success": true,
+    "message": "Showing job feed",
+    "data": [
+        {
+            "id": 1,
+            "business_id": 1,
+            "customer_id": 2,
+            "category_id": 1,
+            "price": 19,
+            "description": "Quo eum incidunt unde ut. Maxime officia officia rem ullam.",
+            "status_id": 1,
+            "intensity_id": 3,
+            "complete_before": "2020-05-20 00:00:00",
+            "views": 0,
+            "image_one": "https:\/\/thenewswheel.com\/wp-content\/uploads\/2018\/04\/junk-yards-pay-most-for-cars-760x507.jpg",
+            "image_two": null,
+            "image_three": null,
+            "created_at": "2020-05-19T04:56:09.000000Z",
+            "updated_at": "2020-05-19T04:56:09.000000Z",
+            "deleted_at": null,
+            "action": 1,
+            "distance_away": 2.2,
+            "status": "Requested",
+            "intensity": "Hard",
+            "customer": {
+                "id": 2,
+                "first_name": "Chanelle",
+                "last_name": "Jeramy",
+                "username": "business_worker",
+                "email": "qconroy@example.org",
+                "phone": "(247) 232-2332 x584",
+                "apn_token": null,
+                "fcm_token": null,
+                "email_verified_at": "2020-05-19T04:56:09.000000Z",
+                "last_seen_at": null,
+                "deleted_at": null,
+                "created_at": "2020-05-19T04:56:09.000000Z",
+                "updated_at": "2020-05-19T04:56:09.000000Z",
+                "isActive": false,
+                "profile": {
+                    "id": 2,
+                    "user_id": 2,
+                    "image": "https:\/\/i.picsum.photos\/id\/617\/600\/600.jpg",
+                    "description": "Unde aut ipsam deleniti modi.",
+                    "created_at": "2020-05-19T04:56:09.000000Z",
+                    "updated_at": "2020-05-19T04:56:09.000000Z"
+                }
+            },
+            "job_status": {
+                "id": 1,
+                "name": "Requested"
+            },
+            "job_intensity": {
+                "id": 3,
+                "name": "Hard"
+            }
+        }
+    ]
+}

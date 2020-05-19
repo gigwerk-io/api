@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Annotation\Endpoint;
+use App\Contracts\Documentation\Documentation;
 use App\Contracts\Documentation\Writer;
-use App\Documentation\DocumentationProvider;
 use App\Documentation\StringBladeProvider;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
@@ -25,9 +26,9 @@ class GenerateDocumentationCommand extends Command
     protected $description = 'Generate your API Documentation';
 
     /**
-     * @var DocumentationProvider
+     * @var Documentation
      */
-    protected $documentationProvider;
+    protected $documentation;
 
     /**
      * @var StringBladeProvider
@@ -41,14 +42,24 @@ class GenerateDocumentationCommand extends Command
     protected $writer;
 
     /**
+     * @var int
+     */
+    protected $skipped = 0;
+
+    /**
+     * @var int
+     */
+    protected $saved = 0;
+
+    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(DocumentationProvider $documentationProvider, StringBladeProvider $stringBladeProvider, Writer $writer)
+    public function __construct(Documentation $documentation, StringBladeProvider $stringBladeProvider, Writer $writer)
     {
         parent::__construct();
-        $this->documentationProvider = $documentationProvider;
+        $this->documentation = $documentation;
         $this->stringBladeProvider = $stringBladeProvider;
         $this->writer = $writer;
     }
@@ -60,10 +71,22 @@ class GenerateDocumentationCommand extends Command
      */
     public function handle()
     {
-        $routes = $this->documentationProvider->getFilteredRoutes();
+        $routes = $this->documentation->getFilteredRoutes();
 
-        $endpoints = $this->documentationProvider->getMethodDocBlocks($routes);
-        $namespaces = $this->documentationProvider->groupEndpoints($endpoints);
+
+        $endpoints = $routes->map(function (Endpoint $endpoint){
+            try {
+                $this->info('documenting: ' . $endpoint->uri . PHP_EOL);
+                return $this->documentation->getMethodDocBlock($endpoint);
+            }catch (\Exception $exception) {
+                $this->skipped++;
+                $this->warn('skipped: ' . $endpoint->uri . PHP_EOL);
+                return false;
+            }
+        })->reject(function ($value) {
+            return $value === false;
+        });
+        $namespaces = $this->documentation->groupEndpoints($endpoints);
 
         $this->writer->menu($namespaces);
 
@@ -73,6 +96,12 @@ class GenerateDocumentationCommand extends Command
                 $this->writer->page($endpoints, $name);
             });
         });
+
+        if ($this->skipped > 0) {
+            $this->warn('Skipped: ' . $this->skipped . ' routes.');
+        }
+
+        return 0;
     }
 
 }

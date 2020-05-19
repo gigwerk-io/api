@@ -10,6 +10,7 @@ use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Http\Request;
 
@@ -41,9 +42,9 @@ class LoginController extends Controller
     }
 
     /**
-     * @Meta(name="Create Session", description="Login to a user account and return a session token.", href="login")
+     * @Meta(name="Default Login", description="Login to a user account for the website or dashboard.", href="basic-login")
      * @BodyParam(name="username", type="string", status="required", description="The username or email of the user", example="business_admin")
-     * @BodyParam(name="password", type="string", status="required", description="The password for the user", example="business_admin")
+     * @BodyParam(name="password", type="string", status="required", description="The password for the user", example="password")
      * @ResponseExample(status=200, example="responses/auth/login/login-200.json")
      *
      * @param Request $request
@@ -86,6 +87,49 @@ class LoginController extends Controller
         );
     }
 
+
+    /**
+     * @Meta(name="Business App Login", href="business-login", description="Login to a businesses marketplace app.")
+     * @BodyParam(name="username", type="string", status="required", description="The username or email of the user", example="business_worker")
+     * @BodyParam(name="password", type="string", status="required", description="The password for the user", example="password")
+     * @ResponseExample(status=200, example="responses/auth/login/business.login-200.json")
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function businessLogin(Request $request)
+    {
+        $this->validate($request, [
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        $uuid = $request->unique_id;
+
+        // Checks if a users is apart of the business
+        $user = $this->userRepository->whereHas('businesses', function ($query) use ($uuid) {
+            return $query->where('unique_id', '=', $uuid);
+        })->findByUsernameOrEmail($request->username);
+
+        if (is_null($user)) {
+            return ResponseFactory::error(
+                'Incorrect username or password.',
+                null,
+                401
+            );
+        }
+
+        $user->load(['profile']);
+
+        $token = $user->createToken('login', [$uuid]);
+
+        return ResponseFactory::success(
+            'User has logged in',
+            ['user' => $user, 'token' => $token->plainTextToken],
+        );
+    }
+
     /**
      * @Meta(name="End Session", href="logout", description="Destroy a user session.")
      * @ResponseExample(status=200, example="responses/auth/login/logout-200.json")
@@ -107,15 +151,16 @@ class LoginController extends Controller
 
     /**
      * @Meta(name="Validate Session", href="validate", description="Check if a users session token is still valid.")
-     * @ResponseExample(status=200, example="responses/auth/login/token.validation-200.json")
+     * @ResponseExample(status=200, example="responses/auth/login/validate-200.json")
+     * @ResponseExample(status=400, example="responses/auth/login/validate-400.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function tokenValidation(Request $request)
     {
-        if(is_null($request->user())){
-            return ResponseFactory::success(
+        if (is_null($request->user())) {
+            return ResponseFactory::error(
                 'Token is not valid.',
                 ['validToken' => false]
             );

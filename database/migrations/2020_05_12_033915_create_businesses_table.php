@@ -22,13 +22,8 @@ class CreateBusinessesTable extends Migration
             $table->string('name');
             $table->string('subdomain_prefix')->unique();
             $table->string('stripe_connect_id')->nullable();
-            $table->string('image')->nullable();
-            $table->string('cover')->nullable();
-            $table->text('short_description'); // seo: 158
-            $table->mediumText('long_description')->nullable();
-            $table->string('primary_color')->nullable();
-            $table->string('secondary_color')->nullable();
 
+            $table->foreign('owner_id')->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
 		});

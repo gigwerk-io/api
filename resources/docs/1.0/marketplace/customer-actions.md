@@ -36,9 +36,9 @@ Content
 
 ```json
 {
-    &quot;success&quot;: true,
-    &quot;message&quot;: &quot;You have approved this worker&quot;,
-    &quot;data&quot;: null
+    "success": true,
+    "message": "You have approved this worker",
+    "data": null
 }
 
 ```
@@ -51,9 +51,9 @@ Content
 
 ```json
 {
-    &quot;success&quot;: false,
-    &quot;message&quot;: &quot;This worker does not have a proposal for this job.&quot;,
-    &quot;data&quot;: null
+    "success": false,
+    "message": "This worker does not have a proposal for this job.",
+    "data": null
 }
 
 ```
@@ -79,9 +79,9 @@ Content
 
 ```json
 {
-    &quot;success&quot;: true,
-    &quot;message&quot;: &quot;You have rejected this worker&quot;,
-    &quot;data&quot;: null
+    "success": true,
+    "message": "You have rejected this worker",
+    "data": null
 }
 
 ```
@@ -94,9 +94,9 @@ Content
 
 ```json
 {
-    &quot;success&quot;: false,
-    &quot;message&quot;: &quot;This worker does not have a proposal for this job.&quot;,
-    &quot;data&quot;: null
+    "success": false,
+    "message": "This worker does not have a proposal for this job.",
+    "data": null
 }
 
 ```
@@ -122,23 +122,24 @@ Content
 
 ```json
 {
-    &quot;success&quot;: true,
-    &quot;message&quot;: &quot;Your request has been deleted.&quot;,
-    &quot;data&quot;: null
+    "success": true,
+    "message": "Your request has been deleted.",
+    "data": null
 }
 
 ```
 
-> {success} Example Success Response
-Code `200`
+> {danger} Example Error Response
+
+Code `400`
 
 Content
 
 ```json
 {
-    &quot;success&quot;: false,
-    &quot;message&quot;: &quot;You can not cancel a job that is in progress&quot;,
-    &quot;data&quot;: null
+    "success": false,
+    "message": "You can not cancel a job that is in progress",
+    "data": null
 }
 
 ```

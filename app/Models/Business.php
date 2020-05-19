@@ -28,12 +28,6 @@ class Business extends Model implements Transformable
         'stripe_connect_id',
         'owner_id',
         'unique_id',
-        'image',
-        'cover',
-        'short_description',
-        'long_description',
-        'primary_color',
-        'secondary_color'
     ];
 
     /**
@@ -44,6 +38,16 @@ class Business extends Model implements Transformable
     public function users()
     {
         return $this->belongsToMany(User::class, 'business_user')->withPivot('role_id');
+    }
+
+    /**
+     * A business can have a profile
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function profile()
+    {
+        return $this->hasOne(BusinessProfile::class);
     }
 
     /**

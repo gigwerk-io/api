@@ -31,6 +31,8 @@ class CreateMarketplaceJobsTable extends Migration
             $table->string('image_two')->nullable();
             $table->string('image_three')->nullable();
 
+            $table->foreign('status_id')->references('id')->on('job_statuses');
+            $table->foreign('intensity_id')->references('id')->on('job_intensities');
             $table->foreign('business_id')->references('id')->on('businesses');
             $table->foreign('customer_id')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');

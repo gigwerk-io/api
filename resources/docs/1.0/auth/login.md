@@ -4,7 +4,7 @@ These routes belong are responsible for creating deleting and validating login/s
 
 ---
 
-- [Create Session](#login)
+- [Default Login](#basic-login)
 
 
 - [Validate Session](#validate)
@@ -13,11 +13,14 @@ These routes belong are responsible for creating deleting and validating login/s
 - [End Session](#logout)
 
 
+- [Business App Login](#business-login)
 
-<a name="login"></a>
-## Create Session
 
-Login to a user account and return a session token.
+
+<a name="basic-login"></a>
+## Default Login
+
+Login to a user account for the website or dashboard.
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
@@ -43,51 +46,29 @@ Content
     "data": {
         "user": {
             "id": 1,
-            "first_name": "Irma",
-            "last_name": "Willard",
+            "first_name": "Laney",
+            "last_name": "Cassandra",
             "username": "business_admin",
-            "email": "fstracke@example.org",
-            "phone": "1-685-852-2459",
+            "email": "kylee63@example.org",
+            "phone": "203-655-5402",
             "apn_token": null,
             "fcm_token": null,
-            "email_verified_at": "2020-05-14T01:39:23.000000Z",
+            "email_verified_at": "2020-05-19T00:33:07.000000Z",
             "last_seen_at": null,
             "deleted_at": null,
-            "created_at": "2020-05-14T01:39:23.000000Z",
-            "updated_at": "2020-05-14T01:39:23.000000Z",
-            "business": {
-                "id": 1,
-                "owner_id": 1,
-                "unique_id": "1261f96b-76b8-3162-a284-8ae5fed371d7",
-                "name": "McKenzie, Sipes and Wiegand",
-                "subdomain_prefix": "langosh",
-                "stripe_connect_id": "acct_1F7RiLBKeAbZ6utM",
-                "image": "http://507outdoormanagement.com/wp-content/uploads/2019/10/foliage-2942282_1920-1920x730.jpg",
-                "cover": "http://507outdoormanagement.com/wp-content/uploads/2019/10/foliage-2942282_1920-1920x730.jpg",
-                "short_description": "Dolores distinctio qui aliquam ut ut temporibus.",
-                "long_description": "Sit consequuntur est fuga et minus. Atque ut vel repudiandae nesciunt aut. Earum suscipit animi nemo aut vel. Blanditiis id eius possimus mollitia nobis temporibus iusto aut. Totam maiores eum placeat et.",
-                "primary_color": "#6181a9",
-                "secondary_color": "#00bb55",
-                "created_at": "2020-05-14T01:39:23.000000Z",
-                "updated_at": "2020-05-14T01:39:23.000000Z",
-                "deleted_at": null,
-                "pivot": {
-                    "user_id": 1,
-                    "business_id": 1,
-                    "role_id": 1
-                }
-            },
+            "created_at": "2020-05-19T00:33:07.000000Z",
+            "updated_at": "2020-05-19T00:33:07.000000Z",
             "isActive": false,
             "profile": {
                 "id": 1,
                 "user_id": 1,
-                "image": "https://i.picsum.photos/id/1019/600/600.jpg",
-                "description": "Occaecati ut praesentium est modi autem architecto labore.",
-                "created_at": "2020-05-14T01:39:23.000000Z",
-                "updated_at": "2020-05-14T01:39:23.000000Z"
+                "image": "https:\/\/i.picsum.photos\/id\/401\/600\/600.jpg",
+                "description": "Et in aperiam omnis.",
+                "created_at": "2020-05-19T00:33:07.000000Z",
+                "updated_at": "2020-05-19T00:33:07.000000Z"
             }
         },
-        "token": "6|H9YIrCrLccrE5BjCHwfnJJz5xck9cnvg1UIchFbavqVUXWbV7x2ZOpsamQGPnqrVVf3EPyPpTQDH1GPQ"
+        "token": "6|h1WzpSZuKyKCM5SiGox1wHZJkASyn5rCXkcZC8qqLAY8DRaBIYKFGOhNeGhC95xehoDFicKYpJgZJeEX"
     }
 }
 
@@ -106,6 +87,7 @@ Check if a users session token is still valid.
 
 
 
+
 > {success} Example Success Response
 Code `200`
 
@@ -117,6 +99,23 @@ Content
     "message": "Token is valid.",
     "data": {
         "validToken": true
+    }
+}
+
+```
+
+> {danger} Example Error Response
+
+Code `400`
+
+Content
+
+```json
+{
+    "success": false,
+    "message": "Token is not valid.",
+    "data": {
+        "validToken": false
     }
 }
 
@@ -145,6 +144,65 @@ Content
     "success": true,
     "message": "User has been logged out.",
     "data": null
+}
+
+```
+
+
+
+<a name="business-login"></a>
+## Business App Login
+
+Login to a businesses marketplace app.
+### Endpoint
+|Method|URI|Authentication|
+|:-|:-|:-|
+|`POST`|`/business/{unique_id}/login`|`false`|
+
+
+### Body Params
+|Name|Type|Status|Description|
+|:-|:-|:-|:-|
+|`username`|`string`|`required`|`The username or email of the user`|
+|`password`|`string`|`required`|`The password for the user`|
+
+
+> {success} Example Success Response
+Code `200`
+
+Content
+
+```json
+{
+    "success": true,
+    "message": "User has logged in",
+    "data": {
+        "user": {
+            "id": 1,
+            "first_name": "Elsa",
+            "last_name": "Angelica",
+            "username": "business_admin",
+            "email": "harris.andres@example.com",
+            "phone": "817.825.2416 x943",
+            "apn_token": null,
+            "fcm_token": null,
+            "email_verified_at": "2020-05-19T01:15:21.000000Z",
+            "last_seen_at": null,
+            "deleted_at": null,
+            "created_at": "2020-05-19T01:15:21.000000Z",
+            "updated_at": "2020-05-19T01:15:21.000000Z",
+            "isActive": false,
+            "profile": {
+                "id": 1,
+                "user_id": 1,
+                "image": "https:\/\/i.picsum.photos\/id\/310\/600\/600.jpg",
+                "description": "Nemo repellat et harum ea voluptatem perferendis rerum.",
+                "created_at": "2020-05-19T01:15:21.000000Z",
+                "updated_at": "2020-05-19T01:15:21.000000Z"
+            }
+        },
+        "token": "5|AJ9GAnSCceXdBveWjyRut63bCYMqjCm04PXL7SfhuZ4mtnVGfFiya8Xq1HynCMztaJ6HfZIn1wOH5fxd"
+    }
 }
 
 ```
