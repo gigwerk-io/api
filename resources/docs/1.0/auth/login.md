@@ -16,6 +16,9 @@ These routes belong are responsible for creating deleting and validating login/s
 - [Business App Login](#business-login)
 
 
+- [Validate Business Token](#business-validate)
+
+
 
 <a name="basic-login"></a>
 ## Default Login
@@ -202,6 +205,35 @@ Content
             }
         },
         "token": "5|AJ9GAnSCceXdBveWjyRut63bCYMqjCm04PXL7SfhuZ4mtnVGfFiya8Xq1HynCMztaJ6HfZIn1wOH5fxd"
+    }
+}
+
+```
+
+
+
+<a name="business-validate"></a>
+## Validate Business Token
+
+Check if a users token has access to a specific business.
+### Endpoint
+|Method|URI|Authentication|
+|:-|:-|:-|
+|`GET`|`/business/{unique_id}/validate`|`true`|
+
+
+
+> {success} Example Success Response
+Code `200`
+
+Content
+
+```json
+{
+    "success": true,
+    "message": "You have access to this business.",
+    "data": {
+        "validToken": true
     }
 }
 

@@ -32,12 +32,16 @@ Route::namespace('Auth')->group(function (){
 
 Route::prefix('business/{unique_id}')->group(function (){
     Route::namespace('Auth')->group(function () {
-        Route::post('join', 'RegisterController@joinBusiness')->name('join.business');
         Route::post('login', 'LoginController@businessLogin')->name('business.login');
+        Route::middleware(['auth:sanctum', 'business.access'])->group(function (){
+            Route::post('join', 'RegisterController@joinBusiness')->name('join.business');
+            Route::get('validate', 'LoginController@businessTokenValidation')->name('business.validate');
+        });
     });
 
     Route::namespace('Marketplace')->group(function (){
         Route::middleware(['auth:sanctum', 'business.access'])->group(function (){
+
             // Job Request Controller Route:
             Route::post('marketplace/job', 'JobRequestController@submit')
                 ->middleware('has.payment.method')

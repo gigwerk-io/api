@@ -147,7 +147,7 @@ Request to join a business marketplace as a worker.
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
-|`POST`|`/business/{unique_id}/join`|`false`|
+|`POST`|`/business/{unique_id}/join`|`true`|
 
 
 

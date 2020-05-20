@@ -22,6 +22,7 @@ class LoginControllerTest extends TestCase
     const BUSINESS_LOGIN_ROUTE = 'business.login';
     const LOGOUT_ROUTE = 'logout';
     const VALIDATE_ROUTE = 'validate';
+    const VALIDATE_BUSINESS_TOKEN = 'business.validate';
 
     /**
      * @var User
@@ -111,4 +112,17 @@ class LoginControllerTest extends TestCase
         $this->document(self::DOC_PATH, self::VALIDATE_ROUTE, $response->status(), $response->getContent());
     }
 
+    /**
+     * @covers ::businessTokenValidation
+     */
+    public function testValidateBusinessToken()
+    {
+        Sanctum::actingAs($this->user, [$this->business->unique_id]);
+
+        $response = $this->get(route(self::VALIDATE_BUSINESS_TOKEN, ['unique_id' => $this->business->unique_id]));
+
+        $response->assertStatus(200);
+        $response->assertJson(ResponseFactoryTest::success('You have access to this business.', ['validToken' => true]));
+        $this->document(self::DOC_PATH, self::VALIDATE_BUSINESS_TOKEN, $response->status(), $response->getContent());
+    }
 }

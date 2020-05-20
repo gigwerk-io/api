@@ -9,6 +9,7 @@ use App\Http\Middleware\HasPayoutMethod;
 use App\Http\Middleware\IsJobOwner;
 use App\Http\Middleware\JobExists;
 use App\Http\Middleware\VerifiedFreelancer;
+use Fruitcake\Cors\HandleCors;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -49,6 +50,7 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             ExpectsJsonMiddleware::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            HandleCors::class
         ],
     ];
 

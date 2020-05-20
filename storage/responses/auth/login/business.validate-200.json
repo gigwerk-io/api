@@ -1,0 +1,7 @@
+{
+    "success": true,
+    "message": "You have access to this business.",
+    "data": {
+        "validToken": true
+    }
+}

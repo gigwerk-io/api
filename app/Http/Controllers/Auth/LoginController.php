@@ -171,4 +171,27 @@ class LoginController extends Controller
             ['validToken' => true]
         );
     }
+
+    /**
+     * @Meta(name="Validate Business Token", href="business-validate", description="Check if a users token has access to a specific business.")
+     * @ResponseExample(status=200, example="responses/auth/login/business.validate-200.json")
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function businessTokenValidation(Request $request)
+    {
+        $business = $request->get('business');
+        /** @var User $user */
+        $user = $request->user();
+
+        if (!$user->tokenCan($business->unique_id)) {
+            return ResponseFactory::error('You do not have access to this business.', null, 403);
+        }
+
+        return ResponseFactory::success(
+            'You have access to this business.',
+            ['validToken' => true]
+        );
+    }
 }
