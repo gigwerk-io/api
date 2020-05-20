@@ -51,6 +51,13 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::middleware('job.exists')->group(function (){
                 Route::get('marketplace/job/{id}', 'FeedController@show')->name('view.job');
 
+                Route::middleware(['is.freelancer', 'has.payout.method'])->group(function (){
+                    Route::post('marketplace/job/{id}/accept', 'FreelancerActionsController@accept')->name('accept.job');
+                    Route::post('marketplace/job/{id}/withdraw', 'FreelancerActionsController@withdraw')->name('withdraw.job');
+                    Route::post('marketplace/job/{id}/arrive', 'FreelancerActionsController@arrive')->name('freelancer.arrive');
+                    Route::post('marketplace/job/{id}/complete', 'FreelancerActionsController@complete')->name('freelancer.complete');
+                });
+
                 // Must be job owner to perform actions:
                 Route::middleware('job.owner')->group(function (){
                     Route::patch('marketplace/job/{id}', 'JobRequestController@edit')->name('edit.job');
@@ -58,7 +65,7 @@ Route::prefix('business/{unique_id}')->group(function (){
                     Route::post('marketplace/job/{id}/approve/{freelancer_id}', 'CustomerActionsController@approve')->name('approve.freelancer');
                     Route::post('marketplace/job/{id}/reject/{freelancer_id}', 'CustomerActionsController@reject')->name('reject.freelancer');
                     Route::delete('marketplace/job/{id}', 'CustomerActionsController@cancel')->name('cancel.job');
-                    Route::post('marketplace/job/{id}/complete', 'CustomerActionsController@complete')->name('complete.job');
+                    Route::post('marketplace/job/{id}/review', 'CustomerActionsController@review')->name('review.job');
                 });
             });
 

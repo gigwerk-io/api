@@ -61,13 +61,13 @@ class CustomerActionsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function approve($freelancer_id, Request $request)
+    public function approve(Request $request)
     {
         /** @var MarketplaceJob $marketplaceJob */
         $marketplaceJob = $request->get('job');
 
         $proposal = $marketplaceJob->proposals()
-            ->where('user_id', '=', $freelancer_id)
+            ->where('user_id', '=', $request->freelancer_id)
             ->where('status_id', '=', ProposalStatus::PENDING)
             ->first();
 
@@ -93,17 +93,16 @@ class CustomerActionsController extends Controller
      * @ResponseExample(status=200, example="responses/marketplace/customer-actions/reject.freelancer-200.json")
      * @ResponseExample(status=400, example="responses/marketplace/customer-actions/reject.freelancer-400.json")
      *
-     * @param $freelancer_id
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function reject($freelancer_id, Request $request)
+    public function reject(Request $request)
     {
         /** @var MarketplaceJob $marketplaceJob */
         $marketplaceJob = $request->get('job');
 
         $proposal = $marketplaceJob->proposals()
-            ->where('user_id', '=', $freelancer_id)
+            ->where('user_id', '=', $request->freelancer_id)
             ->where('status_id', '=', ProposalStatus::PENDING)
             ->first();
 
@@ -136,7 +135,7 @@ class CustomerActionsController extends Controller
         /** @var MarketplaceJob $marketplaceJob */
         $marketplaceJob = $request->get('job');
 
-        if (!in_array($marketplaceJob->status_id, [Status::REQUESTED, Status::PENDING_APPROVAL])) {
+        if (!in_array($marketplaceJob->status_id, [Status::REQUESTED, Status::PENDING_APPROVAL, Status::APPROVED])) {
             if ($marketplaceJob->isComplete()) {
                 return ResponseFactory::error(
                     'This job has already been completed.'
@@ -148,6 +147,8 @@ class CustomerActionsController extends Controller
         }
 
         // $this->eventDispatcher->dispatch(new CustomerHasCancelledRequest($this->marketplace));
+        $marketplaceJob->location()->delete();
+        $marketplaceJob->proposals()->delete();
         $marketplaceJob->delete();
         return ResponseFactory::success(
             'Your request has been deleted.'
@@ -159,13 +160,14 @@ class CustomerActionsController extends Controller
      * @BodyParam(name="rating", type="number", status="required", description="The rating of the freelancer on the job.", example="5")
      * @BodyParam(name="review", type="string", status="optional", description="The review of the freelancer on the job." example="This is worker did a good job!")
      * @ResponseExample(status=200, example="responses/marketplace/customer-actions/complete.job-200.json")
+     * @ResponseExample(status=400, example="responses/marketplace/customer-actions/complete.job-400.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
      * @throws \Stripe\Exception\ApiErrorException
      */
-    public function complete(Request $request)
+    public function review(Request $request)
     {
         /** @var MarketplaceJob $marketplaceJob */
         $marketplaceJob = $request->get('job');

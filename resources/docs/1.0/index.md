@@ -10,6 +10,7 @@
     - [Marketplace](#)
         - [Job Request](/{{route}}/{{version}}/marketplace/job-request)
         - [Feed](/{{route}}/{{version}}/marketplace/feed)
+        - [Freelancer Actions](/{{route}}/{{version}}/marketplace/freelancer-actions)
         - [Customer Actions](/{{route}}/{{version}}/marketplace/customer-actions)
     
   

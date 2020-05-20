@@ -16,7 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('/docs');
 });
-
-Route::get('foo', function (){
-    return view('foo')->with('title', 'Foo');
-});

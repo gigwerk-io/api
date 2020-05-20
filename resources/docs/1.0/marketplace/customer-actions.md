@@ -153,7 +153,7 @@ Review the freelancer and mark the job as complete.
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
-|`POST`|`/business/{unique_id}/marketplace/job/{id}/complete`|`true`|
+|`POST`|`/business/{unique_id}/marketplace/job/{id}/review`|`true`|
 
 
 ### Body Params
@@ -161,6 +161,7 @@ Review the freelancer and mark the job as complete.
 |:-|:-|:-|:-|
 |`rating`|`number`|`required`|`The rating of the freelancer on the job.`|
 |`review`|`string`|`optional`|`The review of the freelancer on the job. example`|
+
 
 
 > {success} Example Success Response
@@ -172,6 +173,21 @@ Content
 {
     "success": true,
     "message": "This job has been marked complete",
+    "data": null
+}
+
+```
+
+> {danger} Example Error Response
+
+Code `400`
+
+Content
+
+```json
+{
+    "success": false,
+    "message": "Illegal status transition.",
     "data": null
 }
 

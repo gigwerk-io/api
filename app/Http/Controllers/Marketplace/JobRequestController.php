@@ -99,7 +99,7 @@ class JobRequestController extends Controller
     public function submit(SubmitJobRequest $request)
     {
         $user = $request->user();
-        $business = $this->businessRepository->findWhere(['unique_id' => $request->business_id])->first();
+        $business = $request->get('business');
 
         $data = $request->all();
         $data['business_id'] = $business->id;
@@ -147,7 +147,7 @@ class JobRequestController extends Controller
         $this->eventDispatcher->dispatch(null);
 
         return ResponseFactory::success(
-            'Favr Successfully Posted!',
+            'Job Successfully Posted!',
             $marketplace,
             Response::HTTP_CREATED
         );

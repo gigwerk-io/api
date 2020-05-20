@@ -122,5 +122,24 @@ class DevRequiredUsersSeeder extends Seeder
                     'status_id' => ApplicationStatus::PENDING
                 ]);
             })->create();
+
+        // Create a verified freelancer for both businesses
+        UserFactory::new()
+            ->withProfile(UserProfileFactory::new())
+            ->withPayoutMethod(PayoutMethodFactory::new())
+            ->withAttributes(['username' => 'multi_user'])
+            ->afterCreating(function (User $user) use ($businessTwo, $businessOne){
+                $businessTwo->users()->attach($user, ['role_id' => Role::VERIFIED_FREELANCER]);
+                $businessTwo->applications()->create([
+                    'user_id' => $user->id,
+                    'status_id' => ApplicationStatus::APPROVED
+                ]);
+
+                $businessOne->users()->attach($user, ['role_id' => Role::VERIFIED_FREELANCER]);
+                $businessOne->applications()->create([
+                    'user_id' => $user->id,
+                    'status_id' => ApplicationStatus::APPROVED
+                ]);
+            })->create();
     }
 }

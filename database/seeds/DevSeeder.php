@@ -13,6 +13,6 @@ class DevSeeder extends Seeder
     {
         $this->call(DevRequiredUsersSeeder::class);
         $this->call(DevUsersSeeder::class);
-        // $this->call(DevMarketplaceJobsSeeder::class);
+        $this->call(DevMarketplaceJobsSeeder::class);
     }
 }

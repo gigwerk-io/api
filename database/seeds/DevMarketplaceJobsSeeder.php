@@ -20,7 +20,7 @@ class DevMarketplaceJobsSeeder extends Seeder
     {
         // One requested job
         MarketplaceJobFactory::new()
-            ->withAttributes(['customer_id' => 2, 'business_id' => 1])
+            ->withAttributes(['customer_id' => 1, 'business_id' => 1])
             ->withLocation(MarketplaceLocationFactory::new())();
 
         // One pending job

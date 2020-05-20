@@ -15,7 +15,7 @@ class SubmitJobRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -33,7 +33,6 @@ class SubmitJobRequest extends FormRequest
             'city' => ['required', 'string'],
             'state' => ['required', new Abbr('US')],
             'zip' => ['required', 'postal_code:US'],
-            'business_id' => ['required', 'unique:businesses,unique_id'],
             'price' => ['required', 'numeric']
         ];
     }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Marketplace;
 
 use App\Annotation\Group;
+use App\Annotation\Meta;
+use App\Annotation\ResponseExample;
 use App\Contracts\Stripe\Billing;
 use App\Enum\Marketplace\ProposalStatus;
 use App\Enum\Marketplace\Status;
@@ -38,10 +40,9 @@ class FreelancerActionsController extends Controller
     }
 
     /**
-     * Accept Job
-     * Worker accepts a customer request.
-     * @urlParam unique_id required The uuid of the businesses marketplace. Example: 92c42544-773c-4ce9-9708-d67ffe17adfc
-     * @urlParam id required The ID of the job. Example: 1
+     * @Meta(name="Accept Job", description="Propose to complete a customer job request.", href="accept-job")
+     * @ResponseExample(status=200, example="responses/marketplace/freelancer-actions/accept.job-200.json")
+     * @ResponseExample(status=400, example="responses/marketplace/freelancer-actions/accept.job-400.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -65,7 +66,7 @@ class FreelancerActionsController extends Controller
             );
         }
 
-        if(!$marketplaceJob->proposals()->where('user_id', '=', $user->id)->exists()){
+        if($marketplaceJob->proposals()->where('user_id', '=', $user->id)->exists()){
             return ResponseFactory::error(
                 'You have already proposed on this job.'
             );
@@ -86,10 +87,9 @@ class FreelancerActionsController extends Controller
     }
 
     /**
-     * Withdraw Proposal
-     * Withdraw from a customer request
-     * @urlParam unique_id required The uuid of the businesses marketplace. Example: 92c42544-773c-4ce9-9708-d67ffe17adfc
-     * @urlParam id required The ID of the job. Example: 1
+     * @Meta(name="Withdraw Proposal", description="Withdraw from a customers job request.", href="withdraw")
+     * @ResponseExample(status=200, example="responses/marketplace/freelancer-actions/withdraw.job-200.json")
+     * @ResponseExample(status=400, example="responses/marketplace/freelancer-actions/withdraw.job-400.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -102,7 +102,7 @@ class FreelancerActionsController extends Controller
         /** @var MarketplaceJob $marketplaceJob */
         $marketplaceJob = $request->get('job');
 
-        if($marketplaceJob->isWithdrawable()) {
+        if(!$marketplaceJob->isWithdrawable()) {
             return ResponseFactory::error(
                 'Illegal status transition.'
             );
@@ -121,16 +121,16 @@ class FreelancerActionsController extends Controller
     }
 
     /**
-     * Worker Arrive
-     * The worker arrives to the job. (customer gets charged here)
-     * @urlParam unique_id required The uuid of the businesses marketplace. Example: 92c42544-773c-4ce9-9708-d67ffe17adfc
+     * @Meta(name="Arrive To Job", description="A worker has arrived to the job. This is where the customer gets charged.", href="arrive")
+     * @ResponseExample(status=200, example="responses/marketplace/freelancer-actions/freelancer.arrive-200.json")
+     * @ResponseExample(status=400, example="responses/marketplace/freelancer-actions/freelancer.arrive-400.json")
      * @urlParam id required The ID of the job. Example: 1
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      * @throws \Stripe\Exception\ApiErrorException
      */
-    public function arrived(Request $request)
+    public function arrive(Request $request)
     {
         /** @var User $user */
         $user = $request->user();
@@ -160,7 +160,7 @@ class FreelancerActionsController extends Controller
         );
 
         $marketplaceJob->payment()->create([
-            'customer_id' => $this->marketplace->customer_id,
+            'user_id' => $marketplaceJob->customer_id,
             'amount' => centsToDollars($charge->amount),
             'stripe_token' => $charge->id
         ]);
@@ -173,10 +173,9 @@ class FreelancerActionsController extends Controller
     }
 
     /**
-     * Worker Complete
-     * Worker marks job as complete and reviews the customer.
-     * @urlParam unique_id required The uuid of the businesses marketplace. Example: 92c42544-773c-4ce9-9708-d67ffe17adfc
-     * @urlParam id required The ID of the job. Example: 1
+     * @Meta(name="Complete Job", description="The worker has completed the job and is waiting for the customer to confirm.", href="complete")
+     * @ResponseExample(status=200, example="responses/marketplace/freelancer-actions/freelancer.arrive-200.json")
+     * @ResponseExample(status=400, example="responses/marketplace/freelancer-actions/freelancer.arrive-400.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -195,6 +194,9 @@ class FreelancerActionsController extends Controller
         if(!$marketplaceJob->workerHasArrived($user->id)){
             return ResponseFactory::error('You are not the freelancer on this job.');
         }
+
+        $proposal = $marketplaceJob->proposals()->where('user_id', '=', $user->id)->first();
+        $proposal->update(['completed_at' => Carbon::now()->toDateTimeString()]);
 
         // $this->eventDispatcher->dispatch(new FreelancerHasCompletedRequest($this->marketplace));
 

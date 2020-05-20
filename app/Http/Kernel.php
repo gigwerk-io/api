@@ -8,6 +8,7 @@ use App\Http\Middleware\HasPaymentMethod;
 use App\Http\Middleware\HasPayoutMethod;
 use App\Http\Middleware\IsJobOwner;
 use App\Http\Middleware\JobExists;
+use App\Http\Middleware\VerifiedFreelancer;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -68,6 +69,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'has.payment.method' => HasPaymentMethod::class,
         'has.payout.method' => HasPayoutMethod::class,
+        'is.freelancer' => VerifiedFreelancer::class,
         'job.exists' => JobExists::class,
         'job.owner' => IsJobOwner::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,

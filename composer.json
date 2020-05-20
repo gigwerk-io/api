@@ -29,6 +29,7 @@
         "laravel/sanctum": "^2.3",
         "laravel/telescope": "^3.3",
         "laravel/tinker": "^2.0",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "league/html-to-markdown": "^4.9",
         "lukeraymonddowning/poser": "^4.0",
         "minime/annotations": "dev-master",

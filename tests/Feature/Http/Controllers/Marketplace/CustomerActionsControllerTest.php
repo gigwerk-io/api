@@ -20,6 +20,9 @@ class CustomerActionsControllerTest extends TestCase
 {
     const DOC_PATH = 'marketplace/customer-actions';
     const APPROVE_FREELANCER_ROUTE = 'approve.freelancer';
+    const REJECT_FREELANCER_ROUTE = 'reject.freelancer';
+    const CANCEL_JOB_ROUTE = 'cancel.job';
+    const REVIEW_JOB_ROUTE = 'review.job';
 
     /**
      * @var User
@@ -60,7 +63,6 @@ class CustomerActionsControllerTest extends TestCase
      */
     public function testApproveWorker()
     {
-        // Get the first pending job
         $marketplaceJob = $this->marketplaceJobRepository->find(2);
         $response = $this->post(route(self::APPROVE_FREELANCER_ROUTE, [
             'unique_id' => $this->business->unique_id,
@@ -68,22 +70,123 @@ class CustomerActionsControllerTest extends TestCase
             'freelancer_id' => $this->worker->id
         ]));
 
-        dd($response->getContent());
-
         $response->assertStatus(200);
         $response->assertJson(ResponseFactoryTest::success('You have approved this worker'));
         $this->document(self::DOC_PATH, self::APPROVE_FREELANCER_ROUTE, $response->status(), $response->getContent());
     }
 
     /**
-     * A basic feature test example.
-     *
-     * @return void
+     * @covers ::approve
      */
-    public function testExample()
+    public function testApproveWorkerFail()
     {
-        $response = $this->get('/');
+        $marketplaceJob = $this->marketplaceJobRepository->find(3);
+        $response = $this->post(route(self::APPROVE_FREELANCER_ROUTE, [
+            'unique_id' => $this->business->unique_id,
+            'id' => $marketplaceJob->id,
+            'freelancer_id' => $this->worker->id
+        ]));
+
+        $response->assertStatus(400);
+        $response->assertJson(ResponseFactoryTest::error('This worker does not have a proposal for this job.'));
+        $this->document(self::DOC_PATH, self::APPROVE_FREELANCER_ROUTE, $response->status(), $response->getContent());
+    }
+
+    /**
+     * @covers ::reject
+     */
+    public function testRejectWorker()
+    {
+        $marketplaceJob = $this->marketplaceJobRepository->find(2);
+        $response = $this->post(route(self::REJECT_FREELANCER_ROUTE, [
+            'unique_id' => $this->business->unique_id,
+            'id' => $marketplaceJob->id,
+            'freelancer_id' => $this->worker->id
+        ]));
 
         $response->assertStatus(200);
+        $response->assertJson(ResponseFactoryTest::success('You have rejected this worker'));
+        $this->document(self::DOC_PATH, self::REJECT_FREELANCER_ROUTE, $response->status(), $response->getContent());
+    }
+
+    /**
+     * @covers ::reject
+     */
+    public function testRejectWorkerFail()
+    {
+        $marketplaceJob = $this->marketplaceJobRepository->find(3);
+        $response = $this->post(route(self::REJECT_FREELANCER_ROUTE, [
+            'unique_id' => $this->business->unique_id,
+            'id' => $marketplaceJob->id,
+            'freelancer_id' => $this->worker->id
+        ]));
+
+        $response->assertStatus(400);
+        $response->assertJson(ResponseFactoryTest::error('This worker does not have a proposal for this job.'));
+        $this->document(self::DOC_PATH, self::REJECT_FREELANCER_ROUTE, $response->status(), $response->getContent());
+    }
+
+    /**
+     * @covers ::cancel
+     */
+    public function testCancelJob()
+    {
+        $marketplaceJob = $this->marketplaceJobRepository->find(1);
+        $response = $this->delete(route(self::CANCEL_JOB_ROUTE, [
+            'unique_id' => $this->business->unique_id,
+            'id' => $marketplaceJob->id,
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertJson(ResponseFactoryTest::success('Your request has been deleted.'));
+        $this->document(self::DOC_PATH, self::CANCEL_JOB_ROUTE, $response->status(), $response->getContent());
+    }
+
+    /**
+     * @covers ::cancel
+     */
+    public function testCancelJobFail()
+    {
+        $marketplaceJob = $this->marketplaceJobRepository->find(3);
+        $response = $this->delete(route(self::CANCEL_JOB_ROUTE, [
+            'unique_id' => $this->business->unique_id,
+            'id' => $marketplaceJob->id,
+        ]));
+
+        $response->assertStatus(400);
+        $response->assertJson(ResponseFactoryTest::error('You can not cancel a job that is in progress'));
+        $this->document(self::DOC_PATH, self::CANCEL_JOB_ROUTE, $response->status(), $response->getContent());
+    }
+
+    /**
+     * @covers ::review
+     */
+    public function testReviewJob()
+    {
+        $marketplaceJob = $this->marketplaceJobRepository->find(4);
+        $response = $this->post(route(self::REVIEW_JOB_ROUTE, [
+            'unique_id' => $this->business->unique_id,
+            'id' => $marketplaceJob->id,
+        ]), ['rating' => 5, 'review' => 'Worker did amazing!']);
+
+        $response->assertStatus(200);
+        $response->assertJson(ResponseFactoryTest::success('This job has been marked review'));
+        $this->document(self::DOC_PATH, self::REVIEW_JOB_ROUTE, $response->status(), $response->getContent());
+    }
+
+    /**
+     * @covers ::review
+     */
+    public function testReviewJobFail()
+    {
+        $marketplaceJob = $this->marketplaceJobRepository->find(2);
+        $response = $this->post(route(self::REVIEW_JOB_ROUTE, [
+            'unique_id' => $this->business->unique_id,
+            'id' => $marketplaceJob->id,
+        ]), ['rating' => 5, 'review' => 'Worker did amazing!']);
+
+        $response->assertStatus(400);
+        $response->assertJson(ResponseFactoryTest::error('Illegal status transition.'));
+        $this->document(self::DOC_PATH, self::REVIEW_JOB_ROUTE, $response->status(), $response->getContent());
     }
 }
