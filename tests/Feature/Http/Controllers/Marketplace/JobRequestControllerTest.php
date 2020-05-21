@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers\Marketplace;
 
 use App\Contracts\Repositories\BusinessRepository;
+use App\Contracts\Repositories\MarketplaceJobRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Models\Business;
 use App\Models\User;
@@ -63,22 +64,25 @@ class JobRequestControllerTest extends TestCase
             'image_one' => file_get_contents(storage_path('test/base64-image.txt'))
         ]);
 
-        dd($response->getContent());
 
         $response->assertStatus(201);
-        $response->assertJson(ResponseFactoryTest::success('Job Successfully Posted!'));
+        $response->assertJsonStructure(['data' => ['category_id', 'status_id', 'customer_id']]);
         $this->document(self::DOC_PATH, self::SUBMIT_JOB_ROUTE, $response->status(), $response->getContent());
     }
 
     /**
-     * A basic feature test example.
-     *
-     * @return void
+     * @covers ::edit
      */
-    public function testExample()
+    public function testEditJob()
     {
-        $response = $this->get('/');
+        $marketplaceJob = $this->app->make(MarketplaceJobRepository::class)->find(1);
+        $response = $this->patch(route(self::EDIT_JOB_ROUTE, ['unique_id' => $this->business->unique_id, 'id' => $marketplaceJob->id]), [
+            'description' => 'foo bar',
+        ]);
+
 
         $response->assertStatus(200);
+        $response->assertJson(ResponseFactoryTest::success('Your job has been updated.'));
+        $this->document(self::DOC_PATH, self::EDIT_JOB_ROUTE, $response->status(), $response->getContent());
     }
 }

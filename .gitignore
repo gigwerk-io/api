@@ -13,6 +13,7 @@ yarn-error.log
 .env
 .phpunit.result.cache
 certs/favr.test.crt
+certs/api.gigwerk.test.crt
 .php_cs.cache
 dump.sql
 .DS_Store

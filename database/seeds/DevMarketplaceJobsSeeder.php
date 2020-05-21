@@ -77,5 +77,65 @@ class DevMarketplaceJobsSeeder extends Seeder
                     'stripe_token' => $charge->id // stripe charge id
                 ]);
             })();
+
+        // One requested job
+        MarketplaceJobFactory::new()
+            ->withAttributes(['customer_id' => 5, 'business_id' => 2])
+            ->withLocation(MarketplaceLocationFactory::new())();
+
+        // One pending job
+        MarketplaceJobFactory::new()
+            ->withAttributes([
+                'customer_id' => 5,
+                'business_id' => 2,
+                'status_id' => Status::PENDING_APPROVAL,
+            ])->withLocation(MarketplaceLocationFactory::new())
+            ->afterCreating(function (MarketplaceJob $marketplaceJob){
+                $marketplaceJob->proposals()->create([
+                    'user_id' => 6, // primary worker
+                    'status_id' => ProposalStatus::PENDING
+                ]);
+            })();
+
+        // One approved job
+        MarketplaceJobFactory::new()
+            ->withAttributes([
+                'customer_id' => 5,
+                'business_id' => 2,
+                'status_id' => Status::APPROVED,
+            ])->withLocation(MarketplaceLocationFactory::new())
+            ->afterCreating(function (MarketplaceJob $marketplaceJob){
+                $marketplaceJob->proposals()->create([
+                    'user_id' => 6, // primary worker
+                    'status_id' => ProposalStatus::APPROVED
+                ]);
+            })();
+
+        // One in progress job
+        MarketplaceJobFactory::new()
+            ->withAttributes([
+                'customer_id' => 5,
+                'business_id' => 2,
+                'status_id' => Status::IN_PROGRESS,
+            ])->withLocation(MarketplaceLocationFactory::new())
+            ->afterCreating(function (MarketplaceJob $marketplaceJob) {
+                $marketplaceJob->proposals()->create([
+                    'user_id' => 6, // primary worker
+                    'status_id' => ProposalStatus::APPROVED,
+                    'arrived_at' => Carbon::today()->toDateTimeString()
+                ]);
+
+                // create payment
+                $charge = app()->make(Billing::class)->createCharge(
+                    $marketplaceJob->customer->primaryPaymentMethod->stripe_customer_id,
+                    $marketplaceJob->price,
+                    $marketplaceJob->description
+                );
+                $marketplaceJob->payment()->create([
+                    'user_id' => $marketplaceJob->customer_id,
+                    'amount' => $marketplaceJob->price,
+                    'stripe_token' => $charge->id // stripe charge id
+                ]);
+            })();
     }
 }

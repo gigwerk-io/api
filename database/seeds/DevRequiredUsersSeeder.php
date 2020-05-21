@@ -29,11 +29,14 @@ class DevRequiredUsersSeeder extends Seeder
             ->create();
 
         $businessOne = BusinessFactory::new()->withAttributes(['name' => 'First Business Inc.', 'subdomain_prefix' => 'demo'])
-            ->withProfile(BusinessProfileFactory::new()->withAttributes())
+            ->withProfile(BusinessProfileFactory::new())
             ->withLocation(BusinessLocationFactory::new())
-            ->make(['owner_id' => $businessAdminOne->id]);
+            ->afterCreating(function (Business $business) use ($businessAdminOne){
+                $businessAdminOne->businesses()->attach($business, ['role_id' => Role::VERIFIED_FREELANCER]);
+            })
+            ->create(['owner_id' => $businessAdminOne->id]);
 
-        $businessOne = $businessAdminOne->businesses()->save($businessOne, ['role_id' => Role::VERIFIED_FREELANCER]);
+
 
         // Create a verified freelancer for business one
         UserFactory::new()
@@ -79,11 +82,12 @@ class DevRequiredUsersSeeder extends Seeder
             ->create();
 
         $businessTwo = BusinessFactory::new()->withAttributes(['name' => 'Second Business LLC', 'subdomain_prefix' => 'test'])
-            ->withProfile(BusinessProfileFactory::new()->withAttributes())
+            ->withProfile(BusinessProfileFactory::new())
             ->withLocation(BusinessLocationFactory::new())
-            ->make(['owner_id' => $businessAdminTwo->id]);
-
-        $businessTwo = $businessAdminTwo->businesses()->save($businessTwo, ['role_id' => Role::VERIFIED_FREELANCER]);
+            ->afterCreating(function (Business $business) use ($businessAdminTwo){
+                $businessAdminTwo->businesses()->attach($business, ['role_id' => Role::VERIFIED_FREELANCER]);
+            })
+            ->create(['owner_id' => $businessAdminTwo->id]);
 
         // Create a verified freelancer for business one
         UserFactory::new()

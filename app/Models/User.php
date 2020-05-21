@@ -150,6 +150,26 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have multiple payouts
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function payouts()
+    {
+        return $this->hasMany(Payout::class);
+    }
+
+    /**
+     * A user can have multiple payouts
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /**
      * Return the full name of a user
      *
      * @return string

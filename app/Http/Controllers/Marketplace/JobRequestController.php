@@ -10,6 +10,7 @@ use App\Contracts\Geolocation\Geolocation;
 use App\Contracts\Image\Base64Image;
 use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\MarketplaceJobRepository;
+use App\Enum\Marketplace\Status;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Marketplace\EditJobRequest;
@@ -104,13 +105,14 @@ class JobRequestController extends Controller
         $data = $request->all();
         $data['business_id'] = $business->id;
         $data['customer_id'] = $user->id;
+        $data['status_id'] = Status::REQUESTED;
         $data['complete_before'] = Carbon::parse($request->complete_before)->toDateTimeString();
 
         if($request->has('image_one')){
             $image = base64_decode($request->image_one);
             $type = $this->base64Image->getImageType($request->image_one);
             $name = Str::uuid() . "." . $type;
-            $this->filesystem->disk('s3')->put('marketplace', $image);
+            $this->filesystem->disk('s3')->put('marketplace/' . $name, $image);
             $data['image_one'] = sprintf("%s/%s/%s", config('filesystem.disks.s3.url'), 'marketplace', $name);
 
         }
@@ -119,7 +121,7 @@ class JobRequestController extends Controller
             $image = base64_decode($request->image_two);
             $type = $this->base64Image->getImageType($request->image_two);
             $name = Str::uuid() . "." . $type;
-            $this->filesystem->disk('s3')->put('marketplace', $image);
+            $this->filesystem->disk('s3')->put('marketplace'. $name, $image);
             $data['image_two'] = sprintf("%s/%s/%s", config('filesystem.disks.s3.url'), 'marketplace', $name);
         }
 
@@ -127,7 +129,7 @@ class JobRequestController extends Controller
             $image = base64_decode($request->image_three);
             $type = $this->base64Image->getImageType($request->image_three);
             $name = Str::uuid() . "." . $type;
-            $this->filesystem->disk('s3')->put('marketplace', $image);
+            $this->filesystem->disk('s3')->put('marketplace'. $name, $image);
             $data['image_three'] = sprintf("%s/%s/%s", config('filesystem.disks.s3.url'), 'marketplace', $name);
         }
 
@@ -144,7 +146,7 @@ class JobRequestController extends Controller
             'long' => $location->lng
         ]);
 
-        $this->eventDispatcher->dispatch(null);
+        // $this->eventDispatcher->dispatch(null);
 
         return ResponseFactory::success(
             'Job Successfully Posted!',
@@ -154,10 +156,18 @@ class JobRequestController extends Controller
     }
 
     /**
-     * Edit a marketplace job
+     * @Meta(name="Edit Job", description="Edit a customers marketplace job.", href="edit-job")
+     * @BodyParam(name="description", type="string", status="optional", description="The description of the job.", example=" I need my lawn mowed.")
+     * @BodyParam(name="complete_before", type="string", status="optional", description="The deadline for the job.", example=" 03/11/2020 12:00:00")
+     * @BodyParam(name="street_address", type="string", status="optional", description="The address of the job location", example="123 Main St NE")
+     * @BodyParam(name="city", type="string", status="optional", description="The city of the job location.", example="Rochester")
+     * @BodyParam(name="state", type="string", status="optional", description="The state of the job location.", example="MN")
+     * @BodyParam(name="zip", type="string", status="optional", description="The zip code of the job location.", example="55901")
+     * @ResponseExample(status=201, example="responses/marketplace/request/edit.job-200.json")
      *
      * @param EditJobRequest $request
      * @return \Illuminate\Http\Response
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function edit(EditJobRequest $request)
     {
@@ -199,7 +209,7 @@ class JobRequestController extends Controller
         }
 
         $current = $marketplace->location;
-        $location = $this->geo->geoLocate([$current->street_address, $current->city, $current->state, $current->zip]);
+        $location = $this->geolocation->geoLocate([$current->street_address, $current->city, $current->state, $current->zip]);
         $marketplace->location()->update(['lat' => $location->lat, 'long' => $location->lng]);
 
         return ResponseFactory::success(

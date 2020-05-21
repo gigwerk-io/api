@@ -33,7 +33,8 @@ class MarketplaceJob extends Model implements Transformable
         'views',
         'image_one',
         'image_two',
-        'image_three'
+        'image_three',
+        'business_id'
     ];
 
     /**
@@ -51,6 +52,16 @@ class MarketplaceJob extends Model implements Transformable
     public function customer()
     {
         return $this->hasOne(User::class, 'id', 'customer_id');
+    }
+
+    /**
+     * A business can have many jobs
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function business()
+    {
+        return $this->belongsTo(Business::class);
     }
 
     /**

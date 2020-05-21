@@ -1,0 +1,173 @@
+{
+    "success": true,
+    "message": "Show user",
+    "data": {
+        "id": 2,
+        "first_name": "Augustine",
+        "last_name": "Maryam",
+        "username": "worker_one",
+        "email": "florence43@example.net",
+        "phone": "(347) 356-0729",
+        "apn_token": null,
+        "fcm_token": null,
+        "email_verified_at": "2020-05-21T05:41:09.000000Z",
+        "last_seen_at": null,
+        "deleted_at": null,
+        "created_at": "2020-05-21T05:41:09.000000Z",
+        "updated_at": "2020-05-21T05:41:09.000000Z",
+        "isActive": false,
+        "pivot": {
+            "business_id": 1,
+            "user_id": 2,
+            "role_id": 1
+        },
+        "profile": {
+            "id": 2,
+            "user_id": 2,
+            "image": "https:\/\/i.picsum.photos\/id\/691\/600\/600.jpg",
+            "description": "Vel quis voluptas ut rerum quod.",
+            "created_at": "2020-05-21T05:41:09.000000Z",
+            "updated_at": "2020-05-21T05:41:09.000000Z"
+        },
+        "marketplace_proposals": [
+            {
+                "id": 1,
+                "marketplace_id": 2,
+                "user_id": 2,
+                "status_id": 1,
+                "rating": null,
+                "review": null,
+                "arrived_at": null,
+                "completed_at": null,
+                "created_at": "2020-05-21T05:41:11.000000Z",
+                "updated_at": "2020-05-21T05:41:11.000000Z",
+                "status": "Pending",
+                "marketplace_job": {
+                    "id": 2,
+                    "business_id": 1,
+                    "customer_id": 1,
+                    "category_id": 1,
+                    "price": 31,
+                    "description": "Dolores sit facere assumenda nostrum id est. Ratione asperiores id harum ipsam quia molestias.",
+                    "status_id": 2,
+                    "intensity_id": 3,
+                    "complete_before": "2020-05-22 00:00:00",
+                    "views": 0,
+                    "image_one": "https:\/\/thenewswheel.com\/wp-content\/uploads\/2018\/04\/junk-yards-pay-most-for-cars-760x507.jpg",
+                    "image_two": null,
+                    "image_three": null,
+                    "created_at": "2020-05-21T05:41:11.000000Z",
+                    "updated_at": "2020-05-21T05:41:11.000000Z",
+                    "deleted_at": null,
+                    "status": "Pending Approval",
+                    "intensity": "Hard",
+                    "job_status": {
+                        "id": 2,
+                        "name": "Pending Approval"
+                    },
+                    "job_intensity": {
+                        "id": 3,
+                        "name": "Hard"
+                    }
+                },
+                "proposal_status": {
+                    "id": 1,
+                    "name": "Pending"
+                }
+            },
+            {
+                "id": 2,
+                "marketplace_id": 3,
+                "user_id": 2,
+                "status_id": 2,
+                "rating": null,
+                "review": null,
+                "arrived_at": null,
+                "completed_at": null,
+                "created_at": "2020-05-21T05:41:11.000000Z",
+                "updated_at": "2020-05-21T05:41:11.000000Z",
+                "status": "Approved",
+                "marketplace_job": {
+                    "id": 3,
+                    "business_id": 1,
+                    "customer_id": 1,
+                    "category_id": 1,
+                    "price": 27,
+                    "description": "Aut et laboriosam quam quisquam sed consectetur sint. Dolor commodi occaecati et eligendi qui.",
+                    "status_id": 3,
+                    "intensity_id": 3,
+                    "complete_before": "2020-05-22 00:00:00",
+                    "views": 0,
+                    "image_one": "https:\/\/www.simplemost.com\/wp-content\/uploads\/2017\/01\/8320434990_4c84ea6e62_o-750x500.jpg",
+                    "image_two": null,
+                    "image_three": null,
+                    "created_at": "2020-05-21T05:41:11.000000Z",
+                    "updated_at": "2020-05-21T05:41:11.000000Z",
+                    "deleted_at": null,
+                    "status": "Approved",
+                    "intensity": "Hard",
+                    "job_status": {
+                        "id": 3,
+                        "name": "Approved"
+                    },
+                    "job_intensity": {
+                        "id": 3,
+                        "name": "Hard"
+                    }
+                },
+                "proposal_status": {
+                    "id": 2,
+                    "name": "Approved"
+                }
+            },
+            {
+                "id": 3,
+                "marketplace_id": 4,
+                "user_id": 2,
+                "status_id": 2,
+                "rating": null,
+                "review": null,
+                "arrived_at": "2020-05-21 00:00:00",
+                "completed_at": null,
+                "created_at": "2020-05-21T05:41:11.000000Z",
+                "updated_at": "2020-05-21T05:41:11.000000Z",
+                "status": "Approved",
+                "marketplace_job": {
+                    "id": 4,
+                    "business_id": 1,
+                    "customer_id": 1,
+                    "category_id": 1,
+                    "price": 40,
+                    "description": "Consequatur ipsam voluptatem vero eligendi eligendi. Unde illum enim corporis autem tempora eligendi.",
+                    "status_id": 4,
+                    "intensity_id": 3,
+                    "complete_before": "2020-05-22 00:00:00",
+                    "views": 0,
+                    "image_one": "https:\/\/www.simplemost.com\/wp-content\/uploads\/2017\/01\/8320434990_4c84ea6e62_o-750x500.jpg",
+                    "image_two": null,
+                    "image_three": null,
+                    "created_at": "2020-05-21T05:41:11.000000Z",
+                    "updated_at": "2020-05-21T05:41:11.000000Z",
+                    "deleted_at": null,
+                    "status": "In Progress",
+                    "intensity": "Hard",
+                    "job_status": {
+                        "id": 4,
+                        "name": "In Progress"
+                    },
+                    "job_intensity": {
+                        "id": 3,
+                        "name": "Hard"
+                    }
+                },
+                "proposal_status": {
+                    "id": 2,
+                    "name": "Approved"
+                }
+            }
+        ],
+        "payouts": [],
+        "payments": [],
+        "marketplace_jobs": []
+    }
+}

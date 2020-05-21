@@ -15,7 +15,7 @@ class EditJobRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,17 +27,11 @@ class EditJobRequest extends FormRequest
     {
         return [
             'description' => [ 'string'],
-            'complete_before' => [ 'date'],
-            'category_id' => [ 'exists:categories,id'],
-            'intensity' => ['exists:job_intensities,id'],
-            'image_one' => new Base64ImageRule(),
-            'image_two' => new Base64ImageRule(),
-            'image_three' => new Base64ImageRule(),
+            'complete_before' => ['date'],
             'street_address' => [ 'string'],
             'city' => [ 'string'],
             'state' => [ new Abbr('US')],
             'zip' => ['postal_code:US'],
-            'business_id' => [ 'unique:businesses,unique_id']
         ];
     }
 }

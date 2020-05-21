@@ -33,9 +33,11 @@ Route::namespace('Auth')->group(function (){
 Route::prefix('business/{unique_id}')->group(function (){
     Route::namespace('Auth')->group(function () {
         Route::post('login', 'LoginController@businessLogin')->name('business.login');
-        Route::middleware(['auth:sanctum', 'business.access'])->group(function (){
+        Route::middleware(['auth:sanctum'])->group(function (){
             Route::post('join', 'RegisterController@joinBusiness')->name('join.business');
-            Route::get('validate', 'LoginController@businessTokenValidation')->name('business.validate');
+            Route::get('validate', 'LoginController@businessTokenValidation')
+                ->middleware('business.access')
+                ->name('business.validate');
         });
     });
 
@@ -74,6 +76,15 @@ Route::prefix('business/{unique_id}')->group(function (){
             });
 
 
+        });
+    });
+
+    Route::namespace('Business')->group(function () {
+        Route::middleware(['auth:sanctum', 'business.access', 'business.owner'])->group(function () {
+            Route::get('users', 'UserController@index')->name('business.all.users');
+            Route::get('user/{id}', 'UserController@show')->name('business.show.user');
+            Route::patch('user/{id}', 'UserController@update')->name('business.update.user');
+            Route::delete('user/{id}', 'UserController@delete')->name('business.remove.user');
         });
     });
 });

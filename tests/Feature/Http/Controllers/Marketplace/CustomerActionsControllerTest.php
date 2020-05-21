@@ -147,7 +147,7 @@ class CustomerActionsControllerTest extends TestCase
      */
     public function testCancelJobFail()
     {
-        $marketplaceJob = $this->marketplaceJobRepository->find(3);
+        $marketplaceJob = $this->marketplaceJobRepository->find(4);
         $response = $this->delete(route(self::CANCEL_JOB_ROUTE, [
             'unique_id' => $this->business->unique_id,
             'id' => $marketplaceJob->id,
@@ -170,7 +170,7 @@ class CustomerActionsControllerTest extends TestCase
         ]), ['rating' => 5, 'review' => 'Worker did amazing!']);
 
         $response->assertStatus(200);
-        $response->assertJson(ResponseFactoryTest::success('This job has been marked review'));
+        $response->assertJson(ResponseFactoryTest::success('This job has been marked complete'));
         $this->document(self::DOC_PATH, self::REVIEW_JOB_ROUTE, $response->status(), $response->getContent());
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\BusinessOwner;
 use App\Http\Middleware\CanAccessBusiness;
 use App\Http\Middleware\ExpectsJsonMiddleware;
 use App\Http\Middleware\HasPaymentMethod;
@@ -66,6 +67,7 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'business.access' => CanAccessBusiness::class,
+        'business.owner' => BusinessOwner::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
