@@ -57,7 +57,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['isActive'];
+    protected $appends = ['isActive', 'lastSeen'];
 
     /**
      * A user can belong to many businesses.
@@ -160,7 +160,7 @@ class User extends Authenticatable
     }
 
     /**
-     * A user can have multiple payouts
+     * A user can have multiple payments
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -176,6 +176,29 @@ class User extends Authenticatable
      */
     public function getNameAttribute(){
         return $this->first_name . " " . $this->last_name;
+    }
+
+    /**
+     * Get the amount earned by a worker
+     *
+     * @return mixed
+     */
+    public function getAmountAttribute()
+    {
+        return $this->payouts->sum('amount');
+    }
+
+    /**
+     * Get a workers rating for a specific business
+     *
+     * @param $businessId
+     * @return mixed
+     */
+    public function getRating($businessId)
+    {
+        return $this->marketplaceProposals()->whereHas('marketplaceJob', function ($query) use ($businessId){
+            $query->where('business_id', '=', $businessId);
+        })->where('status_id', '=', \App\Enum\Marketplace\ProposalStatus::APPROVED)->average('rating');
     }
 
     /**
@@ -237,10 +260,20 @@ class User extends Authenticatable
      */
     public function getIsActiveAttribute()
     {
-        if(is_null($this->last_seen_at)){
+        if(is_null($this->lastSeen)){
             return false;
         }
-        return Carbon::parse(Carbon::now()->subMonth())->lessThan($this->last_seen_at);
+        return Carbon::parse(Carbon::now()->subMonth())->lessThan($this->lastSeen);
+    }
+
+    public function getLastSeenAttribute()
+    {
+        $token = $this->tokens()->orderBy('last_used_at', 'desc')->first();
+        if(is_null($token)) {
+            return null;
+        }
+
+        return $token->last_used_at;
     }
 
     /**

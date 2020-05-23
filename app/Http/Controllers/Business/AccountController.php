@@ -11,5 +11,16 @@ use Illuminate\Http\Request;
  */
 class AccountController extends Controller
 {
-    //
+    // update profile & name
+    // update location
+    // update stripe account
+    // notification preferences: new application, updated job status, payout,
+    // business status. Are you looking for more workers, at capacity, etc?
+    // weekly summary opt in
+    // deactivate org
+    // transfer ownership
+    // subscription tier
+    // jobs that need attention
+    // applications that need attention
+    // missing steps as a business (banner)
 }

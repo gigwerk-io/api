@@ -1,6 +1,8 @@
 <?php
 
+use App\Contracts\Repositories\UserRepository;
 use App\Contracts\Stripe\Billing;
+use App\Contracts\Stripe\Connect;
 use App\Enum\Marketplace\ProposalStatus;
 use App\Enum\Marketplace\Status;
 use App\Models\MarketplaceJob;
@@ -77,6 +79,49 @@ class DevMarketplaceJobsSeeder extends Seeder
                     'stripe_token' => $charge->id // stripe charge id
                 ]);
             })();
+
+
+        // One complete
+        MarketplaceJobFactory::new()
+            ->withAttributes([
+                'customer_id' => 1,
+                'business_id' => 1,
+                'status_id' => Status::COMPLETE,
+            ])->withLocation(MarketplaceLocationFactory::new())
+            ->afterCreating(function (MarketplaceJob $marketplaceJob) {
+                $marketplaceJob->proposals()->create([
+                    'user_id' => 2, // primary worker
+                    'status_id' => ProposalStatus::APPROVED,
+                    'arrived_at' => Carbon::today()->toDateTimeString()
+                ]);
+
+                // create payment
+                $charge = app()->make(Billing::class)->createCharge(
+                    $marketplaceJob->customer->primaryPaymentMethod->stripe_customer_id,
+                    $marketplaceJob->price,
+                    $marketplaceJob->description
+                );
+                $marketplaceJob->payment()->create([
+                    'user_id' => $marketplaceJob->customer_id,
+                    'amount' => $marketplaceJob->price,
+                    'stripe_token' => $charge->id // stripe charge id
+                ]);
+
+                $worker = app()->make(UserRepository::class)->find(2);
+
+                // create transfer
+                $transfer = app()->make(Connect::class)->createPayout(
+                    $worker->payoutMethod->stripe_connect_id,
+                    $marketplaceJob->price
+                );
+
+                $marketplaceJob->payout()->create([
+                    'user_id' => $marketplaceJob->customer_id,
+                    'amount' => centsToDollars($transfer->amount),
+                    'stripe_token' => $transfer->id // stripe transfer id
+                ]);
+
+            })->create();
 
         // One requested job
         MarketplaceJobFactory::new()

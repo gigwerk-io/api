@@ -129,6 +129,17 @@ Restart redis server and exit your server by running:
 To ensure you're redis is configured run:
 `redis-cli` to see if redis is running. 
 
+##### Setup Minio
+Next you have to setup <a href="http://api.gigwerk.test:9600/minio/login">Minio</a>, a local S3 bucket emulator. 
+Use the `username: homestead`, `password: secret` and create a bucket called gigwerk.
+
+##### Configure Hosts File
+This should happen automatically, but if it doesn't go to: /etc/hosts and paste this: 
+
+`192.168.10.10 api.gigwerk.test`
+
+Be sure the ip address isn't being used more than once. 
+
 ##### SSL Certificate 
 ```
 sudo cp /etc/nginx/ssl/api.gigwerk.test.crt ~/code/certs/

@@ -21,9 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::namespace('Auth')->group(function (){
     Route::post('register', 'RegisterController@userRegistration')->name('user.registration');
     Route::post('login', 'LoginController@login')->name('login');
-    Route::get('validate', 'LoginController@tokenValidation')->name('validate.token');
+
 
     Route::middleware(['auth:sanctum'])->group(function (){
+        Route::get('validate', 'LoginController@tokenValidation')->name('validate.token');
         Route::post('business-register', 'RegisterController@businessRegistration')->name('business.registration');
         Route::post('logout', 'LoginController@logout')->name('logout');
     });
@@ -85,6 +86,15 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::get('user/{id}', 'UserController@show')->name('business.show.user');
             Route::patch('user/{id}', 'UserController@update')->name('business.update.user');
             Route::delete('user/{id}', 'UserController@delete')->name('business.remove.user');
+
+
+            Route::get('user-stats', 'DashboardController@userStats')->name('user.stats');
+            Route::get('traffic-stats', 'DashboardController@trafficStats')->name('traffic.stats');
+            Route::get('time-worked', 'DashboardController@totalTimeWorked')->name('time.worked');
+            Route::get('jobs-graph', 'DashboardController@jobsGraph')->name('jobs.graph');
+            Route::get('payouts-graph', 'DashboardController@payoutsGraph')->name('payouts.graph');
+            Route::get('leaderboard', 'DashboardController@leaderboard')->name('business.leaderboard');
+
         });
     });
 });

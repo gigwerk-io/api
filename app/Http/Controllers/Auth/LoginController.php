@@ -77,7 +77,7 @@ class LoginController extends Controller
             );
         }
 
-        $user->load(['profile']);
+        $user->load(['profile', 'businesses']);
 
         $token = $user->createToken('login');
 
@@ -152,20 +152,12 @@ class LoginController extends Controller
     /**
      * @Meta(name="Validate Session", href="validate", description="Check if a users session token is still valid.")
      * @ResponseExample(status=200, example="responses/auth/login/validate-200.json")
-     * @ResponseExample(status=400, example="responses/auth/login/validate-400.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function tokenValidation(Request $request)
     {
-        if (is_null($request->user())) {
-            return ResponseFactory::error(
-                'Token is not valid.',
-                ['validToken' => false]
-            );
-        }
-
         return ResponseFactory::success(
             'Token is valid.',
             ['validToken' => true]
