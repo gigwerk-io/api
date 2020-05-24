@@ -14,13 +14,13 @@ jobs:
       - checkout
       - run:
           name: Install VM Dependencies
-          command: 'sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev libpng-dev redis-server php-redis'
+          command: 'sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev libpng-dev redis-server'
       - run:
           name: Prepare PHP Extenstions
           command: 'sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd'
       - run:
           name: Install PHP Extenstions
-          command: 'sudo docker-php-ext-install zip mysqli pdo_mysql pdo_sqlite'
+          command: 'sudo docker-php-ext-install zip mysqli pdo_mysql pdo_sqlite redis'
       - run:
           name: Install PHP Photo Extenstion
           command: 'sudo docker-php-ext-install -j$(nproc) gd'
