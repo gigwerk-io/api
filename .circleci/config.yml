@@ -68,7 +68,7 @@ jobs:
           command: 'cp .env.testing .env'
       - run:
           name: Create MySQL Database
-          command: 'mysqladmin create gigwerk_testing --host="127.0.0.1" --user="root" --password="secret"'
+          command: 'mysqladmin create gigwerk_testing --host="127.0.0.1" --user="homestead" --password="secret"'
       - run:
           name: Migrate Database
           command: 'php artisan migrate --env=testing --seed --force'
