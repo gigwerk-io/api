@@ -61,7 +61,6 @@ class JobRequestControllerTest extends TestCase
             'category_id' => 1,
             'intensity_id' => 2,
             'price' => 25,
-            'image_one' => file_get_contents(storage_path('test/base64-image.txt'))
         ]);
 
 
