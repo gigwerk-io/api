@@ -20,7 +20,7 @@ jobs:
           command: 'sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd'
       - run:
           name: Install PHP Extenstions
-          command: 'sudo docker-php-ext-install zip mysqli pdo_mysql pdo_sqlite redis'
+          command: 'sudo docker-php-ext-install zip mysqli pdo_mysql pdo_sqlite'
       - run:
           name: Install PHP Photo Extenstion
           command: 'sudo docker-php-ext-install -j$(nproc) gd'
