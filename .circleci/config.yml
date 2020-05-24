@@ -29,7 +29,7 @@ jobs:
           command: 'sudo service redis-server start'
       - run:
           name: Install MySQL Client
-          command: 'sudo apt-get install mysql-client'
+          command: 'sudo apt-get install default-mysql-client'
       - run:
           name: Install MySQL Server
           command: 'sudo apt-get -y install mysql-server'
