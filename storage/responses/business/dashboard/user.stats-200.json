@@ -1,0 +1,8 @@
+{
+    "success": true,
+    "message": "Generating user stats",
+    "data": {
+        "total": 29,
+        "growth": 2800
+    }
+}

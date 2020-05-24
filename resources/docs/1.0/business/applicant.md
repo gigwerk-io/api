@@ -1,6 +1,6 @@
-# General
+# Applicant
 
-
+Manage all of your businesses applications &amp; applicants.
 
 ---
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Business;
 
 use App\Annotation\Group;
 use App\Annotation\Meta;
+use App\Annotation\ResponseExample;
 use App\Contracts\Repositories\MarketplaceJobRepository;
 use App\Contracts\Repositories\PaymentRepository;
 use App\Enum\Marketplace\ProposalStatus;
@@ -50,6 +51,7 @@ class DashboardController extends Controller
 
     /**
      * @Meta(name="User Stats", description="Get user statistics like total count and growth.", href="user-stats")
+     * @ResponseExample(status=200, example="responses/business/dashboard/user.stats-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -89,14 +91,39 @@ class DashboardController extends Controller
         );
     }
 
-    public function trafficStats()
+    /**
+     * @Meta(name="Traffic Stats", description="Get the your business app usage statistics.", href="traffic-stats")
+     * @ResponseExample(status=200, example="responses/business/dashboard/traffic.stats-200.json")
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function trafficStats(Request $request)
     {
+        /** @var Business $business */
+        $business = $request->get('business');
+
+        $users = $business->users()->get();
+
+        $users = $users->filter(function (User $user){
+            return $user->isActive;
+        });
+
+
+
         return ResponseFactory::success(
             'Generating traffic stats',
-            ['total' => 0, 'growth' => 0]
+            ['total' => $users->count(), 'growth' => 0]
         );
     }
 
+    /**
+     * @Meta(name="Time Worked", description="Show the total amount of time worked in minutes.", href="time-worked")
+     * @ResponseExample(status=200, example="responses/business/dashboard/time.worked-200.json")
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function totalTimeWorked(Request $request)
     {
         /** @var Business $business */
@@ -118,6 +145,7 @@ class DashboardController extends Controller
 
     /**
      * @Meta(name="Jobs Graph", description="Get the jobs over time via a graph.", href="jobs-graph")
+     * @ResponseExample(status=200, example="responses/business/dashboard/jobs.graph-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -155,6 +183,7 @@ class DashboardController extends Controller
 
     /**
      * @Meta(name="Payouts Graph", description="Get the payouts over time via a graph.", href="payouts-graph")
+     * @ResponseExample(status=200, example="responses/business/dashboard/payouts.graph-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -194,7 +223,7 @@ class DashboardController extends Controller
 
     /**
      * @Meta(name="Leaderboard", description="Get all users of a business in order of performance.", href="leaderboard")
-     *
+     * @ResponseExample(status=200, example="responses/business/dashboard/business.leaderboard-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response

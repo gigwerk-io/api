@@ -1,0 +1,29 @@
+{
+    "success": true,
+    "message": "Generating sales graph",
+    "data": {
+        "labels": [
+            "Nov",
+            "Dec",
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May"
+        ],
+        "datasets": [
+            {
+                "label": "Payouts",
+                "data": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    41
+                ]
+            }
+        ]
+    }
+}

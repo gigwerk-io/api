@@ -37,8 +37,8 @@ class Application extends Model implements Transformable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function applicationStatus()
+    public function status()
     {
-        return $this->hasOne(ApplicationStatus::class, 'status_id');
+        return $this->hasOne(ApplicationStatus::class, 'id', 'status_id');
     }
 }

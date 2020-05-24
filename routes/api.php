@@ -42,6 +42,34 @@ Route::prefix('business/{unique_id}')->group(function (){
         });
     });
 
+    Route::namespace('Business')->group(function () {
+        Route::middleware(['auth:sanctum', 'business.access', 'business.owner'])->group(function () {
+            Route::patch('profile', 'AccountController@updateProfile')->name('update.business.profile');
+            Route::patch('location', 'AccountController@updateLocation')->name('update.business.location');
+            Route::get('stripe', 'AccountController@stripeLogin')->name('business.stripe.login');
+
+            Route::get('applicants', 'ApplicantController@index')->name('all.applicants');
+            Route::get('applicant/{id}', 'ApplicantController@show')->name('show.applicant');
+            Route::post('applicant/{id}/approve', 'ApplicantController@approve')->name('approve.applicant');
+            Route::post('applicant/{id}/reject', 'ApplicantController@reject')->name('reject.applicant');
+            Route::delete('applicant/{id}', 'ApplicantController@delete')->name('delete.application');
+
+
+            Route::get('user-stats', 'DashboardController@userStats')->name('user.stats');
+            Route::get('traffic-stats', 'DashboardController@trafficStats')->name('traffic.stats');
+            Route::get('time-worked', 'DashboardController@totalTimeWorked')->name('time.worked');
+            Route::get('jobs-graph', 'DashboardController@jobsGraph')->name('jobs.graph');
+            Route::get('payouts-graph', 'DashboardController@payoutsGraph')->name('payouts.graph');
+            Route::get('leaderboard', 'DashboardController@leaderboard')->name('business.leaderboard');
+
+            Route::get('users', 'UserController@index')->name('business.all.users');
+            Route::get('user/{id}', 'UserController@show')->name('business.show.user');
+            Route::patch('user/{id}', 'UserController@update')->name('business.update.user');
+            Route::delete('user/{id}', 'UserController@delete')->name('business.remove.user');
+
+        });
+    });
+
     Route::namespace('Marketplace')->group(function (){
         Route::middleware(['auth:sanctum', 'business.access'])->group(function (){
 
@@ -58,42 +86,24 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::middleware('job.exists')->group(function (){
                 Route::get('marketplace/job/{id}', 'FeedController@show')->name('view.job');
 
+                // Must be job owner to perform actions:
+                Route::middleware('job.owner')->group(function (){
+                    Route::post('marketplace/job/{id}/approve/{freelancer_id}', 'CustomerActionsController@approve')->name('approve.freelancer');
+                    Route::post('marketplace/job/{id}/reject/{freelancer_id}', 'CustomerActionsController@reject')->name('reject.freelancer');
+                    Route::delete('marketplace/job/{id}', 'CustomerActionsController@cancel')->name('cancel.job');
+                    Route::post('marketplace/job/{id}/review', 'CustomerActionsController@review')->name('review.job');
+
+                    Route::patch('marketplace/job/{id}', 'JobRequestController@edit')->name('edit.job');
+                });
+
                 Route::middleware(['is.freelancer', 'has.payout.method'])->group(function (){
                     Route::post('marketplace/job/{id}/accept', 'FreelancerActionsController@accept')->name('accept.job');
                     Route::post('marketplace/job/{id}/withdraw', 'FreelancerActionsController@withdraw')->name('withdraw.job');
                     Route::post('marketplace/job/{id}/arrive', 'FreelancerActionsController@arrive')->name('freelancer.arrive');
                     Route::post('marketplace/job/{id}/complete', 'FreelancerActionsController@complete')->name('freelancer.complete');
                 });
-
-                // Must be job owner to perform actions:
-                Route::middleware('job.owner')->group(function (){
-                    Route::patch('marketplace/job/{id}', 'JobRequestController@edit')->name('edit.job');
-
-                    Route::post('marketplace/job/{id}/approve/{freelancer_id}', 'CustomerActionsController@approve')->name('approve.freelancer');
-                    Route::post('marketplace/job/{id}/reject/{freelancer_id}', 'CustomerActionsController@reject')->name('reject.freelancer');
-                    Route::delete('marketplace/job/{id}', 'CustomerActionsController@cancel')->name('cancel.job');
-                    Route::post('marketplace/job/{id}/review', 'CustomerActionsController@review')->name('review.job');
-                });
             });
 
-
-        });
-    });
-
-    Route::namespace('Business')->group(function () {
-        Route::middleware(['auth:sanctum', 'business.access', 'business.owner'])->group(function () {
-            Route::get('users', 'UserController@index')->name('business.all.users');
-            Route::get('user/{id}', 'UserController@show')->name('business.show.user');
-            Route::patch('user/{id}', 'UserController@update')->name('business.update.user');
-            Route::delete('user/{id}', 'UserController@delete')->name('business.remove.user');
-
-
-            Route::get('user-stats', 'DashboardController@userStats')->name('user.stats');
-            Route::get('traffic-stats', 'DashboardController@trafficStats')->name('traffic.stats');
-            Route::get('time-worked', 'DashboardController@totalTimeWorked')->name('time.worked');
-            Route::get('jobs-graph', 'DashboardController@jobsGraph')->name('jobs.graph');
-            Route::get('payouts-graph', 'DashboardController@payoutsGraph')->name('payouts.graph');
-            Route::get('leaderboard', 'DashboardController@leaderboard')->name('business.leaderboard');
 
         });
     });

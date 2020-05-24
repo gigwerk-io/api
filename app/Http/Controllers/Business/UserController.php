@@ -31,6 +31,11 @@ class UserController extends Controller
 
         $users = $business->users()->with('profile')->get();
 
+        $users->map(function (User $user){
+            $user->role = $user->pivot->role->name;
+            return $user;
+        });
+
         return ResponseFactory::success(
             'Show all users',
             $users
@@ -52,6 +57,15 @@ class UserController extends Controller
         /** @var User $user */
         $user = $business->users()->with('profile')->where('user_id', '=', $request->id)->first();
 
+        if (is_null($user)) {
+            return ResponseFactory::error(
+                'User not found',
+                null,
+                404
+            );
+        }
+
+        $user->role = $user->pivot->role->name;
         // show payouts, role, proposals, and jobs.
         $user->load(['marketplaceProposals.marketplaceJob' => function ($query) use ($business) {
             $query->where('business_id', '=', $business->id);
@@ -62,15 +76,6 @@ class UserController extends Controller
         }, 'marketplaceJobs' => function($query) use ($business) {
             $query->where('business_id', '=', $business->id);
         }]);
-
-
-        if (is_null($user)) {
-            return ResponseFactory::error(
-                'User not found',
-                null,
-                404
-            );
-        }
 
         return ResponseFactory::success(
             'Show user',

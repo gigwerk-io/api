@@ -1,0 +1,29 @@
+{
+    "success": true,
+    "message": "Generating jobs graph",
+    "data": {
+        "labels": [
+            "Nov",
+            "Dec",
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May"
+        ],
+        "datasets": [
+            {
+                "label": "Jobs",
+                "data": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    5
+                ]
+            }
+        ]
+    }
+}

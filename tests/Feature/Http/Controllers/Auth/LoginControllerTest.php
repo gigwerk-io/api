@@ -102,17 +102,6 @@ class LoginControllerTest extends TestCase
     }
 
     /**
-     * @covers ::tokenValidation
-     */
-    public function testValidateExpiredToken()
-    {
-        $response = $this->get(self::VALIDATE_ROUTE);
-        $response->assertStatus(400);
-        $response->assertJson(ResponseFactoryTest::error('Token is not valid.', ['validToken' => false]));
-        $this->document(self::DOC_PATH, self::VALIDATE_ROUTE, $response->status(), $response->getContent());
-    }
-
-    /**
      * @covers ::businessTokenValidation
      */
     public function testValidateBusinessToken()

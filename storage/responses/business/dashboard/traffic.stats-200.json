@@ -1,0 +1,8 @@
+{
+    "success": true,
+    "message": "Generating traffic stats",
+    "data": {
+        "total": 0,
+        "growth": 0
+    }
+}

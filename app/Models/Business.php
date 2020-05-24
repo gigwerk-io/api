@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Pivots\BusinessUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
@@ -37,7 +38,7 @@ class Business extends Model implements Transformable
      */
     public function users()
     {
-        return $this->belongsToMany(User::class, 'business_user')->withPivot('role_id');
+        return $this->belongsToMany(User::class, 'business_user')->using(BusinessUser::class)->withPivot('role_id');
     }
 
     /**

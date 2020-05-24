@@ -1,0 +1,41 @@
+{
+    "success": true,
+    "message": "View all applicants",
+    "data": {
+        "id": 3,
+        "user_id": 4,
+        "business_id": 1,
+        "status_id": 2,
+        "created_at": "2020-05-22T00:32:01.000000Z",
+        "updated_at": "2020-05-22T00:32:01.000000Z",
+        "status": {
+            "id": 2,
+            "name": "Pending"
+        },
+        "user": {
+            "id": 4,
+            "first_name": "Nia",
+            "last_name": "Madge",
+            "username": "applicant_one",
+            "email": "alford78@example.com",
+            "phone": "363-992-2699 x634",
+            "apn_token": null,
+            "fcm_token": null,
+            "email_verified_at": "2020-05-22T00:32:01.000000Z",
+            "last_seen_at": null,
+            "deleted_at": null,
+            "created_at": "2020-05-22T00:32:01.000000Z",
+            "updated_at": "2020-05-22T00:32:01.000000Z",
+            "isActive": false,
+            "lastSeen": null,
+            "profile": {
+                "id": 4,
+                "user_id": 4,
+                "image": "https:\/\/i.picsum.photos\/id\/691\/600\/600.jpg",
+                "description": "Nihil error ut omnis dolorum quaerat sunt enim quisquam.",
+                "created_at": "2020-05-22T00:32:01.000000Z",
+                "updated_at": "2020-05-22T00:32:01.000000Z"
+            }
+        }
+    }
+}

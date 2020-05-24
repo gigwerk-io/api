@@ -86,8 +86,7 @@ Check if a users session token is still valid.
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
-|`GET`|`/validate`|`false`|
-
+|`GET`|`/validate`|`true`|
 
 
 
@@ -102,23 +101,6 @@ Content
     "message": "Token is valid.",
     "data": {
         "validToken": true
-    }
-}
-
-```
-
-> {danger} Example Error Response
-
-Code `400`
-
-Content
-
-```json
-{
-    "success": false,
-    "message": "Token is not valid.",
-    "data": {
-        "validToken": false
     }
 }
 

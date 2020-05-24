@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enum\User\Role;
+use App\Models\Pivots\BusinessUser;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -66,7 +67,9 @@ class User extends Authenticatable
      */
     public function businesses()
     {
-        return $this->belongsToMany(Business::class, 'business_user', 'user_id', 'business_id')->withPivot('role_id');
+        return $this->belongsToMany(Business::class, 'business_user', 'user_id', 'business_id')
+            ->using(BusinessUser::class)
+            ->withPivot('role_id');
     }
 
     /**
@@ -209,15 +212,6 @@ class User extends Authenticatable
     public function getPrimaryPaymentMethodAttribute()
     {
         return $this->paymentMethods()->where('default', '=', true)->first();
-    }
-
-    /**
-     * A user can have a role.
-     *
-     * @return mixed
-     */
-    public function getRoleAttribute(){
-        return $this->userRole()->name;
     }
 
     /**
