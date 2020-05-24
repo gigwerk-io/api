@@ -22,10 +22,9 @@ module.exports = {
         "issues",
     ],
     "scopes": [
-        "admin",
-        "core-app",
+        "default-app",
         "dashboard",
-        "fundraiser",
+        "gigwerk-app",
         "tech-debt",
         "website"
     ],
