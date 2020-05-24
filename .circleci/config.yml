@@ -29,10 +29,10 @@ jobs:
           command: 'sudo service redis-server start'
       - run:
           name: Install MySQL Client
-          command: 'sudo apt-get install default-mysql-client'
+          command: 'sudo apt-get install mariadb-client'
       - run:
           name: Install MySQL Server
-          command: 'sudo apt-get -y install mysql-server'
+          command: 'sudo apt-get -y install mariadb-server'
       # Download and cache dependencies
       # composer cache
       - restore_cache:
