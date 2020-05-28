@@ -10,6 +10,7 @@ use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
+use App\Models\Business;
 use App\Models\User;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Http\Request;
@@ -84,7 +85,7 @@ class LoginController extends Controller
         return ResponseFactory::success(
             'User has logged in',
             ['user' => $user, 'token' => $token->plainTextToken],
-        );
+            );
     }
 
 
@@ -103,14 +104,18 @@ class LoginController extends Controller
         $this->validate($request, [
             'username' => 'required',
             'password' => 'required',
+            'unique_id' => 'exists:businesses,unique_id'
         ]);
 
         $uuid = $request->unique_id;
 
         // Checks if a users is apart of the business
-        $user = $this->userRepository->whereHas('businesses', function ($query) use ($uuid) {
-            return $query->where('unique_id', '=', $uuid);
-        })->findByUsernameOrEmail($request->username);
+        /** @var Business $business */
+        $business = $this->businessRepository->findWhere(['unique_id' => $request->unique_id])->first();
+
+        $user = $business->users()->where('username', '=', $request->username)
+            ->orWhere('email', '=', $request->username)
+            ->first();
 
         if (is_null($user)) {
             return ResponseFactory::error(
@@ -120,14 +125,23 @@ class LoginController extends Controller
             );
         }
 
+        if (!$this->hasher->check($request->password, $user->password)) {
+            return ResponseFactory::error(
+                'Incorrect username or password.',
+                null,
+                401
+            );
+        }
+
         $user->load(['profile']);
+        $user->role = $user->pivot->role->name;
 
         $token = $user->createToken('login', [$uuid]);
 
         return ResponseFactory::success(
             'User has logged in',
             ['user' => $user, 'token' => $token->plainTextToken],
-        );
+            );
     }
 
     /**
