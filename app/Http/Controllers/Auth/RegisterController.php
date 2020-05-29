@@ -8,12 +8,11 @@ use App\Annotation\Meta;
 use App\Annotation\ResponseExample;
 use App\Contracts\Geolocation\Geolocation;
 use App\Contracts\Repositories\ApplicationRepository;
-use App\Contracts\Repositories\BusinessInvitationRepository;
 use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Enum\User\ApplicationStatus;
 use App\Enum\User\Role;
-use App\Events\User\UserHasRegistered;
+use App\Events\User\Registered;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\BusinessRegisterRequest;
@@ -24,7 +23,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use LVR\State\Abbr;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -104,7 +102,7 @@ class RegisterController extends Controller
         $user->profile()->create();
 
 
-        $this->eventDispatcher->dispatch(new UserHasRegistered($user));
+        $this->eventDispatcher->dispatch(new Registered($user));
 
         $user->load(['profile']);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Chat;
 
 use App\Annotation\Group;
 use App\Annotation\Meta;
+use App\Annotation\ResponseExample;
 use App\Contracts\Repositories\ChatRoomRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Factories\ResponseFactory;
@@ -12,6 +13,7 @@ use App\Models\Business;
 use App\Models\ChatRoom;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * @Group(name="Room", description="Manage a user's chat rooms.")
@@ -36,6 +38,7 @@ class RoomController extends Controller
 
     /**
      * @Meta(name="All Chat Rooms", description="View a list of a user's chat rooms.", href="all-rooms")
+     * @ResponseExample(status=200, example="responses/chat/all.chat.rooms-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -59,6 +62,7 @@ class RoomController extends Controller
 
     /**
      * @Meta(name="View Chat Room", description="View a single chat room", href="single-room")
+     * @ResponseExample(status=200, example="responses/chat/single.chat.room-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -68,7 +72,7 @@ class RoomController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
-        $this->validate($request, ['room_id' => ['required', 'exists:chat_rooms,id']]);
+        $this->validate($request, ['room_id' => ['exists:chat_rooms,id']]);
 
         /** @var ChatRoom $room */
         $room = $this->chatRoomRepository->with('messages.sender.profile')
@@ -88,6 +92,7 @@ class RoomController extends Controller
 
     /**
      * @Meta(name="Create Chat Room", description="Find or create a chat room between two users.", href="create-room")
+     * @ResponseExample(status=200, example="responses/chat/find.chat.room-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -100,12 +105,20 @@ class RoomController extends Controller
         /** @var Business $business */
         $business = $request->get('business');
         $this->validate($request, [
-            'username' => ['required', 'exists:users,username']
+            'username' => ['exists:users,username']
         ]);
 
-        $other = $this->userRepository->whereHas('business', function ($query) use ($business){
+        $other = $this->userRepository->whereHas('businesses', function ($query) use ($business){
             $query->where('id', '=', $business->id);
         })->findByField('username', $request->username)->first();
+
+        if (is_null($other)) {
+            return ResponseFactory::error(
+                'User not found.',
+                null,
+                404
+            );
+        }
 
         if ($user->id == $other->id) {
             return ResponseFactory::error(
@@ -113,13 +126,16 @@ class RoomController extends Controller
             );
         }
 
+
         $room = $this->chatRoomRepository->findWhereUsers($user, $other);
 
         if (!is_null($room)) {
             return ResponseFactory::success('Find chat room', ['id' => $room->id]);
         }
 
+        $data['id'] = Str::uuid();
         $data['users'] = [$user->username, $other->username];
+        $data['business_id'] = $business->id;
         $room = $this->chatRoomRepository->create($data);
 
         return ResponseFactory::success('Find chat room', ['id' => $room->id]);

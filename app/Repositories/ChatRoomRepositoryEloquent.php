@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Criteria\Chat\RoomParticipantCriteria;
+use App\Criteria\Chat\RoomUsersCriteria;
 use App\Models\User;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -49,4 +50,19 @@ class ChatRoomRepositoryEloquent extends BaseRepository implements ChatRoomRepos
         $this->pushCriteria(new RoomParticipantCriteria($user));
         return $this;
     }
+
+    /**
+     * Get a chat room by finding the users
+     *
+     * @param User $userOne
+     * @param User $userTwo
+     * @return mixed
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
+     */
+    public function findWhereUsers(User $userOne, User $userTwo)
+    {
+        $this->pushCriteria(new RoomUsersCriteria($userOne, $userTwo));
+        return $this->first();
+    }
+
 }

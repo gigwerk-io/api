@@ -20,7 +20,7 @@ class ChatMessage extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = ['sender_id', 'room_id', 'text', 'read'];
+    protected $fillable = ['sender_id', 'chat_room_id', 'text', 'read'];
 
     /**
      * The attributes that should be cast.
@@ -28,4 +28,24 @@ class ChatMessage extends Model implements Transformable
      * @var array
      */
     protected $casts = ['read' => 'bool'];
+
+    /**
+     * A message belongs to a user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function room()
+    {
+        return $this->belongsTo(ChatRoom::class, 'chat_room_id');
+    }
+
+    /**
+     * The sender of the message
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function sender()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

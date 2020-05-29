@@ -70,6 +70,15 @@ Route::prefix('business/{unique_id}')->group(function (){
         });
     });
 
+    Route::namespace('Chat')->group(function (){
+        Route::middleware(['auth:sanctum', 'business.access'])->group(function (){
+            Route::get('rooms', 'RoomController@index')->name('all.chat.rooms');
+            Route::get('room/{room_id}', 'RoomController@show')->name('single.chat.room');
+            Route::get('chat/{username}', 'RoomController@store')->name('find.chat.room');
+            Route::post('message/{room_id}', 'MessageController@store')->name('send.message');
+        });
+    });
+
     Route::namespace('Marketplace')->group(function (){
         Route::middleware(['auth:sanctum', 'business.access'])->group(function (){
 

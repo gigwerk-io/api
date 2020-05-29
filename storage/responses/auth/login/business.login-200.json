@@ -4,28 +4,28 @@
     "data": {
         "user": {
             "id": 1,
-            "first_name": "Elsa",
-            "last_name": "Angelica",
+            "first_name": "Laney",
+            "last_name": "Cassandra",
             "username": "business_admin",
-            "email": "harris.andres@example.com",
-            "phone": "817.825.2416 x943",
+            "email": "kylee63@example.org",
+            "phone": "203-655-5402",
             "apn_token": null,
             "fcm_token": null,
-            "email_verified_at": "2020-05-19T01:15:21.000000Z",
+            "email_verified_at": "2020-05-19T00:33:07.000000Z",
             "last_seen_at": null,
             "deleted_at": null,
-            "created_at": "2020-05-19T01:15:21.000000Z",
-            "updated_at": "2020-05-19T01:15:21.000000Z",
+            "created_at": "2020-05-19T00:33:07.000000Z",
+            "updated_at": "2020-05-19T00:33:07.000000Z",
             "isActive": false,
             "profile": {
                 "id": 1,
                 "user_id": 1,
-                "image": "https:\/\/i.picsum.photos\/id\/310\/600\/600.jpg",
-                "description": "Nemo repellat et harum ea voluptatem perferendis rerum.",
-                "created_at": "2020-05-19T01:15:21.000000Z",
-                "updated_at": "2020-05-19T01:15:21.000000Z"
+                "image": "https:\/\/i.picsum.photos\/id\/401\/600\/600.jpg",
+                "description": "Et in aperiam omnis.",
+                "created_at": "2020-05-19T00:33:07.000000Z",
+                "updated_at": "2020-05-19T00:33:07.000000Z"
             }
         },
-        "token": "5|AJ9GAnSCceXdBveWjyRut63bCYMqjCm04PXL7SfhuZ4mtnVGfFiya8Xq1HynCMztaJ6HfZIn1wOH5fxd"
+        "token": "6|h1WzpSZuKyKCM5SiGox1wHZJkASyn5rCXkcZC8qqLAY8DRaBIYKFGOhNeGhC95xehoDFicKYpJgZJeEX"
     }
 }

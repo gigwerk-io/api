@@ -13,6 +13,10 @@
         - [Dashboard](/{{route}}/{{version}}/business/dashboard)
         - [Users](/{{route}}/{{version}}/business/users)
     
+    - [Chat](#)
+        - [Room](/{{route}}/{{version}}/chat/room)
+        - [Message](/{{route}}/{{version}}/chat/message)
+    
     - [Marketplace](#)
         - [Job Request](/{{route}}/{{version}}/marketplace/job-request)
         - [Feed](/{{route}}/{{version}}/marketplace/feed)

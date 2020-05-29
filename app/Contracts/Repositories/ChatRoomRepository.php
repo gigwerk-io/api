@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Repositories;
 
+use App\Models\ChatRoom;
 use App\Models\User;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
@@ -18,5 +19,10 @@ interface ChatRoomRepository extends RepositoryInterface
      */
     public function whereParticipant(User $user);
 
-    // public function findWhereUsers(User $userOne, User $userTwo);
+    /**
+     * @param User $userOne
+     * @param User $userTwo
+     * @return ChatRoom
+     */
+    public function findWhereUsers(User $userOne, User $userTwo);
 }

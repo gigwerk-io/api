@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Chat;
 
 use App\Annotation\Group;
 use App\Annotation\Meta;
+use App\Annotation\ResponseExample;
 use App\Contracts\Repositories\ChatRoomRepository;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
@@ -29,6 +30,7 @@ class MessageController extends Controller
 
     /**
      * @Meta(name="Send Message", description="Send a message to another user.", href="send-message")
+     * @ResponseExample(status=200, example="responses/chat/send.message-201.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -41,8 +43,8 @@ class MessageController extends Controller
         /** @var Business $business */
         $business = $request->get('business');
         $this->validate($request, [
-            'message' => 'required',
-            'room_id' => ['required', 'exists:chat_rooms,id']
+            'message' => ['required'],
+            'room_id' => ['exists:chat_rooms,id']
         ]);
 
         /** @var ChatRoom $room */
@@ -61,7 +63,7 @@ class MessageController extends Controller
 
         $room->touch();
         $message = $room->messages()->create([
-            'sender_id' => $this->user->id,
+            'sender_id' => $user->id,
             'text' => $request->message
         ]);
 

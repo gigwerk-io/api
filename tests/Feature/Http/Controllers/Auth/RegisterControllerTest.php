@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers\Auth;
 
 use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\UserRepository;
+use App\Events\User\Registered;
 use App\Events\User\UserHasRegistered;
 use App\Models\Business;
 use App\Models\User;
@@ -33,7 +34,7 @@ class RegisterControllerTest extends TestCase
      */
     public function testRegisterUser()
     {
-        // $this->expectsEvents(UserHasRegistered::class);
+        $this->expectsEvents(Registered::class);
         $str = Str::random(10);
         $user = UserFactory::new()->withAttributes(['username' => $str, 'email' => $str . '@mail.com'])->make();
         $response = $this->post(route(self::USER_REGISTER_ROUTE), [

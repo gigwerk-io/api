@@ -17,11 +17,12 @@ class CreateChatMessagesTable extends Migration
 	{
 		Schema::create('chat_messages', function(Blueprint $table) {
             $table->increments('id');
-            $table->uuid('room_id');
+            $table->uuid('chat_room_id');
             $table->unsignedBigInteger('sender_id');
             $table->mediumText('text');
+            $table->boolean('read')->default(false);
 
-            $table->foreign('room_id')->references('id')->on('chat_rooms');
+            $table->foreign('chat_room_id')->references('id')->on('chat_rooms');
             $table->foreign('sender_id')->references('id')->on('users');
             $table->timestamps();
 		});
