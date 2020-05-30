@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events\User\UserHasRegistered;
 use App\Listeners\User\SendWelcomeEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -17,7 +16,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        UserHasRegistered::class => [
+        Registered::class => [
             SendWelcomeEmail::class
         ]
     ];

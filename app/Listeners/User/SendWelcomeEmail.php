@@ -2,7 +2,7 @@
 
 namespace App\Listeners\User;
 
-use App\Events\User\UserHasRegistered;
+use App\Events\User\Registered;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -21,10 +21,10 @@ class SendWelcomeEmail
     /**
      * Handle the event.
      *
-     * @param  UserHasRegistered  $event
+     * @param  Registered  $event
      * @return void
      */
-    public function handle(UserHasRegistered $event)
+    public function handle(Registered $event)
     {
         //
     }
