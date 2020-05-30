@@ -26,6 +26,12 @@ View the active jobs on the marketplace feed
 |:-|:-|:-|
 |`GET`|`/business/{unique_id}/marketplace/feed`|`true`|
 
+### Query Params
+|Name|Type|Status|Description|
+|:-|:-|:-|:-|
+|`lat`|`float`|`optional`|`The latitude of the users viewing the feed.`|
+|`long`|`float`|`optional`|`The longitude of the users viewing the feed.`|
+
 
 
 > {success} Example Success Response
@@ -799,6 +805,12 @@ Show the details of a single job request.
 |Method|URI|Authentication|
 |:-|:-|:-|
 |`GET`|`/business/{unique_id}/marketplace/job/{id}`|`true`|
+
+### Query Params
+|Name|Type|Status|Description|
+|:-|:-|:-|:-|
+|`lat`|`float`|`optional`|`The latitude of the user viewing the feed.`|
+|`long`|`float`|`optional`|`The longitude of the user viewing the feed.`|
 
 
 

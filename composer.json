@@ -32,11 +32,11 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "league/html-to-markdown": "^4.9",
         "lukeraymonddowning/poser": "^4.0",
-        "minime/annotations": "dev-master",
         "predis/predis": "^1.1",
         "prettus/l5-repository": "^2.6",
         "pusher/pusher-php-server": "~4.0",
         "sentry/sentry-laravel": "^1.7",
+        "solomon04/documentation": "^0.2.0",
         "stevebauman/location": "^5.0",
         "stripe/stripe-php": "^7.32"
     },

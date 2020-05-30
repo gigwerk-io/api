@@ -1,7 +1,6 @@
 - ## Getting Started
-  - [Overview](/{{route}}/{{version}}/overview)
-  - [Enum Data](/{{route}}/{{version}}/enums)
-  - [Models](/{{route}}/{{version}}/models)
+    - [Overview](/{{route}}/{{version}}/overview)
+  
 - ## Endpoints
     - [Auth](#)
         - [Register](/{{route}}/{{version}}/auth/register)

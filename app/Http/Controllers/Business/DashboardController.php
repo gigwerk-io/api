@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Business;
 
-use App\Annotation\Group;
-use App\Annotation\Meta;
-use App\Annotation\ResponseExample;
+use Solomon04\Documentation\Annotation\Group;
+use Solomon04\Documentation\Annotation\Meta;
+use Solomon04\Documentation\Annotation\ResponseExample;
 use App\Contracts\Repositories\MarketplaceJobRepository;
 use App\Contracts\Repositories\PaymentRepository;
 use App\Enum\Marketplace\ProposalStatus;

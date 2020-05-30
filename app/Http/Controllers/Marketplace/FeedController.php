@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Marketplace;
 
-use App\Annotation\Group;
-use App\Annotation\Meta;
-use App\Annotation\ResponseExample;
+use Solomon04\Documentation\Annotation\Group;
+use Solomon04\Documentation\Annotation\Meta;
+use Solomon04\Documentation\Annotation\ResponseExample;
 use App\Contracts\Geolocation\Geolocation;
 use App\Contracts\Repositories\MarketplaceJobRepository;
 use App\Contracts\Repositories\MarketplaceLocationRepository;
@@ -15,6 +15,7 @@ use App\Models\Business;
 use App\Models\MarketplaceJob;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Solomon04\Documentation\Annotation\QueryParam;
 use Stevebauman\Location\Location;
 
 /**
@@ -57,6 +58,8 @@ class FeedController extends Controller
 
     /**
      * @Meta(name="Job Feed", description="View the active jobs on the marketplace feed", href="feed")
+     * @QueryParam(name="lat", type="float", status="optional", description="The latitude of the users viewing the feed.", example="44.33123")
+     * @QueryParam(name="long", type="float", status="optional", description="The longitude of the users viewing the feed.", example="-92.13123")
      * @ResponseExample(status=200, example="responses/marketplace/feed/job.feed-200.json")
      *
      * @param Request $request
@@ -127,6 +130,8 @@ class FeedController extends Controller
 
     /**
      * @Meta(name="Show Job", description="Show the details of a single job request.", href="view-job")
+     * @QueryParam(name="lat", type="float", status="optional", description="The latitude of the user viewing the feed.", example="44.33123")
+     * @QueryParam(name="long", type="float", status="optional", description="The longitude of the user viewing the feed.", example="-92.13123")
      * @ResponseExample(status=200, example="responses/marketplace/feed/view.job-200.json")
      *
      * @param Request $request

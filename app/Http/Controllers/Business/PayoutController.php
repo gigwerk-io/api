@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Business;
 
-use App\Annotation\Meta;
+use Solomon04\Documentation\Annotation\Meta;
 use App\Contracts\Repositories\PayoutRepository;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;

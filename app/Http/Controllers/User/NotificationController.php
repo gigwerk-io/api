@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Annotation\Group;
+use Solomon04\Documentation\Annotation\Group;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
 use App\Models\Business;

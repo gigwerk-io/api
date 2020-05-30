@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Business;
 
-use App\Annotation\Group;
-use App\Annotation\Meta;
-use App\Annotation\ResponseExample;
+use Solomon04\Documentation\Annotation\Group;
+use Solomon04\Documentation\Annotation\Meta;
+use Solomon04\Documentation\Annotation\ResponseExample;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
 use App\Models\Business;

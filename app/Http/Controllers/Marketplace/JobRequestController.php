@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Marketplace;
 
-use App\Annotation\BodyParam;
-use App\Annotation\Group;
-use App\Annotation\Meta;
-use App\Annotation\ResponseExample;
+use Solomon04\Documentation\Annotation\BodyParam;
+use Solomon04\Documentation\Annotation\Group;
+use Solomon04\Documentation\Annotation\Meta;
+use Solomon04\Documentation\Annotation\ResponseExample;
 use App\Contracts\Geolocation\Geolocation;
 use App\Contracts\Image\Base64Image;
 use App\Contracts\Repositories\BusinessRepository;
