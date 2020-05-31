@@ -116,4 +116,20 @@ Route::prefix('business/{unique_id}')->group(function (){
 
         });
     });
+
+    Route::namespace('User')->group(function (){
+        Route::middleware(['auth:sanctum', 'business.access'])->group(function (){
+            Route::post('apn', 'AccountController@updateApnToken')->name('save.apn.token');
+            Route::post('fcm', 'AccountController@updateFcmToken')->name('save.fcm.token');
+            Route::post('preferences', 'AccountController@updateNotificationPreferences')->name('update.notification.preferences');
+
+            Route::get('profile/{user_id}', 'ProfileController@show')->name('show.user.profile');
+        });
+    });
+});
+
+Route::namespace('User')->group(function (){
+    Route::middleware(['auth:sanctum'])->group(function (){
+        Route::patch('profile', 'ProfileController@update')->name('update.user.profile');
+    });
 });

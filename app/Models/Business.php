@@ -38,7 +38,8 @@ class Business extends Model implements Transformable
      */
     public function users()
     {
-        return $this->belongsToMany(User::class, 'business_user')->using(BusinessUser::class)->withPivot('role_id');
+        return $this->belongsToMany(User::class, 'business_user')->using(BusinessUser::class)
+            ->withPivot(['role_id', 'apn_token', 'fcm_token', 'email_notifications', 'sms_notifications', 'push_notifications']);
     }
 
     /**

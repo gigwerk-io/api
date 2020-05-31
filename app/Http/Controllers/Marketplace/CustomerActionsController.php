@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Marketplace;
 
+use App\Models\MarketplaceProposal;
+use App\Notifications\Marketplace\CustomerApprovedWorkerNotification;
 use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
@@ -66,6 +68,7 @@ class CustomerActionsController extends Controller
         /** @var MarketplaceJob $marketplaceJob */
         $marketplaceJob = $request->get('job');
 
+        /** @var MarketplaceProposal $proposal */
         $proposal = $marketplaceJob->proposals()
             ->where('user_id', '=', $request->freelancer_id)
             ->where('status_id', '=', ProposalStatus::PENDING)
@@ -81,7 +84,7 @@ class CustomerActionsController extends Controller
 
         $marketplaceJob->update(['status_id' => Status::APPROVED]);
 
-        // $this->eventDispatcher->dispatch(new CustomerHasAcceptedWorker($this->marketplace, $this->userRepository->find($freelancer_id)));
+        $proposal->user->notify(new CustomerApprovedWorkerNotification($marketplaceJob, $request->get('business')));
 
         return ResponseFactory::success(
             'You have approved this worker'

@@ -69,7 +69,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Business::class, 'business_user', 'user_id', 'business_id')
             ->using(BusinessUser::class)
-            ->withPivot('role_id');
+            ->withPivot(['role_id', 'apn_token', 'fcm_token', 'email_notifications', 'sms_notifications', 'push_notifications']);
     }
 
     /**

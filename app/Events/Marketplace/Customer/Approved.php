@@ -2,6 +2,8 @@
 
 namespace App\Events\Marketplace\Customer;
 
+use App\Models\MarketplaceJob;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,13 +17,25 @@ class Approved
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
+     * @var MarketplaceJob
+     */
+    public $marketplaceJob;
+
+    /**
+     * @var User
+     */
+    public $freelancer;
+
+    /**
      * Create a new event instance.
      *
-     * @return void
+     * @param MarketplaceJob $marketplaceJob
+     * @param User $freelancer
      */
-    public function __construct()
+    public function __construct(MarketplaceJob $marketplaceJob, User $freelancer)
     {
-        //
+        $this->marketplaceJob = $marketplaceJob;
+        $this->freelancer = $freelancer;
     }
 
     /**

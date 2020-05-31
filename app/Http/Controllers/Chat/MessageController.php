@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Chat;
 
+use App\Events\Chat\MessageSent;
+use Illuminate\Contracts\Events\Dispatcher;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
 use Solomon04\Documentation\Annotation\ResponseExample;
@@ -23,9 +25,15 @@ class MessageController extends Controller
      */
     private $chatRoomRepository;
 
-    public function __construct(ChatRoomRepository $chatRoomRepository)
+    /**
+     * @var Dispatcher
+     */
+    private $eventDispatcher;
+
+    public function __construct(ChatRoomRepository $chatRoomRepository, Dispatcher $eventDispatcher)
     {
         $this->chatRoomRepository = $chatRoomRepository;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -67,7 +75,8 @@ class MessageController extends Controller
             'text' => $request->message
         ]);
 
-        // $this->eventDispatcher->dispatch()
+        $this->eventDispatcher->dispatch(new MessageSent($room->id, $message->text, $message->sender));
+
         return ResponseFactory::success('Message sent', $message, 201);
     }
 }

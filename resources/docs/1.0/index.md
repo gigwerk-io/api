@@ -22,4 +22,8 @@
         - [Customer Actions](/{{route}}/{{version}}/marketplace/customer-actions)
         - [Freelancer Actions](/{{route}}/{{version}}/marketplace/freelancer-actions)
     
+    - [User](#)
+        - [Account](/{{route}}/{{version}}/user/account)
+        - [Profile](/{{route}}/{{version}}/user/profile)
+    
   

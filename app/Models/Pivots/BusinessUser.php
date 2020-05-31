@@ -9,6 +9,25 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class BusinessUser extends Pivot
 {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+     protected $fillable = ['business_id', 'user_id', 'role_id', 'apn_token', 'fcm_token', 'email_notifications', 'sms_notifications', 'push_notifications'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_notifications' => 'bool',
+        'sms_notifications'=> 'bool',
+        'push_notifications'=> 'bool'
+    ];
+
     /**
      * The table associated with the model.
      *
@@ -29,7 +48,7 @@ class BusinessUser extends Pivot
     /**
      * A user can have a role in a business
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function role()
     {

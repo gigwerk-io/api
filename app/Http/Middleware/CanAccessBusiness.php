@@ -37,6 +37,10 @@ class CanAccessBusiness
     public function handle($request, Closure $next)
     {
         $business = $this->businessRepository->findWhere(['unique_id' => $request->unique_id])->first();
+        if (is_null($business)) {
+            return ResponseFactory::error('This business does not exist.', null, 404);
+        }
+
         $hasAccess = $this->user->businesses()->where('business_id', '=', $business->id)->exists();
 
         if(!$hasAccess){

@@ -17,6 +17,11 @@ class CreateBusinessUserTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('business_id');
             $table->unsignedBigInteger('role_id');
+            $table->string('apn_token')->nullable();
+            $table->string('fcm_token')->nullable();
+            $table->boolean('email_notifications')->default(true);
+            $table->boolean('sms_notifications')->default(true);
+            $table->boolean('push_notifications')->default(true);
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('business_id')->references('id')->on('businesses');
