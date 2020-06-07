@@ -23,7 +23,7 @@ jobs:
           command: 'sudo docker-php-ext-install zip mysqli pdo_mysql pdo_sqlite'
       - run:
           name: Install PHP Photo Extenstion
-          command: 'sudo docker-php-ext-install -j$(nproc) gd'
+          command: 'sudo docker-php-ext-install -j$(nproc) gd intl'
       - run:
           name: Start Redis
           command: 'sudo service redis-server start'

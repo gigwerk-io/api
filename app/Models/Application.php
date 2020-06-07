@@ -41,4 +41,14 @@ class Application extends Model implements Transformable
     {
         return $this->hasOne(ApplicationStatus::class, 'id', 'status_id');
     }
+
+    /**
+     * The users average Gigwerk rating.
+     *
+     * @return mixed
+     */
+    public function getAverageRatingAttribute()
+    {
+        return $this->user->marketplaceProposals()->avg('rating');
+    }
 }

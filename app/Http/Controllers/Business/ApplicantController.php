@@ -47,6 +47,7 @@ class ApplicantController extends Controller
         $business = $request->get('business');
 
         $applicant = $business->applications()->with(['status', 'user.profile'])->where('id', '=', $request->id)->first();
+        $applicant->append('averageRating');
 
         if(is_null($applicant)) {
             return ResponseFactory::error(
