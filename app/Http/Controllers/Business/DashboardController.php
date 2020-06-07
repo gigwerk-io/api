@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Business;
 
+use App\Enum\User\ApplicationStatus;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
 use Solomon04\Documentation\Annotation\ResponseExample;
@@ -50,175 +51,90 @@ class DashboardController extends Controller
     }
 
     /**
-     * @Meta(name="User Stats", description="Get user statistics like total count and growth.", href="user-stats")
-     * @ResponseExample(status=200, example="responses/business/dashboard/user.stats-200.json")
+     * @Meta(name="Stats", href="stats", description="Get the statistics to present on the business dashboard.")
+     * @ResponseExample(status=200, example="responses/business/dashboard/stats-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function userStats(Request $request)
+    public function stats(Request $request)
     {
         /** @var Business $business */
         $business = $request->get('business');
 
-        $users = $business->users()->get();
+        $marketplaceJobs = $business->marketplaceJobs()->with('payment')->get();
 
-        $total = $users->count();
-        $month = Carbon::now()->format('M');
-        $lastMonth = Carbon::now()->subMonth()->format('M');
-
-        $group = $users->groupBy(function ($val) {
-            return Carbon::parse($val->created_at)->format('M');
+        $totalUsers = $business->users()->count();
+        $totalJobs = $marketplaceJobs->count();
+        $applicants = $business->applications()->where('status_id', '=', ApplicationStatus::PENDING)->count();
+        $payments = $marketplaceJobs->sum(function (MarketplaceJob $marketplaceJob) {
+            return $marketplaceJob->payment()->sum('amount');
         });
 
-        if (isset($group[$month])) {
-            $currentMonthTotal = count($group[$month]);
-        } else {
-            $currentMonthTotal = 0;
-        }
+        $data = [
+            'applicants' => $applicants,
+            'jobs' => $totalJobs,
+            'payments' => $payments,
+            'users' => $totalUsers
+        ];
 
-        if (isset($group[$lastMonth])) {
-            $lastMonthTotal = count($group[$lastMonth]);
-        } else {
-            $lastMonthTotal = 1;
-        }
-
-        $growth = ($currentMonthTotal - $lastMonthTotal)/$lastMonthTotal * 100;
-
-        return ResponseFactory::success(
-            'Generating user stats',
-            ['total' => $total, 'growth' => $growth]
-        );
+        return ResponseFactory::success('Show dashboard stats', $data);
     }
 
     /**
-     * @Meta(name="Traffic Stats", description="Get the your business app usage statistics.", href="traffic-stats")
-     * @ResponseExample(status=200, example="responses/business/dashboard/traffic.stats-200.json")
+     * @Meta(name="Graphs", href="graphs", description="Get the graph data to present on the business dashboard.")
+     * @ResponseExample(status=200, example="responses/business/dashboard/graphs-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function trafficStats(Request $request)
+    public function graphs(Request $request)
     {
         /** @var Business $business */
         $business = $request->get('business');
 
-        $users = $business->users()->get();
-
-        $users = $users->filter(function (User $user){
-            return $user->isActive;
-        });
-
-
-
-        return ResponseFactory::success(
-            'Generating traffic stats',
-            ['total' => $users->count(), 'growth' => 0]
-        );
-    }
-
-    /**
-     * @Meta(name="Time Worked", description="Show the total amount of time worked in minutes.", href="time-worked")
-     * @ResponseExample(status=200, example="responses/business/dashboard/time.worked-200.json")
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function totalTimeWorked(Request $request)
-    {
-        /** @var Business $business */
-        $business = $request->get('business');
-        $jobs = $business->marketplaceJobs()->with('proposals')->where(['status_id' => Status::COMPLETE])->get();
-
-        $sum = $jobs->sum(function(MarketplaceJob $job){
-            $proposal = $job->proposals()->where(['marketplace_id' => $job->id, 'status_id' => ProposalStatus::APPROVED])->first();
-            $startTime = Carbon::parse($proposal->arrived_at)->timestamp;
-            $finishTime = Carbon::parse($proposal->completed_at)->timestamp;
-            return $finishTime - $startTime;
-        });
-
-        return ResponseFactory::success(
-            'Generating total time worked in minutes',
-            ['minutes' => ($sum / 60)]
-        );
-    }
-
-    /**
-     * @Meta(name="Jobs Graph", description="Get the jobs over time via a graph.", href="jobs-graph")
-     * @ResponseExample(status=200, example="responses/business/dashboard/jobs.graph-200.json")
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function jobsGraph(Request $request)
-    {
-        /** @var Business $business */
-        $business = $request->get('business');
+        $marketplaceJobs = $business->marketplaceJobs()->with('payout')->get();
 
         $months = [];
+        $payments = [];
         $jobs = [];
-        $label = "Jobs";
+
         for ($i = 6; $i >= 0; $i--) {
             $months[] = Carbon::now()->subMonths($i)->format('M');
         }
 
         foreach ($months as $month) {
-            $jobs[] = $business->marketplaceJobs()->whereIn($this->databaseManager->raw('MONTH(created_at)'), [Carbon::parse($month)->format('m')])->count();
+            $filteredJobs = $marketplaceJobs->filter(function (MarketplaceJob $marketplaceJob) use ($month){
+                return Carbon::parse($month)->month == Carbon::parse($marketplaceJob->created_at)->month;
+            });
+
+            $jobs[] = $filteredJobs->count();
+            $payments[] = $filteredJobs->sum(function (MarketplaceJob $marketplaceJob) {
+                return $marketplaceJob->payment()->sum('amount');
+            });
         }
 
-        $chartData = [
-            "labels" => $months,
-            "datasets" => [
+        $jobsData = [
+            'labels' => $months,
+            'datasets' => [
                 (object)[
-                    "label" => $label,
-                    "data" => $jobs
+                    'label' => 'Jobs',
+                    'data' => $jobs
                 ]
             ]
         ];
-        return ResponseFactory::success(
-            'Generating jobs graph',
-            $chartData
-        );
-    }
 
-    /**
-     * @Meta(name="Payouts Graph", description="Get the payouts over time via a graph.", href="payouts-graph")
-     * @ResponseExample(status=200, example="responses/business/dashboard/payouts.graph-200.json")
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function payoutsGraph(Request $request)
-    {
-        /** @var Business $business */
-        $business = $request->get('business');
-
-        $months = [];
-        $sales = [];
-        $label = "Payouts";
-        for ($i = 6; $i >= 0; $i--) {
-            $months[] = Carbon::now()->subMonths($i)->format('M');
-        }
-
-        foreach ($months as $month) {
-            $sales[] = $this->paymentRepository->whereHas('marketplaceJob', function ($query) use ($business){
-                $query->where('business_id', '=', $business->id);
-            })->findWhereIn($this->databaseManager->raw('MONTH(created_at)'), [Carbon::parse($month)->format('m')])->sum('amount');
-        }
-
-        $chartData = [
-            "labels" => $months,
-            "datasets" => [
+        $payments = [
+            'labels' => $months,
+            'datasets' => [
                 (object)[
-                    "label" => $label,
-                    "data" => $sales
+                    'label' => 'Payments',
+                    'data' => $payments
                 ]
             ]
         ];
-        return ResponseFactory::success(
-            'Generating sales graph',
-            $chartData
-        );
+
+        return ResponseFactory::success('Show graph data', ['jobs' => $jobsData, 'payments' => $payments]);
     }
 
     /**
@@ -235,11 +151,11 @@ class DashboardController extends Controller
 
         $workers = $business->users()->with('profile')->get();
 
-        $workers = $workers->sortBy(function(User $user){
+        $workers = $workers->sortBy(function (User $user) {
             return -$user->amount;
         })->take(10);
 
-        $workers = $workers->map(function (User $user) use ($business){
+        $workers = $workers->map(function (User $user) use ($business) {
             $user->append(['amount']);
             $user->rating = $user->getRating($business->id);
             $user->makeHidden('payouts');

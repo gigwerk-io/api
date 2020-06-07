@@ -44,7 +44,8 @@ Route::prefix('business/{unique_id}')->group(function (){
 
     Route::namespace('Business')->group(function () {
         Route::middleware(['auth:sanctum', 'business.access', 'business.owner'])->group(function () {
-            Route::patch('profile', 'AccountController@updateProfile')->name('update.business.profile');
+            Route::get('account', 'AccountController@show')->name('show.account');
+            Route::patch('account', 'AccountController@updateProfile')->name('update.business.account');
             Route::patch('location', 'AccountController@updateLocation')->name('update.business.location');
             Route::get('stripe', 'AccountController@stripeLogin')->name('business.stripe.login');
 
@@ -54,12 +55,9 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::post('applicant/{id}/reject', 'ApplicantController@reject')->name('reject.applicant');
             Route::delete('applicant/{id}', 'ApplicantController@delete')->name('delete.application');
 
+            Route::get('stats', 'DashboardController@stats')->name('stats');
+            Route::get('graphs', 'DashboardController@graphs')->name('graphs');
 
-            Route::get('user-stats', 'DashboardController@userStats')->name('user.stats');
-            Route::get('traffic-stats', 'DashboardController@trafficStats')->name('traffic.stats');
-            Route::get('time-worked', 'DashboardController@totalTimeWorked')->name('time.worked');
-            Route::get('jobs-graph', 'DashboardController@jobsGraph')->name('jobs.graph');
-            Route::get('payouts-graph', 'DashboardController@payoutsGraph')->name('payouts.graph');
             Route::get('leaderboard', 'DashboardController@leaderboard')->name('business.leaderboard');
 
             Route::get('users', 'UserController@index')->name('business.all.users');

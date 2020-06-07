@@ -17,11 +17,8 @@ use Tests\TestCase;
 class DashboardControllerTest extends TestCase
 {
     const DOC_PATH = 'business/dashboard';
-    const USER_STATS_ROUTE = 'user.stats';
-    const TRAFFIC_STATS_ROUTE = 'traffic.stats';
-    const TIME_WORKED_ROUTE = 'time.worked';
-    const JOBS_GRAPH_ROUTE = 'jobs.graph';
-    const PAYOUTS_GRAPH_ROUTE = 'payouts.graph';
+    const STATS_ROUTE = 'stats';
+    const GRAPHS_ROUTE = 'graphs';
     const LEADERBOARD_ROUTE = 'business.leaderboard';
 
     /**
@@ -44,27 +41,27 @@ class DashboardControllerTest extends TestCase
     }
 
     /**
-     * @covers ::userStats
+     * @covers ::stats
      */
-    public function testUserStats()
+    public function testStats()
     {
-        $response = $this->get(route(self::USER_STATS_ROUTE, ['unique_id' => $this->business->unique_id]));
+        $response = $this->get(route(self::STATS_ROUTE, ['unique_id' => $this->business->unique_id]));
 
         $response->assertStatus(200);
-        $response->assertJsonStructure(['data' => ['total', 'growth']]);
-        $this->document(self::DOC_PATH, self::USER_STATS_ROUTE, $response->status(), $response->getContent());
+        $response->assertJsonStructure(['data' => ['jobs', 'payments']]);
+        $this->document(self::DOC_PATH, self::STATS_ROUTE, $response->status(), $response->getContent());
     }
 
     /**
-     * @covers ::trafficStats
+     * @covers ::graphs
      */
-    public function testTrafficStats()
+    public function testGraphs()
     {
-        $response = $this->get(route(self::TRAFFIC_STATS_ROUTE, ['unique_id' => $this->business->unique_id]));
+        $response = $this->get(route(self::GRAPHS_ROUTE, ['unique_id' => $this->business->unique_id]));
 
         $response->assertStatus(200);
-        $response->assertJsonStructure(['data' => ['total', 'growth']]);
-        $this->document(self::DOC_PATH, self::TRAFFIC_STATS_ROUTE, $response->status(), $response->getContent());
+        $response->assertJsonStructure(['data' => []]);
+        $this->document(self::DOC_PATH, self::GRAPHS_ROUTE, $response->status(), $response->getContent());
     }
 
     /**
@@ -77,41 +74,5 @@ class DashboardControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure(['data' => [['id', 'username', 'amount', 'rating']]]);
         $this->document(self::DOC_PATH, self::LEADERBOARD_ROUTE, $response->status(), $response->getContent());
-    }
-
-    /**
-     * @covers ::totalTimeWorked
-     */
-    public function testTotalTimeWorked()
-    {
-        $response = $this->get(route(self::TIME_WORKED_ROUTE, ['unique_id' => $this->business->unique_id]));
-
-        $response->assertStatus(200);
-        $response->assertJsonStructure(['data' => ['minutes']]);
-        $this->document(self::DOC_PATH, self::TIME_WORKED_ROUTE, $response->status(), $response->getContent());
-    }
-
-    /**
-     * @covers ::payoutsGraph
-     */
-    public function testPayoutsGraph()
-    {
-        $response = $this->get(route(self::PAYOUTS_GRAPH_ROUTE, ['unique_id' => $this->business->unique_id]));
-
-        $response->assertStatus(200);
-        $response->assertJsonStructure(['data' => ['labels', 'datasets']]);
-        $this->document(self::DOC_PATH, self::PAYOUTS_GRAPH_ROUTE, $response->status(), $response->getContent());
-    }
-
-    /**
-     * @covers ::jobsGraph
-     */
-    public function testJobsGraph()
-    {
-        $response = $this->get(route(self::JOBS_GRAPH_ROUTE, ['unique_id' => $this->business->unique_id]));
-
-        $response->assertStatus(200);
-        $response->assertJsonStructure(['data' => ['labels', 'datasets']]);
-        $this->document(self::DOC_PATH, self::JOBS_GRAPH_ROUTE, $response->status(), $response->getContent());
     }
 }

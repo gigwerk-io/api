@@ -18,9 +18,10 @@ use Tests\TestCase;
 class AccountControllerTest extends TestCase
 {
     const DOC_PATH = 'business/account';
-    const PROFILE_UPDATE_ROUTE = 'update.business.profile';
+    const ACCOUNT_UPDATE_ROUTE = 'update.business.account';
     const LOCATION_UPDATE_ROUTE = 'update.business.location';
     const STRIPE_LOGIN_ROUTE = 'business.stripe.login';
+    const VIEW_ACCOUNT_ROUTE = 'show.account';
 
     /**
      * @var User
@@ -42,18 +43,30 @@ class AccountControllerTest extends TestCase
     }
 
     /**
+     * @covers ::show
+     */
+    public function testShowAccount()
+    {
+        $response = $this->get(route(self::VIEW_ACCOUNT_ROUTE, ['unique_id' => $this->business->unique_id]));
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['data' => ['name', 'profile', 'location']]);
+        $this->document(self::DOC_PATH, self::VIEW_ACCOUNT_ROUTE, $response->status(), $response->getContent());
+    }
+
+    /**
      * @covers ::updateProfile
      */
     public function testUpdateProfile()
     {
-        $response = $this->patch(route(self::PROFILE_UPDATE_ROUTE, ['unique_id' => $this->business->unique_id]), [
+        $response = $this->patch(route(self::ACCOUNT_UPDATE_ROUTE, ['unique_id' => $this->business->unique_id]), [
             'name' => 'Foobar',
             'short_description' => 'Goofy Goober'
         ]);
 
         $response->assertStatus(200);
         $response->assertJson(ResponseFactoryTest::success('Your business has been updated'));
-        $this->document(self::DOC_PATH, self::PROFILE_UPDATE_ROUTE, $response->status(), $response->getContent());
+        $this->document(self::DOC_PATH, self::ACCOUNT_UPDATE_ROUTE, $response->status(), $response->getContent());
     }
 
     /**

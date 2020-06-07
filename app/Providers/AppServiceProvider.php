@@ -23,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($this->app->environment(['local', 'testing'])) {
+            config(['app.disk' => 'public']);
+        }
         $this->app->register(RepositoryServiceProvider::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Business;
 
+use Illuminate\Support\Facades\Storage;
 use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
@@ -53,6 +54,23 @@ class AccountController extends Controller
     }
 
     /**
+     * @Meta(name="Show Account", description="Show the details of a business account.", href="show-account")
+     * @ResponseExample(status=200, example="responses/business/account/show.account-200.json")
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request)
+    {
+        /** @var Business $business */
+        $business = $request->get('business');
+
+        $business->load(['location', 'profile']);
+
+        return ResponseFactory::success('Show business', $business);
+    }
+
+    /**
      * @Meta(name="Update Profile", description="This updates a businesses profile.", href="update-profile")
      * @BodyParam(name="name", type="string", status="optional", description="Update the name of the business")
      * @BodyParam(name="image", type="base64", status="optional", description="Update the profile image of the business.")
@@ -61,10 +79,14 @@ class AccountController extends Controller
      * @BodyParam(name="long_description", type="string", status="optional", description="Update the description of the business.")
      * @BodyParam(name="primary_color", type="string", status="optional", description="Update the primary color of your business app")
      * @BodyParam(name="secondary_color", type="string", status="optional", description="Update the secondary color of your business app")
-     * @ResponseExample(status=200, example="responses/business/account/update.business.profile-200.json")
+     * @ResponseExample(status=200, example="responses/business/account/update.business.account-200.json")
      *
      * @param UpdateProfileRequest $request
      * @return \Illuminate\Http\Response
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data
      */
     public function updateProfile(UpdateProfileRequest $request)
     {
@@ -76,39 +98,41 @@ class AccountController extends Controller
         }
 
         if ($request->has('image')) {
-            $image = base64_decode($request->image);
             $type = $this->base64Image->getImageType($request->image);
             $name = Str::uuid() . "." . $type;
-            $this->filesystem->disk('s3')->put('business/' . $name, $image);
+            $image = $business->addMediaFromBase64($request->image)
+                ->setFileName($name)
+                ->toMediaCollection('business', config('app.disk'));
             $business->profile()->update([
-                'image' => sprintf("%s/%s/%s", config('filesystem.disks.s3.url'), 'business', $name)
+                'image' => $image->getFullUrl()
             ]);
         }
 
         if ($request->has('cover')) {
-            $image = base64_decode($request->cover);
             $type = $this->base64Image->getImageType($request->cover);
             $name = Str::uuid() . "." . $type;
-            $this->filesystem->disk('s3')->put('business/' . $name, $image);
+            $image = $business->addMediaFromBase64($request->cover)
+                ->setFileName($name)
+                ->toMediaCollection('business', config('app.disk'));
             $business->profile()->update([
-                'cover' => sprintf("%s/%s/%s", config('filesystem.disks.s3.url'), 'business', $name)
+                'image' => $image->getFullUrl()
             ]);
         }
 
         if ($request->has('short_description')) {
-            $business->profile()->update(['short_description' => $request->name]);
+            $business->profile()->update(['short_description' => $request->short_description]);
         }
 
         if ($request->has('long_description')) {
-            $business->profile()->update(['long_description' => $request->name]);
+            $business->profile()->update(['long_description' => $request->long_description]);
         }
 
         if ($request->has('primary_color')) {
-            $business->profile()->update(['primary_color' => $request->name]);
+            $business->profile()->update(['primary_color' => $request->primary_color]);
         }
 
         if ($request->has('secondary_color')) {
-            $business->profile()->update(['secondary_color' => $request->name]);
+            $business->profile()->update(['secondary_color' => $request->secondary_color]);
         }
 
         return ResponseFactory::success(

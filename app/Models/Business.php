@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Class Business.
  *
  * @package namespace App\Models;
  */
-class Business extends Model implements Transformable
+class Business extends Model implements Transformable, HasMedia
 {
-    use TransformableTrait, Notifiable;
+    use TransformableTrait, Notifiable, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.

@@ -4,33 +4,24 @@ This allows you to view statistics and performance of their marketplaces
 
 ---
 
-- [User Stats](#user-stats)
+- [Stats](#stats)
 
 
-- [Traffic Stats](#traffic-stats)
-
-
-- [Time Worked](#time-worked)
-
-
-- [Jobs Graph](#jobs-graph)
-
-
-- [Payouts Graph](#payouts-graph)
+- [Graphs](#graphs)
 
 
 - [Leaderboard](#leaderboard)
 
 
 
-<a name="user-stats"></a>
-## User Stats
+<a name="stats"></a>
+## Stats
 
-Get user statistics like total count and growth.
+Get the statistics to present on the business dashboard.
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
-|`GET`|`/business/{unique_id}/user-stats`|`true`|
+|`GET`|`/business/{unique_id}/stats`|`true`|
 
 
 
@@ -42,10 +33,12 @@ Content
 ```json
 {
     "success": true,
-    "message": "Generating user stats",
+    "message": "Show dashboard stats",
     "data": {
-        "total": 29,
-        "growth": 2800
+        "applicants": 9,
+        "jobs": 5,
+        "payments": 70,
+        "users": 29
     }
 }
 
@@ -53,14 +46,14 @@ Content
 
 
 
-<a name="traffic-stats"></a>
-## Traffic Stats
+<a name="graphs"></a>
+## Graphs
 
-Get the your business app usage statistics.
+Get the graph data to present on the business dashboard.
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
-|`GET`|`/business/{unique_id}/traffic-stats`|`true`|
+|`GET`|`/business/{unique_id}/graphs`|`true`|
 
 
 
@@ -72,141 +65,58 @@ Content
 ```json
 {
     "success": true,
-    "message": "Generating traffic stats",
+    "message": "Show graph data",
     "data": {
-        "total": 0,
-        "growth": 0
-    }
-}
-
-```
-
-
-
-<a name="time-worked"></a>
-## Time Worked
-
-Show the total amount of time worked in minutes.
-### Endpoint
-|Method|URI|Authentication|
-|:-|:-|:-|
-|`GET`|`/business/{unique_id}/time-worked`|`true`|
-
-
-
-> {success} Example Success Response
-Code `200`
-
-Content
-
-```json
-{
-    "success": true,
-    "message": "Generating total time worked in minutes",
-    "data": {
-        "minutes": 1716.3666666666666
-    }
-}
-
-```
-
-
-
-<a name="jobs-graph"></a>
-## Jobs Graph
-
-Get the jobs over time via a graph.
-### Endpoint
-|Method|URI|Authentication|
-|:-|:-|:-|
-|`GET`|`/business/{unique_id}/jobs-graph`|`true`|
-
-
-
-> {success} Example Success Response
-Code `200`
-
-Content
-
-```json
-{
-    "success": true,
-    "message": "Generating jobs graph",
-    "data": {
-        "labels": [
-            "Nov",
-            "Dec",
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May"
-        ],
-        "datasets": [
-            {
-                "label": "Jobs",
-                "data": [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    5
-                ]
-            }
-        ]
-    }
-}
-
-```
-
-
-
-<a name="payouts-graph"></a>
-## Payouts Graph
-
-Get the payouts over time via a graph.
-### Endpoint
-|Method|URI|Authentication|
-|:-|:-|:-|
-|`GET`|`/business/{unique_id}/payouts-graph`|`true`|
-
-
-
-> {success} Example Success Response
-Code `200`
-
-Content
-
-```json
-{
-    "success": true,
-    "message": "Generating sales graph",
-    "data": {
-        "labels": [
-            "Nov",
-            "Dec",
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May"
-        ],
-        "datasets": [
-            {
-                "label": "Payouts",
-                "data": [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    41
-                ]
-            }
-        ]
+        "jobs": {
+            "labels": [
+                "Dec",
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun"
+            ],
+            "datasets": [
+                {
+                    "label": "Jobs",
+                    "data": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        5
+                    ]
+                }
+            ]
+        },
+        "payments": {
+            "labels": [
+                "Dec",
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun"
+            ],
+            "datasets": [
+                {
+                    "label": "Payments",
+                    "data": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        70
+                    ]
+                }
+            ]
+        }
     }
 }
 

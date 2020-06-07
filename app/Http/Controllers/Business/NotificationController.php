@@ -6,9 +6,14 @@ use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
 use Illuminate\Http\Request;
+use Solomon04\Documentation\Annotation\Group;
 
+/**
+ * @Group(name="Notifications", description="These routes belong are responsible for managing business notifications.")
+ */
 class NotificationController extends Controller
 {
+
     public function index()
     {
 

@@ -56,6 +56,8 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'disk' => 's3',
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
