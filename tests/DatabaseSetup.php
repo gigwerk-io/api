@@ -24,7 +24,7 @@ trait DatabaseSetup
 
     protected function setupInMemoryDatabase()
     {
-        $this->artisan('migrate:refresh --seed');
+        $this->artisan('migrate:fresh --seed');
         $this->app[Kernel::class]->setArtisan(null);
     }
 
@@ -32,7 +32,7 @@ trait DatabaseSetup
     {
         if (!static::$migrated) {
             $this->whenMigrationsChange(function() {
-                $this->artisan('migrate:refresh --seed');
+                $this->artisan('migrate:fresh --seed');
                 $this->app[Kernel::class]->setArtisan(null);
             });
             static::$migrated = true;
