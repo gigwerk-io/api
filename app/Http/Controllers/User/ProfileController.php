@@ -69,6 +69,8 @@ class ProfileController extends Controller
         ];
         $user = $business->users()->with($relations)->where('id', '=', $request->user_id)->first();
 
+        $user->role = $user->pivot->role->name;
+
         $user->marketplaceJobs = $user->marketplaceJobs->filter(function (MarketplaceJob $marketplaceJob) use ($business){
             return $marketplaceJob->business_id === $business->id;
         });
