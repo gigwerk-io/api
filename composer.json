@@ -13,6 +13,7 @@
         "ext-fileinfo": "*",
         "ext-json": "*",
         "ext-zlib": "*",
+        "ext-exif": "*",
         "axlon/laravel-postal-code-validation": "^2.1",
         "binarytorch/larecipe": "^2.3",
         "binarytorch/larecipe-dark-theme": "^0.1.4",
