@@ -4,7 +4,6 @@ namespace App\Notifications\Marketplace;
 
 use App\Enum\Notification\MarketplaceMessage;
 use App\Enum\Notification\NotificationType;
-use App\Models\Business;
 use App\Models\MarketplaceJob;
 use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -18,7 +17,7 @@ use Illuminate\Queue\SerializesModels;
 use NotificationChannels\Apn\ApnChannel;
 use NotificationChannels\Apn\ApnMessage;
 
-class CustomerApprovedWorkerNotification extends Notification implements ShouldBroadcast, ShouldQueue
+class CustomerNeedsToReviewNotification extends Notification implements ShouldBroadcast, ShouldQueue
 {
     use Queueable, InteractsWithSockets, SerializesModels;
 
@@ -46,7 +45,7 @@ class CustomerApprovedWorkerNotification extends Notification implements ShouldB
     {
         $this->marketplaceJob = $marketplaceJob;
         $this->title = NotificationType::Marketplace;
-        $this->message = MarketplaceMessage::CUSTOMER_ACCEPT;
+        $this->message = MarketplaceMessage::WAITING_FOR_REVIEW;
     }
 
     /**

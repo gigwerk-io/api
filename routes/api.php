@@ -57,8 +57,11 @@ Route::prefix('business/{unique_id}')->group(function (){
 
             Route::get('stats', 'DashboardController@stats')->name('stats');
             Route::get('graphs', 'DashboardController@graphs')->name('graphs');
-
             Route::get('leaderboard', 'DashboardController@leaderboard')->name('business.leaderboard');
+
+            Route::get('notifications/new', 'NotificationController@unread')->name('new.business.notifications');
+            Route::get('notification/{id}', 'NotificationController@show')->name('show.business.notification');
+            Route::get('notifications/all', 'NotificationController@all')->name('all.business.notifications');
 
             Route::get('users', 'UserController@index')->name('business.all.users');
             Route::get('user/{id}', 'UserController@show')->name('business.show.user');
@@ -120,6 +123,12 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::post('apn', 'AccountController@updateApnToken')->name('save.apn.token');
             Route::post('fcm', 'AccountController@updateFcmToken')->name('save.fcm.token');
             Route::post('preferences', 'AccountController@updateNotificationPreferences')->name('update.notification.preferences');
+
+            Route::prefix('user')->group(function (){
+                Route::get('notifications/new', 'NotificationController@unread')->name('new.user.notifications');
+                Route::get('notification/{id}', 'NotificationController@show')->name('show.user.notification');
+                Route::get('notifications/all', 'NotificationController@all')->name('all.user.notifications');
+            });
 
             Route::get('profile/{user_id}', 'ProfileController@show')->name('show.user.profile');
         });

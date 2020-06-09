@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Solomon04\Documentation\Annotation\Meta;
 
 /**
  * @Group(name="Notifications", description="These routes belong are responsible for managing user notifications.")
@@ -15,7 +16,7 @@ use Illuminate\Http\Request;
 class NotificationController extends Controller
 {
     /**
-     * Show single notification
+     * @Meta(name="Show Notification", href="show-notification", description="Show a single user notification")
      *
      * @param $id
      * @param Request $request
@@ -50,7 +51,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * View unread notifications
+     * @Meta(name="Unread Notifications", href="unread-notifications", description="View unread user notifications.")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -71,7 +72,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * View all notifications
+     * @Meta(name="All Notifications", href="all-notifications", description="View all user notifications.")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Marketplace;
 
+use App\Notifications\Marketplace\WorkerAcceptedJobNotification;
+use App\Notifications\Marketplace\WorkerArrivedNotification;
+use App\Notifications\Marketplace\WorkerCompletedJobNotification;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
 use Solomon04\Documentation\Annotation\ResponseExample;
@@ -79,7 +82,7 @@ class FreelancerActionsController extends Controller
 
         $marketplaceJob->update(['status_id' => Status::PENDING_APPROVAL]);
 
-        // $this->eventDispatcher->dispatch(new FreelancerHasAcceptedRequest($this->marketplace));
+        $marketplaceJob->customer->notify(new WorkerAcceptedJobNotification($marketplaceJob));
 
         return ResponseFactory::success(
             'The customer has been notified of your proposal.'
@@ -165,7 +168,7 @@ class FreelancerActionsController extends Controller
             'stripe_token' => $charge->id
         ]);
 
-        // $this->eventDispatcher->dispatch(new FreelancerHasArrived($this->marketplace));
+        $marketplaceJob->customer->notify(new WorkerArrivedNotification($marketplaceJob));
 
         return ResponseFactory::success(
             'Your customer has been notified of your arrival.'
@@ -198,7 +201,7 @@ class FreelancerActionsController extends Controller
         $proposal = $marketplaceJob->proposals()->where('user_id', '=', $user->id)->first();
         $proposal->update(['completed_at' => Carbon::now()->toDateTimeString()]);
 
-        // $this->eventDispatcher->dispatch(new FreelancerHasCompletedRequest($this->marketplace));
+        $marketplaceJob->customer->notify(new WorkerCompletedJobNotification($marketplaceJob));
 
         return ResponseFactory::success(
             'The customer has been notified of your completion'

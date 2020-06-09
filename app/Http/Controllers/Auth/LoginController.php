@@ -113,6 +113,14 @@ class LoginController extends Controller
         /** @var Business $business */
         $business = $this->businessRepository->findWhere(['unique_id' => $request->unique_id])->first();
 
+        if (is_null($business)) {
+            return ResponseFactory::error(
+                'Business does not exist.',
+                null,
+                404
+            );
+        }
+
         $user = $business->users()->where('username', '=', $request->username)
             ->orWhere('email', '=', $request->username)
             ->first();

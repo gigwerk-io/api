@@ -4,7 +4,6 @@ namespace App\Notifications\Marketplace;
 
 use App\Enum\Notification\MarketplaceMessage;
 use App\Enum\Notification\NotificationType;
-use App\Models\Business;
 use App\Models\MarketplaceJob;
 use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -15,10 +14,9 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Queue\SerializesModels;
-use NotificationChannels\Apn\ApnChannel;
 use NotificationChannels\Apn\ApnMessage;
 
-class CustomerApprovedWorkerNotification extends Notification implements ShouldBroadcast, ShouldQueue
+class WorkerArrivedNotification extends Notification implements ShouldBroadcast, ShouldQueue
 {
     use Queueable, InteractsWithSockets, SerializesModels;
 
@@ -46,18 +44,17 @@ class CustomerApprovedWorkerNotification extends Notification implements ShouldB
     {
         $this->marketplaceJob = $marketplaceJob;
         $this->title = NotificationType::Marketplace;
-        $this->message = MarketplaceMessage::CUSTOMER_ACCEPT;
+        $this->message = MarketplaceMessage::FREELANCER_ARRIVED;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
     {
-        // TODO: Add SMS, FCM
         return ['database', 'broadcast'];
     }
 

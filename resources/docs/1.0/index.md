@@ -10,6 +10,7 @@
         - [Account](/{{route}}/{{version}}/business/account)
         - [Applicant](/{{route}}/{{version}}/business/applicant)
         - [Dashboard](/{{route}}/{{version}}/business/dashboard)
+        - [Notifications](/{{route}}/{{version}}/business/notifications)
         - [Users](/{{route}}/{{version}}/business/users)
     
     - [Chat](#)
@@ -24,6 +25,7 @@
     
     - [User](#)
         - [Account](/{{route}}/{{version}}/user/account)
+        - [Notifications](/{{route}}/{{version}}/user/notifications)
         - [Profile](/{{route}}/{{version}}/user/profile)
     
   

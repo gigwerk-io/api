@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Marketplace;
 
 use App\Models\MarketplaceProposal;
 use App\Notifications\Marketplace\CustomerApprovedWorkerNotification;
+use App\Notifications\Marketplace\CustomerCancelledJobNotification;
+use App\Notifications\Marketplace\CustomerReviewedWorkerNotification;
 use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
@@ -84,7 +86,7 @@ class CustomerActionsController extends Controller
 
         $marketplaceJob->update(['status_id' => Status::APPROVED]);
 
-        $proposal->user->notify(new CustomerApprovedWorkerNotification($marketplaceJob, $request->get('business')));
+        $proposal->user->notify(new CustomerApprovedWorkerNotification($marketplaceJob));
 
         return ResponseFactory::success(
             'You have approved this worker'
@@ -149,7 +151,9 @@ class CustomerActionsController extends Controller
             );
         }
 
-        // $this->eventDispatcher->dispatch(new CustomerHasCancelledRequest($this->marketplace));
+        $marketplaceJob->proposals->map(function (MarketplaceProposal $proposal){
+           $proposal->user->notify(new CustomerCancelledJobNotification());
+        });
         $marketplaceJob->location()->delete();
         $marketplaceJob->proposals()->delete();
         $marketplaceJob->delete();
@@ -211,7 +215,7 @@ class CustomerActionsController extends Controller
             'stripe_token' => $transfer->id
         ]);
 
-        // $this->eventDispatcher->dispatch(new CustomerMarkedRequestAsComplete($this->marketplace));
+        $proposal->user->notify(new CustomerReviewedWorkerNotification($marketplaceJob));
 
         return ResponseFactory::success(
             'This job has been marked complete'

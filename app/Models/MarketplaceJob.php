@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enum\Marketplace\PerformableAction;
 use App\Enum\Marketplace\Status;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -15,7 +16,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  */
 class MarketplaceJob extends Model implements Transformable
 {
-    use TransformableTrait;
+    use TransformableTrait, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
