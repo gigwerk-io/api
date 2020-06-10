@@ -6,6 +6,10 @@ use App\Contracts\Stripe\Connect;
 use App\Enum\Marketplace\ProposalStatus;
 use App\Enum\Marketplace\Status;
 use App\Models\MarketplaceJob;
+use App\Notifications\Marketplace\CustomerReviewedWorkerNotification;
+use App\Notifications\Marketplace\WorkerAcceptedJobNotification;
+use App\Notifications\Marketplace\WorkerArrivedNotification;
+use App\Notifications\Marketplace\WorkerCompletedJobNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Tests\Factories\MarketplaceJobFactory;
@@ -37,7 +41,11 @@ class DevMarketplaceJobsSeeder extends Seeder
                     'user_id' => 2, // primary worker
                     'status_id' => ProposalStatus::PENDING
                 ]);
+
+                $marketplaceJob->customer->notify(new WorkerAcceptedJobNotification($marketplaceJob));
             })();
+
+
 
         // One approved job
         MarketplaceJobFactory::new()
@@ -47,10 +55,12 @@ class DevMarketplaceJobsSeeder extends Seeder
                 'status_id' => Status::APPROVED,
             ])->withLocation(MarketplaceLocationFactory::new())
             ->afterCreating(function (MarketplaceJob $marketplaceJob){
-                $marketplaceJob->proposals()->create([
+                $proposal = $marketplaceJob->proposals()->create([
                     'user_id' => 2, // primary worker
                     'status_id' => ProposalStatus::APPROVED
                 ]);
+
+                $proposal->user->notify(new CustomerReviewedWorkerNotification($marketplaceJob));
             })();
 
         // One in progress job
@@ -78,10 +88,12 @@ class DevMarketplaceJobsSeeder extends Seeder
                     'amount' => $marketplaceJob->price,
                     'stripe_token' => $charge->id // stripe charge id
                 ]);
+
+                $marketplaceJob->customer->notify(new WorkerArrivedNotification($marketplaceJob));
             })();
 
 
-        // One complete
+        // One freelancer complete
         MarketplaceJobFactory::new()
             ->withAttributes([
                 'customer_id' => 1,
@@ -92,7 +104,10 @@ class DevMarketplaceJobsSeeder extends Seeder
                 $marketplaceJob->proposals()->create([
                     'user_id' => 2, // primary worker
                     'status_id' => ProposalStatus::APPROVED,
-                    'arrived_at' => Carbon::today()->toDateTimeString()
+                    'arrived_at' => Carbon::today()->toDateTimeString(),
+                    'completed_at' => Carbon::today()->subHour()->toDateTimeString(),
+                    'rating' => 5,
+                    'review' => 'Good job!'
                 ]);
 
                 // create payment
@@ -140,6 +155,8 @@ class DevMarketplaceJobsSeeder extends Seeder
                     'user_id' => 6, // primary worker
                     'status_id' => ProposalStatus::PENDING
                 ]);
+
+                $marketplaceJob->customer->notify(new WorkerAcceptedJobNotification($marketplaceJob));
             })();
 
         // One approved job
@@ -150,10 +167,12 @@ class DevMarketplaceJobsSeeder extends Seeder
                 'status_id' => Status::APPROVED,
             ])->withLocation(MarketplaceLocationFactory::new())
             ->afterCreating(function (MarketplaceJob $marketplaceJob){
-                $marketplaceJob->proposals()->create([
+                $proposal = $marketplaceJob->proposals()->create([
                     'user_id' => 6, // primary worker
                     'status_id' => ProposalStatus::APPROVED
                 ]);
+
+                $proposal->user->notify(new CustomerReviewedWorkerNotification($marketplaceJob));
             })();
 
         // One in progress job
@@ -181,6 +200,8 @@ class DevMarketplaceJobsSeeder extends Seeder
                     'amount' => $marketplaceJob->price,
                     'stripe_token' => $charge->id // stripe charge id
                 ]);
+
+                $marketplaceJob->customer->notify(new WorkerArrivedNotification($marketplaceJob));
             })();
     }
 }
