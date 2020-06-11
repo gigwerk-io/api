@@ -20,6 +20,7 @@ class ProfileControllerTest extends TestCase
     const DOC_PATH = 'user/profile';
     const SHOW_PROFILE_ROUTE = 'show.user.profile';
     const UPDATE_PROFILE_ROUTE = 'update.user.profile';
+    const SEARCH_USER_ROUTE = 'search.user';
 
     /**
      * @var User
@@ -63,5 +64,17 @@ class ProfileControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(ResponseFactoryTest::success('Profile has been updated'));
         $this->document(self::DOC_PATH, self::UPDATE_PROFILE_ROUTE, $response->status(), $response->getContent());
+    }
+
+    /**
+     * @covers ::search
+     */
+    public function testSearchUser()
+    {
+        $response = $this->get(route(self::SEARCH_USER_ROUTE, ['unique_id' => $this->business->unique_id, 'search' => 'admin']));
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['data' => [['first_name', 'last_name', 'username']]]);
+        $this->document(self::DOC_PATH, self::SEARCH_USER_ROUTE, $response->status(), $response->getContent());
     }
 }

@@ -7,6 +7,9 @@ Manage user profile routes and actions.
 - [View Profile](#view-profile)
 
 
+- [Search User](#search-user)
+
+
 - [Edit Profile](#edit-profile)
 
 
@@ -954,6 +957,25 @@ Content
 }
 
 ```
+
+
+
+<a name="search-user"></a>
+## Search User
+
+Search for a user within a business.
+### Endpoint
+|Method|URI|Authentication|
+|:-|:-|:-|
+|`GET`|`/business/{unique_id}/search`|`true`|
+
+### Query Params
+|Name|Type|Status|Description|
+|:-|:-|:-|:-|
+|`search`|`string`|`required`|`The search parameter for a user.`|
+
+
+
 
 
 

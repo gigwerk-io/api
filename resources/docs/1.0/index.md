@@ -26,6 +26,8 @@
     - [User](#)
         - [Account](/{{route}}/{{version}}/user/account)
         - [Notifications](/{{route}}/{{version}}/user/notifications)
+        - [Payments](/{{route}}/{{version}}/user/payments)
         - [Profile](/{{route}}/{{version}}/user/profile)
+        - [Billing](/{{route}}/{{version}}/user/billing)
     
   

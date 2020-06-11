@@ -128,14 +128,25 @@ Route::prefix('business/{unique_id}')->group(function (){
                 Route::get('notifications/new', 'NotificationController@unread')->name('new.user.notifications');
                 Route::get('notification/{id}', 'NotificationController@show')->name('show.user.notification');
                 Route::get('notifications/all', 'NotificationController@all')->name('all.user.notifications');
+
             });
 
+            Route::get('payments', 'PaymentController@index')->name('all.user.payments');
+            Route::get('payment/{id}', 'PaymentController@show')->name('show.user.payment');
+
             Route::get('profile/{user_id}', 'ProfileController@show')->name('show.user.profile');
+            Route::get('search', 'ProfileController@search')->name('search.user');
         });
     });
 });
 
 Route::namespace('User')->group(function (){
+    Route::get('cards', 'BillingController@index')->name('all.payment.methods');
+    Route::get('card/{id}', 'BillingController@show')->name('show.payment.method');
+    Route::post('cards', 'BillingController@store')->name('store.payment.method');
+    Route::patch('card/{id}', 'BillingController@update')->name('update.payment.method');
+    Route::delete('card/{id}', 'BillingController@delete')->name('delete.payment.method');
+
     Route::middleware(['auth:sanctum'])->group(function (){
         Route::patch('profile', 'ProfileController@update')->name('update.user.profile');
     });

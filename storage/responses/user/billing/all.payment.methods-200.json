@@ -1,0 +1,19 @@
+{
+    "success": true,
+    "message": "Show payment methods",
+    "data": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "stripe_customer_id": "cus_FsQcawWaxlmfbs",
+            "stripe_card_id": "card_1FMflHD2YnIDoaEIqLthZhO8",
+            "card_type": "Visa",
+            "card_last4": "4242",
+            "exp_month": 12,
+            "exp_year": 2023,
+            "default": true,
+            "created_at": "2020-06-07T01:20:39.000000Z",
+            "updated_at": "2020-06-07T01:20:39.000000Z"
+        }
+    ]
+}

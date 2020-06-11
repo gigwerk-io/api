@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
+use Solomon04\Documentation\Annotation\QueryParam;
 use Solomon04\Documentation\Annotation\ResponseExample;
 
 /**
@@ -148,5 +149,37 @@ class ProfileController extends Controller
         return ResponseFactory::success(
             'Profile has been updated'
         );
+    }
+
+    /**
+     * @Meta(name="Search User", href="search-user", description="Search for a user within a business.")
+     * @QueryParam(name="search", type="string", status="required", description="The search parameter for a user.")
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function search(Request $request)
+    {
+        $this->validate($request, [
+            'search' => ['required','string']
+        ]);
+
+        /** @var Business $business */
+        $business = $request->get('business');
+
+        $query = $request->search;
+        $searchValues = preg_split('/\s+/', $query, -1, PREG_SPLIT_NO_EMPTY);
+
+        $users = $business->users()->with(['profile'])->where(function ($q) use ($searchValues){
+            foreach ($searchValues as $value) {
+                $q->orWhere('first_name', 'like', "%{$value}%");
+                $q->orWhere('last_name', 'like', "%{$value}%");
+                $q->orWhere('username', 'like', "%{$value}%");
+                $q->orWhere('email', 'like', "%{$value}%");
+            }
+        })->get();
+
+        return ResponseFactory::success('Searching users', $users);
     }
 }
