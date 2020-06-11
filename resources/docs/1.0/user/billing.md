@@ -27,7 +27,7 @@ Show a list of user payment methods
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
-|`GET`|`/cards`|`false`|
+|`GET`|`/cards`|`true`|
 
 
 
@@ -68,7 +68,7 @@ Show a single user payment method.
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
-|`GET`|`/card/{id}`|`false`|
+|`GET`|`/card/{id}`|`true`|
 
 
 
@@ -107,7 +107,7 @@ Save a customers payment details via Stripe
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
-|`POST`|`/cards`|`false`|
+|`POST`|`/cards`|`true`|
 
 
 
@@ -134,7 +134,7 @@ Make a payment method the default.
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
-|`PATCH`|`/card/{id}`|`false`|
+|`PATCH`|`/card/{id}`|`true`|
 
 
 
@@ -161,7 +161,7 @@ Remove a user payment method.
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
-|`DELETE`|`/card/{id}`|`false`|
+|`DELETE`|`/card/{id}`|`true`|
 
 
 

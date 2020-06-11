@@ -154,6 +154,7 @@ class ProfileController extends Controller
     /**
      * @Meta(name="Search User", href="search-user", description="Search for a user within a business.")
      * @QueryParam(name="search", type="string", status="required", description="The search parameter for a user.")
+     * @ResponseExample(status=200, example="responses/user/profile/search.user-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response

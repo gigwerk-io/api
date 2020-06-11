@@ -27,7 +27,9 @@
         - [Account](/{{route}}/{{version}}/user/account)
         - [Notifications](/{{route}}/{{version}}/user/notifications)
         - [Payments](/{{route}}/{{version}}/user/payments)
+        - [Payouts](/{{route}}/{{version}}/user/payouts)
         - [Profile](/{{route}}/{{version}}/user/profile)
+        - [Stripe Connect](/{{route}}/{{version}}/user/stripe-connect)
         - [Billing](/{{route}}/{{version}}/user/billing)
     
   

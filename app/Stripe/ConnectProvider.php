@@ -43,6 +43,7 @@ class ConnectProvider implements Connect
      *
      * @param string $code
      * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function createAccount(string $code)
     {

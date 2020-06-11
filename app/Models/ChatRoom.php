@@ -41,7 +41,7 @@ class ChatRoom extends Model implements Transformable
      *
      * @var array
      */
-    protected $appends = [];
+    protected $appends = ['members', 'last_message'];
 
     /**
      * Chat room has many messages.
@@ -61,5 +61,25 @@ class ChatRoom extends Model implements Transformable
     public function business()
     {
         return $this->belongsTo(Business::class);
+    }
+
+    /**
+     * Chat room has many users.
+     *
+     * @return User[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getMembersAttribute()
+    {
+        return User::with('profile')->whereIn('username', $this->users)->get();
+    }
+
+    /**
+     * Last message of a chat room.
+     *
+     * @return ChatMessage|\Illuminate\Database\Eloquent\Relations\HasMany|object|null
+     */
+    public function getLastMessageAttribute()
+    {
+        return $this->messages()->with('sender.profile')->orderByDesc('id')->first();
     }
 }
