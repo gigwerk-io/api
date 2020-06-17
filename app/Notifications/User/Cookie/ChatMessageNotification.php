@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Notifications\User;
+namespace App\Notifications\User\Cookie;
 
 use App\Models\ChatRoom;
 use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;

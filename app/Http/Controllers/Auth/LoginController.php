@@ -143,6 +143,7 @@ class LoginController extends Controller
 
         $user->load(['profile']);
         $user->role = $user->pivot->role->name;
+        $user->business = $business;
 
         $token = $user->createToken('login', [$uuid]);
 

@@ -22,9 +22,10 @@ module.exports = {
         "issues",
     ],
     "scopes": [
-        "default-app",
-        "dashboard",
-        "gigwerk-app",
+        "angela",
+        "bob",
+        "cookie",
+        "dragon",
         "tech-debt",
         "website"
     ],

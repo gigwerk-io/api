@@ -28,11 +28,13 @@ class DevRequiredUsersSeeder extends Seeder
             ->withPaymentMethods(PaymentMethodFactory::new())
             ->create();
 
-        $businessOne = BusinessFactory::new()->withAttributes(['name' => 'First Business Inc.', 'subdomain_prefix' => 'demo'])
+        $businessOne = BusinessFactory::new()->withAttributes(['name' => 'First Business Inc.', 'subdomain_prefix' => 'first'])
             ->withProfile(BusinessProfileFactory::new())
             ->withLocation(BusinessLocationFactory::new())
             ->afterCreating(function (Business $business) use ($businessAdminOne){
                 $businessAdminOne->businesses()->attach($business, ['role_id' => Role::VERIFIED_FREELANCER]);
+                $domain = sprintf("https://first-%s.%s", app()->environment(), config('app.url_suffix'));
+                $business->businessApp()->create(['domain' => $domain]);
             })
             ->create(['owner_id' => $businessAdminOne->id]);
 
@@ -81,11 +83,13 @@ class DevRequiredUsersSeeder extends Seeder
             ->withPaymentMethods(PaymentMethodFactory::new())
             ->create();
 
-        $businessTwo = BusinessFactory::new()->withAttributes(['name' => 'Second Business LLC', 'subdomain_prefix' => 'test'])
-            ->withProfile(BusinessProfileFactory::new())
+        $businessTwo = BusinessFactory::new()->withAttributes(['name' => 'Second Business LLC', 'subdomain_prefix' => 'second'])
+            ->withProfile(BusinessProfileFactory::new()->withAttributes(['image' => 'https://gigwerk-disk.s3.amazonaws.com/second.png']))
             ->withLocation(BusinessLocationFactory::new())
             ->afterCreating(function (Business $business) use ($businessAdminTwo){
                 $businessAdminTwo->businesses()->attach($business, ['role_id' => Role::VERIFIED_FREELANCER]);
+                $domain = sprintf("https://second-%s.%s", app()->environment(), config('app.url_suffix'));
+                $business->businessApp()->create(['domain' => $domain]);
             })
             ->create(['owner_id' => $businessAdminTwo->id]);
 

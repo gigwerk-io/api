@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'url_suffix' => env('APP_URL_SUFFIX', 'gigwerk.test'),
+
     'asset_url' => env('ASSET_URL', null),
 
     'disk' => 's3',

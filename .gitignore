@@ -18,3 +18,4 @@ certs/api.gigwerk.test.crt
 dump.sql
 .DS_Store
 app/Console/Commands/DummyCommand.php
+/builder.txt

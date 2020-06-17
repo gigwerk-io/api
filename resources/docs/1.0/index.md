@@ -3,8 +3,8 @@
   
 - ## Endpoints
     - [Auth](#)
-        - [Register](/{{route}}/{{version}}/auth/register)
         - [Login](/{{route}}/{{version}}/auth/login)
+        - [Register](/{{route}}/{{version}}/auth/register)
     
     - [Business](#)
         - [Account](/{{route}}/{{version}}/business/account)
@@ -14,22 +14,22 @@
         - [Users](/{{route}}/{{version}}/business/users)
     
     - [Chat](#)
-        - [Room](/{{route}}/{{version}}/chat/room)
         - [Message](/{{route}}/{{version}}/chat/message)
+        - [Room](/{{route}}/{{version}}/chat/room)
     
     - [Marketplace](#)
-        - [Job Request](/{{route}}/{{version}}/marketplace/job-request)
-        - [Feed](/{{route}}/{{version}}/marketplace/feed)
         - [Customer Actions](/{{route}}/{{version}}/marketplace/customer-actions)
+        - [Feed](/{{route}}/{{version}}/marketplace/feed)
         - [Freelancer Actions](/{{route}}/{{version}}/marketplace/freelancer-actions)
+        - [Job Request](/{{route}}/{{version}}/marketplace/job-request)
     
     - [User](#)
         - [Account](/{{route}}/{{version}}/user/account)
+        - [Billing](/{{route}}/{{version}}/user/billing)
+        - [Stripe Connect](/{{route}}/{{version}}/user/stripe-connect)
         - [Notifications](/{{route}}/{{version}}/user/notifications)
         - [Payments](/{{route}}/{{version}}/user/payments)
         - [Payouts](/{{route}}/{{version}}/user/payouts)
         - [Profile](/{{route}}/{{version}}/user/profile)
-        - [Stripe Connect](/{{route}}/{{version}}/user/stripe-connect)
-        - [Billing](/{{route}}/{{version}}/user/billing)
     
   

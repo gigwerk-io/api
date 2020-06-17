@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Contracts\Repositories\ApplicationRepository;
 use App\Contracts\Repositories\ApplicationStatusRepository;
+use App\Contracts\Repositories\BusinessAppRepository;
 use App\Contracts\Repositories\BusinessInvitationRepository;
 use App\Contracts\Repositories\BusinessLocationRepository;
 use App\Contracts\Repositories\BusinessProfileRepository;
@@ -28,6 +29,7 @@ use App\Contracts\Repositories\UserRoleRepository;
 use App\Contracts\Repositories\UserSavedLocationRepository;
 use App\Repositories\ApplicationRepositoryEloquent;
 use App\Repositories\ApplicationStatusRepositoryEloquent;
+use App\Repositories\BusinessAppRepositoryEloquent;
 use App\Repositories\BusinessInvitationRepositoryEloquent;
 use App\Repositories\BusinessLocationRepositoryEloquent;
 use App\Repositories\BusinessProfileRepositoryEloquent;
@@ -76,6 +78,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(ApplicationStatusRepository::class, function (){
             return $this->app->make(ApplicationStatusRepositoryEloquent::class);
+        });
+
+        $this->app->bind(BusinessAppRepository::class, function (){
+            return $this->app->make(BusinessAppRepositoryEloquent::class);
         });
 
         $this->app->bind(BusinessLocationRepository::class, function (){

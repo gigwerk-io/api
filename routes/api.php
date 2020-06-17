@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::namespace('Auth')->group(function (){
     Route::post('register', 'RegisterController@userRegistration')->name('user.registration');
     Route::post('login', 'LoginController@login')->name('login');
@@ -157,3 +153,7 @@ Route::namespace('User')->group(function (){
         Route::patch('profile', 'ProfileController@update')->name('update.user.profile');
     });
 });
+
+Route::get('businesses', 'DataController@businesses')
+    ->middleware('auth.builder')
+    ->name('show.businesses');

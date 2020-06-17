@@ -85,6 +85,16 @@ class Business extends Model implements Transformable, HasMedia
     }
 
     /**
+     * A business can have one app.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function businessApp()
+    {
+        return $this->hasOne(BusinessApp::class);
+    }
+
+    /**
      * The channels the organization receives notification broadcasts on.
      *
      * @return string

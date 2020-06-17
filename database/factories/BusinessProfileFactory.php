@@ -7,8 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(BusinessProfile::class, function (Faker $faker) {
     return [
-        'image' => 'http://507outdoormanagement.com/wp-content/uploads/2019/10/foliage-2942282_1920-1920x730.jpg',
-        'cover' => 'http://507outdoormanagement.com/wp-content/uploads/2019/10/foliage-2942282_1920-1920x730.jpg',
+        'image' => 'https://gigwerk-disk.s3.amazonaws.com/first.png',
+        'cover' => 'https://gigwerk-disk.s3.amazonaws.com/roch.jpg',
         'short_description' => $faker->sentence,
         'long_description' => $faker->paragraph,
         'primary_color' => $faker->hexColor,

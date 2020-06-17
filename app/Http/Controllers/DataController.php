@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\CategoryRepository;
 use App\Contracts\Repositories\UserRoleRepository;
 use App\Factories\ResponseFactory;
@@ -38,6 +39,22 @@ class DataController extends Controller
         return ResponseFactory::success(
             'Showing roles',
             $roles
+        );
+    }
+
+    /**
+     * @Skip
+     *
+     * @param BusinessRepository $businessRepository
+     * @return \Illuminate\Http\Response
+     */
+    public function businesses(BusinessRepository $businessRepository)
+    {
+        $businesses = $businessRepository->with(['profile', 'location', 'businessApp'])->all();
+
+        return ResponseFactory::success(
+            'Show all businesses',
+            $businesses
         );
     }
 }
