@@ -96,6 +96,16 @@ class MarketplaceJob extends Model implements Transformable
     }
 
     /**
+     * A job belongs to a single category.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
      * A job can have many proposals.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -10,6 +10,7 @@
         - [Account](/{{route}}/{{version}}/business/account)
         - [Applicant](/{{route}}/{{version}}/business/applicant)
         - [Dashboard](/{{route}}/{{version}}/business/dashboard)
+        - [Marketplace](/{{route}}/{{version}}/business/marketplace)
         - [Notifications](/{{route}}/{{version}}/business/notifications)
         - [Users](/{{route}}/{{version}}/business/users)
     
