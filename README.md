@@ -32,7 +32,7 @@ brew install composer
 ##### Create a Directory & Setup Git Tracking
 ``` 
 git init
-git remote add origin https://your_username:your_password@github.com/FAVR-Inc/core-api.git
+git remote add origin https://your_username:your_password@github.com/gigwerk-io/api.git
 git fetch
 git pull origin master
 ```

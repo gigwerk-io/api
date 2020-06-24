@@ -89,6 +89,7 @@ class CustomerReviewedWorkerNotification extends Notification implements ShouldB
     {
         return new BroadcastMessage([
             'notification_id' => $this->id,
+            'business_uid' => $this->marketplaceJob->business->unique_id,
             'title' => $this->title,
             'message' => $this->message,
             'page' => '/app/marketplace-detail',

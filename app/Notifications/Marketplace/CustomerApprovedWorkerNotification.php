@@ -8,6 +8,7 @@ use App\Models\Business;
 use App\Models\MarketplaceJob;
 use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -90,6 +91,7 @@ class CustomerApprovedWorkerNotification extends Notification implements ShouldB
     {
         return new BroadcastMessage([
             'notification_id' => $this->id,
+            'business_uid' => $this->marketplaceJob->business->unique_id,
             'title' => $this->title,
             'message' => $this->message,
             'page' => '/app/marketplace-detail',

@@ -28,7 +28,7 @@ class DevRequiredUsersSeeder extends Seeder
             ->withPaymentMethods(PaymentMethodFactory::new())
             ->create();
 
-        $businessOne = BusinessFactory::new()->withAttributes(['name' => 'First Business Inc.', 'subdomain_prefix' => 'first'])
+        $businessOne = BusinessFactory::new()->withAttributes(['name' => 'First Business Inc.', 'subdomain_prefix' => 'first', 'unique_id' => 'ea11187b-fba5-31c8-87b4-84928c0334d6'])
             ->withProfile(BusinessProfileFactory::new())
             ->withLocation(BusinessLocationFactory::new())
             ->afterCreating(function (Business $business) use ($businessAdminOne){
@@ -83,7 +83,7 @@ class DevRequiredUsersSeeder extends Seeder
             ->withPaymentMethods(PaymentMethodFactory::new())
             ->create();
 
-        $businessTwo = BusinessFactory::new()->withAttributes(['name' => 'Second Business LLC', 'subdomain_prefix' => 'second'])
+        $businessTwo = BusinessFactory::new()->withAttributes(['name' => 'Second Business LLC', 'subdomain_prefix' => 'second', 'unique_id' => '048d54b7-54fc-3e4e-87c5-d575ff867b84'])
             ->withProfile(BusinessProfileFactory::new()->withAttributes(['image' => 'https://gigwerk-disk.s3.amazonaws.com/second.png']))
             ->withLocation(BusinessLocationFactory::new())
             ->afterCreating(function (Business $business) use ($businessAdminTwo){

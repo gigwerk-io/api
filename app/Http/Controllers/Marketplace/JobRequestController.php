@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Marketplace;
 
+use App\Events\Marketplace\CustomerHasRequested;
 use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
@@ -108,7 +109,7 @@ class JobRequestController extends Controller
         $data['status_id'] = Status::REQUESTED;
         $data['complete_before'] = Carbon::parse($request->complete_before)->toDateTimeString();
 
-        if($request->has('image_one')){
+        if ($request->has('image_one')) {
             $image = base64_decode($request->image_one);
             $type = $this->base64Image->getImageType($request->image_one);
             $name = Str::uuid() . "." . $type;
@@ -117,19 +118,19 @@ class JobRequestController extends Controller
 
         }
 
-        if($request->has('image_two')){
+        if ($request->has('image_two')) {
             $image = base64_decode($request->image_two);
             $type = $this->base64Image->getImageType($request->image_two);
             $name = Str::uuid() . "." . $type;
-            $this->filesystem->disk('s3')->put('marketplace'. $name, $image);
+            $this->filesystem->disk('s3')->put('marketplace' . $name, $image);
             $data['image_two'] = sprintf("%s/%s/%s", config('filesystem.disks.s3.url'), 'marketplace', $name);
         }
 
-        if($request->has('image_three')){
+        if ($request->has('image_three')) {
             $image = base64_decode($request->image_three);
             $type = $this->base64Image->getImageType($request->image_three);
             $name = Str::uuid() . "." . $type;
-            $this->filesystem->disk('s3')->put('marketplace'. $name, $image);
+            $this->filesystem->disk('s3')->put('marketplace' . $name, $image);
             $data['image_three'] = sprintf("%s/%s/%s", config('filesystem.disks.s3.url'), 'marketplace', $name);
         }
 
@@ -146,7 +147,7 @@ class JobRequestController extends Controller
             'long' => $location->lng
         ]);
 
-        // $this->eventDispatcher->dispatch(null);
+        $this->eventDispatcher->dispatch(new CustomerHasRequested($marketplace));
 
         return ResponseFactory::success(
             'Job Successfully Posted!',

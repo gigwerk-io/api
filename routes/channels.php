@@ -15,9 +15,13 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-// Notification to Angela app
-Broadcast::channel('user.{userId}', function ($user, $userId) {
+// All user notifications
+Broadcast::channel('users.{userId}', function ($user, $userId) {
     return (int) $user->id === (int) $userId;
+});
+
+Broadcast::channel('marketplace.{uuid}', function (User $user, $uuid) {
+    return $user->businesses()->where('unique_id', '=', $uuid)->exists();
 });
 
 // Notifications to Dragon app
@@ -25,11 +29,6 @@ Broadcast::channel('dragon.{uuid}', function (User $user, $uuid) {
     return $user->businesses()->where('unique_id', '=', $uuid)
         ->where('owner_id', '=', $user->id)
         ->exists();
-});
-
-// Notification to Cookie app(s)
-Broadcast::channel('cookie.{uuid}', function (User $user, $uuid) {
-    return $user->businesses()->where('unique_id', '=', $uuid)->exists();
 });
 
 // Notification to Chat room
