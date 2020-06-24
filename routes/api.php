@@ -55,6 +55,9 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::get('graphs', 'DashboardController@graphs')->name('graphs');
             Route::get('leaderboard', 'DashboardController@leaderboard')->name('business.leaderboard');
 
+            Route::get('jobs', 'MarketplaceController@index')->name('all.marketplace.jobs');
+            Route::get('job/{id}', 'MarketplaceController@show')->name('show.marketplace.job');
+
             Route::get('notifications/new', 'NotificationController@unread')->name('new.business.notifications');
             Route::get('notification/{id}', 'NotificationController@show')->name('show.business.notification');
             Route::get('notifications/all', 'NotificationController@all')->name('all.business.notifications');

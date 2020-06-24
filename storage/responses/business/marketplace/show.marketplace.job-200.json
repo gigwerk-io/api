@@ -1,0 +1,73 @@
+{
+    "success": true,
+    "message": "Show single job",
+    "data": {
+        "id": 1,
+        "business_id": 1,
+        "customer_id": 1,
+        "category_id": 1,
+        "price": 39,
+        "description": "Illo amet quo corrupti quia. Quod iste sit quia ut sit aliquam deserunt.",
+        "status_id": 1,
+        "intensity_id": 3,
+        "complete_before": "2020-06-25 00:00:00",
+        "views": 0,
+        "image_one": "https:\/\/thenewswheel.com\/wp-content\/uploads\/2018\/04\/junk-yards-pay-most-for-cars-760x507.jpg",
+        "image_two": null,
+        "image_three": null,
+        "created_at": "2020-06-24T14:33:36.000000Z",
+        "updated_at": "2020-06-24T14:33:36.000000Z",
+        "deleted_at": null,
+        "status": "Requested",
+        "intensity": "Hard",
+        "customer": {
+            "id": 1,
+            "first_name": "Constance",
+            "last_name": "Ana",
+            "username": "admin_one",
+            "email": "tillman.aurelie@example.com",
+            "phone": "251.293.0528 x33200",
+            "apn_token": null,
+            "fcm_token": null,
+            "email_verified_at": "2020-06-24T14:33:34.000000Z",
+            "last_seen_at": null,
+            "deleted_at": null,
+            "created_at": "2020-06-24T14:33:34.000000Z",
+            "updated_at": "2020-06-24T14:33:34.000000Z",
+            "isActive": false,
+            "lastSeen": null,
+            "profile": {
+                "id": 1,
+                "user_id": 1,
+                "image": "https:\/\/randomuser.me\/api\/portraits\/men\/91.jpg",
+                "description": "Labore est sed laborum nesciunt.",
+                "created_at": "2020-06-24T14:33:34.000000Z",
+                "updated_at": "2020-06-24T14:33:34.000000Z"
+            }
+        },
+        "proposals": [],
+        "category": {
+            "id": 1,
+            "name": "Assembly",
+            "icon_image": "https:\/\/favr-images.s3.us-east-2.amazonaws.com\/categories\/gear.png"
+        },
+        "location": {
+            "id": 1,
+            "marketplace_id": 1,
+            "street_address": "5500 Bandel Rd NW",
+            "city": "Rochester",
+            "state": "MN",
+            "zip": "55901",
+            "lat": 44.08027,
+            "long": -92.50504
+        },
+        "job_status": {
+            "id": 1,
+            "name": "Requested"
+        },
+        "job_intensity": {
+            "id": 3,
+            "name": "Hard"
+        }
+    }
+}
