@@ -28,8 +28,8 @@ class EditJobRequest extends FormRequest
         return [
             'description' => [ 'string'],
             'complete_before' => ['date'],
-            'intensity_id' => ['unsignedBigInteger'],
-            'price' => ['double'],
+            'intensity_id' => ['required', 'exists:job_intensities,id'],
+            'price' => ['numeric'],
             'street_address' => [ 'string'],
             'city' => [ 'string'],
             'state' => [ new Abbr('US')],
