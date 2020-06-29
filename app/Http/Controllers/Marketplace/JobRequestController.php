@@ -160,6 +160,8 @@ class JobRequestController extends Controller
      * @Meta(name="Edit Job", description="Edit a customers marketplace job.", href="edit-job")
      * @BodyParam(name="description", type="string", status="optional", description="The description of the job.", example=" I need my lawn mowed.")
      * @BodyParam(name="complete_before", type="string", status="optional", description="The deadline for the job.", example=" 03/11/2020 12:00:00")
+     * @BodyParam(name"intensity_id", type="numeric", status="optional", description="How hard the job is.", example="easy medium or hard")
+     * @BodyParam(name"price", type="numeric", status="optional", description="How much it costs", example="$68.99")
      * @BodyParam(name="street_address", type="string", status="optional", description="The address of the job location", example="123 Main St NE")
      * @BodyParam(name="city", type="string", status="optional", description="The city of the job location.", example="Rochester")
      * @BodyParam(name="state", type="string", status="optional", description="The state of the job location.", example="MN")
@@ -191,6 +193,14 @@ class JobRequestController extends Controller
 
         if ($request->has('category_id')) {
             $marketplace->update(['category_id' => $request->category_id]);
+        }
+
+        if ($request->has('intensity_id')) {
+            $marketplace->update(['intensity_id' => $request->intensity_id]);
+        }
+
+        if ($request->has('price')) {
+            $marketplace->update(['price' => $request->price]);
         }
 
         if ($request->has('street_address')) {
