@@ -8,6 +8,7 @@ use App\Stripe\BillingProvider;
 use App\Stripe\ConnectProvider;
 use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
+use Stripe\StripeClient;
 
 class StripeServiceProvider extends ServiceProvider
 {
@@ -34,6 +35,10 @@ class StripeServiceProvider extends ServiceProvider
 
         $this->app->bind(Billing::class, function (){
             return $this->app->make(BillingProvider::class);
+        });
+
+        $this->app->bind(StripeClient::class, function (){
+            return new StripeClient(config('stripe.secret'));
         });
     }
 }

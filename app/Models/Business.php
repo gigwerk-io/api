@@ -6,6 +6,7 @@ use App\Models\Pivots\BusinessUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Spatie\MediaLibrary\HasMedia;
@@ -18,7 +19,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  */
 class Business extends Model implements Transformable, HasMedia
 {
-    use TransformableTrait, Notifiable, InteractsWithMedia;
+    use TransformableTrait, Notifiable, InteractsWithMedia, Billable;
 
     /**
      * The attributes that are mass assignable.

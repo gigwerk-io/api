@@ -10,8 +10,11 @@
         - [Account](/{{route}}/{{version}}/business/account)
         - [Applicant](/{{route}}/{{version}}/business/applicant)
         - [Dashboard](/{{route}}/{{version}}/business/dashboard)
+        - [Invoice](/{{route}}/{{version}}/business/invoice)
         - [Marketplace](/{{route}}/{{version}}/business/marketplace)
         - [Notifications](/{{route}}/{{version}}/business/notifications)
+        - [Payment Methods](/{{route}}/{{version}}/business/payment-methods)
+        - [Subscription](/{{route}}/{{version}}/business/subscription)
         - [Users](/{{route}}/{{version}}/business/users)
     
     - [Chat](#)

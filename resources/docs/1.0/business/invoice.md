@@ -1,6 +1,6 @@
-# General
+# Invoice
 
-
+View past and future invoices for a business.
 
 ---
 

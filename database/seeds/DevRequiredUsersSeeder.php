@@ -1,10 +1,13 @@
 <?php
 
+use App\Enum\Billing\Plan;
 use App\Enum\User\ApplicationStatus;
 use App\Enum\User\Role;
 use App\Models\Business;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Stripe\StripeClient;
 use Tests\Factories\BusinessFactory;
 use Tests\Factories\BusinessLocationFactory;
 use Tests\Factories\BusinessProfileFactory;
@@ -22,6 +25,9 @@ class DevRequiredUsersSeeder extends Seeder
      */
     public function run()
     {
+        /** @var StripeClient $stripe */
+        $stripe = app()->make(StripeClient::class);
+
         /** @var User $businessAdminOne */
         $businessAdminOne = UserFactory::new()->withAttributes(['username' => 'admin_one'])
             ->withProfile(UserProfileFactory::new())
@@ -31,10 +37,37 @@ class DevRequiredUsersSeeder extends Seeder
         $businessOne = BusinessFactory::new()->withAttributes(['name' => 'First Business Inc.', 'subdomain_prefix' => 'first', 'unique_id' => 'ea11187b-fba5-31c8-87b4-84928c0334d6'])
             ->withProfile(BusinessProfileFactory::new())
             ->withLocation(BusinessLocationFactory::new())
-            ->afterCreating(function (Business $business) use ($businessAdminOne){
+            ->afterCreating(function (Business $business) use ($businessAdminOne, $stripe){
                 $businessAdminOne->businesses()->attach($business, ['role_id' => Role::VERIFIED_FREELANCER]);
                 $domain = sprintf("https://first-%s.%s", app()->environment(), config('app.url_suffix'));
                 $business->businessApp()->create(['domain' => $domain]);
+                $paymentMethod = $stripe->paymentMethods->create([
+                    'type' => 'card',
+                    'card' => [
+                        'number' => '4242424242424242',
+                        'exp_month' => 6,
+                        'exp_year' => 2021,
+                        'cvc' => '314',
+                    ],
+                ]);
+
+
+                $business->createOrGetStripeCustomer(['name' => $business->name, 'description' => 'The First Business Inc of America']);
+                $business->addPaymentMethod($paymentMethod);
+                $business->updateDefaultPaymentMethod($paymentMethod);
+
+                $paymentMethod2 = $stripe->paymentMethods->create([
+                    'type' => 'card',
+                    'card' => [
+                        'number' => '5200828282828210',
+                        'exp_month' => 03,
+                        'exp_year' => 2022,
+                        'cvc' => '123',
+                    ],
+                ]);
+                $business->addPaymentMethod($paymentMethod2);
+
+                $business->newSubscription(Plan::PRO['name'], Plan::PRO['id'])->trialDays(14)->create();
             })
             ->create(['owner_id' => $businessAdminOne->id]);
 
@@ -86,10 +119,26 @@ class DevRequiredUsersSeeder extends Seeder
         $businessTwo = BusinessFactory::new()->withAttributes(['name' => 'Second Business LLC', 'subdomain_prefix' => 'second', 'unique_id' => '048d54b7-54fc-3e4e-87c5-d575ff867b84'])
             ->withProfile(BusinessProfileFactory::new()->withAttributes(['image' => 'https://gigwerk-disk.s3.amazonaws.com/second.png']))
             ->withLocation(BusinessLocationFactory::new())
-            ->afterCreating(function (Business $business) use ($businessAdminTwo){
+            ->afterCreating(function (Business $business) use ($businessAdminTwo, $stripe){
                 $businessAdminTwo->businesses()->attach($business, ['role_id' => Role::VERIFIED_FREELANCER]);
                 $domain = sprintf("https://second-%s.%s", app()->environment(), config('app.url_suffix'));
                 $business->businessApp()->create(['domain' => $domain]);
+
+                $paymentMethod = $stripe->paymentMethods->create([
+                    'type' => 'card',
+                    'card' => [
+                        'number' => '5200828282828210',
+                        'exp_month' => 03,
+                        'exp_year' => 2022,
+                        'cvc' => '123',
+                    ],
+                ]);
+
+                $business->createOrGetStripeCustomer(['name' => $business->name, 'description' => 'The Second Business LLC of America']);
+                $business->addPaymentMethod($paymentMethod);
+                $business->updateDefaultPaymentMethod($paymentMethod);
+
+                $business->newSubscription(Plan::BASIC['name'], Plan::BASIC['id'])->trialDays(14)->create();
             })
             ->create(['owner_id' => $businessAdminTwo->id]);
 
