@@ -43,7 +43,7 @@ jobs:
           coverage: xdebug
           tools: php-cs-fixer, phpunit
       - name: Start mysql service
-        run: sudo /etc/init.d/mysql start
+        run: /etc/init.d/mysql start
       - name: Get composer cache directory
         id: composercache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -56,7 +56,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer install --prefer-dist
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: Copy Env File
         run: cp .env.testing .env
       - name: Migrate Database
