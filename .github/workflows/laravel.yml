@@ -1,4 +1,4 @@
-name: Laravel
+name: Gigwerk API
 
 on:
   push:
@@ -36,7 +36,7 @@ jobs:
           coverage: xdebug
           tools: php-cs-fixer, phpunit
       - name: Install VM Dependencies
-        run: sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev libpng-dev redis-server
+        run: apt update && apt install zlib1g-dev libsqlite3-dev libpng-dev redis-server
       - name: Cache Composer Downloads
         uses: actions/cache@v1
         with:
