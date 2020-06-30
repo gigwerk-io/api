@@ -55,12 +55,24 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::get('graphs', 'DashboardController@graphs')->name('graphs');
             Route::get('leaderboard', 'DashboardController@leaderboard')->name('business.leaderboard');
 
+            Route::get('invoices', 'InvoiceController@index')->name('all.invoices');
+            Route::get('invoice', 'InvoiceController@upcoming')->name('upcoming.invoice');
+
             Route::get('jobs', 'MarketplaceController@index')->name('all.marketplace.jobs');
             Route::get('job/{id}', 'MarketplaceController@show')->name('show.marketplace.job');
 
             Route::get('notifications/new', 'NotificationController@unread')->name('new.business.notifications');
             Route::get('notification/{id}', 'NotificationController@show')->name('show.business.notification');
             Route::get('notifications/all', 'NotificationController@all')->name('all.business.notifications');
+
+            Route::get('payment-methods', 'PaymentMethodController@index')->name('show.all.payment.methods');
+            Route::post('payment-methods', 'PaymentMethodController@store')->name('save.payment.method');
+            Route::patch('payment-method/{payment_method_id}', 'PaymentMethodController@update')->name('update.default.payment.method');
+            Route::delete('payment-method/{payment_method_id}', 'PaymentMethodController@delete')->name('remove.payment.method');
+
+            Route::get('subscription', 'SubscriptionController@show')->name('show.subscription.plan');
+            Route::patch('subscription', 'SubscriptionController@update')->name('update.subscription.plan');
+            Route::delete('subscription', 'SubscriptionController@delete')->name('cancel.subscription.plan');
 
             Route::get('users', 'UserController@index')->name('business.all.users');
             Route::get('user/{id}', 'UserController@show')->name('business.show.user');

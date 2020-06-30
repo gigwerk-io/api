@@ -113,9 +113,9 @@ class ConnectProvider implements Connect
         $token = Str::random();
         $this->redis->set($token, $id);
 
-        $standardUrl = str_replace(config('stripe.connect.standard'), '{client_id}', config('stripe.connect.client_id'));
-        $standardUrl = str_replace($standardUrl, '{uri}', config('stripe.connect.redirect_uri'));
-        return str_replace($standardUrl, '{state}', $token);
+        $standardUrl = str_replace('{client_id}', config('stripe.connect.client_id'), config('stripe.connect.standard'));
+        $standardUrl = str_replace( '{uri}', config('stripe.connect.redirect_uri'), $standardUrl);
+        return str_replace( '{state}', $token, $standardUrl);
     }
 
     /**
@@ -129,9 +129,9 @@ class ConnectProvider implements Connect
         $token = Str::random();
         $this->redis->set($token, $id);
 
-        $expressUrl = str_replace(config('stripe.connect.express'), '{client_id}', config('stripe.connect.client_id'));
-        $expressUrl = str_replace($expressUrl, '{uri}', config('stripe.connect.redirect_uri'));
-        return str_replace($expressUrl, '{state}', $token);
+        $expressUrl = str_replace('{client_id}', config('stripe.connect.client_id'), config('stripe.connect.express'));
+        $expressUrl = str_replace( '{uri}', config('stripe.connect.redirect_uri'), $expressUrl);
+        return str_replace( '{state}', $token, $expressUrl);
     }
 
     /**
