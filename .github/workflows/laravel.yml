@@ -21,7 +21,14 @@ jobs:
           MYSQL_DATABASE: 'gigwerk_testing'
           MYSQL_USER: 'homestead'
           MYSQL_PASSWORD: 'secret'
+        ports:
+          - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      redis:
+        image: redis
+        ports:
+          - 6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout
@@ -35,17 +42,34 @@ jobs:
           ini-values: post_max_size=256M, short_open_tag=On
           coverage: xdebug
           tools: php-cs-fixer, phpunit
-      - name: Install VM Dependencies
-        run: apt update && apt -y install zlib1g-dev libsqlite3-dev libpng-dev redis-server
-      - name: Install Composer Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Start mysql service
+        run: sudo /etc/init.d/mysql start
+      - name: Get composer cache directory
+        id: composercache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist
       - name: Copy Env File
         run: cp .env.testing .env
       - name: Migrate Database
         run: php artisan migrate --env=testing --seed --force
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: vendor/bin/phpunit
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
       - name: PHPStan Analysis
         run: ./vendor/bin/phpstan analyse --memory-limit=2G
