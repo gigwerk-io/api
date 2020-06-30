@@ -1,8 +1,8 @@
+<h1 align="center">
+  Gigwerk API
+</h1>
 <p align="center">
-  <img src="https://www.gigwerk.com/_nuxt/img/c88a184.png" alt="Logo">
-</p>
-<p align="center">
-  <img src="https://circleci.com/gh/FAVR-Inc/api.svg?style=svg&circle-token=388dca99d4dd472b665fabd09710b765812f37ec" alt="CircleCI">
+  <img src="https://github.com/gigwerk-io/api/workflows/Gigwerk%20API/badge.svg" alt="GigwerkAPI">
 </p>
 
 ## Gigwerk API

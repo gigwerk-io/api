@@ -48,7 +48,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
+            'throttle:120,1',
             ExpectsJsonMiddleware::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             HandleCors::class
