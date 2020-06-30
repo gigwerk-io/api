@@ -1,10 +1,6 @@
 # GitHub Action for Laravel with MySQL and Redis
 name: Gigwerk API
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 jobs:
   laravel:
     name: Laravel (PHP ${{ matrix.php-versions }})
