@@ -75,7 +75,7 @@ class MessageController extends Controller
             'text' => $request->message
         ]);
 
-        $this->eventDispatcher->dispatch(new MessageSent($room->id, $message->text, $message->sender));
+        $this->eventDispatcher->dispatch('message-sent', new MessageSent($room->id, $message->text, $message->sender));
 
         return ResponseFactory::success('Message sent', $message, 201);
     }

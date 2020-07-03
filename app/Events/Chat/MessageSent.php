@@ -36,6 +36,7 @@ class MessageSent implements ShouldBroadcast
         $this->uuid = $uuid;
         $this->message = $message;
         $this->sender = $sender;
+        $this->sender->load('profile');
     }
 
     /**
@@ -46,5 +47,14 @@ class MessageSent implements ShouldBroadcast
     public function broadcastOn()
     {
         return new PrivateChannel('chat.' . $this->uuid);
+    }
+
+    /**
+     * Broadcast message with eventName message-sent
+     *
+     * @return string
+     */
+    public function broadcastAs() {
+        return 'message-sent';
     }
 }
