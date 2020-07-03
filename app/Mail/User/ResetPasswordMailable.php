@@ -11,14 +11,18 @@ class ResetPasswordMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $link;
+    public $user;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($token, $user)
     {
-        //
+        $this->link = route('reset.view', ['token' => $token]);
+        $this->user = $user;
     }
 
     /**
@@ -28,6 +32,12 @@ class ResetPasswordMailable extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        $address = 'no-reply@gigwerk.io';
+        $subject = 'Passord Reset!';
+        $name = getenv('MAIL_FROM_NAME');
+        return $this->markdown('mail.user.reset-password')->from($address, $name)
+            ->subject($subject)
+            ->with('url', $this->link);
     }
 }
+

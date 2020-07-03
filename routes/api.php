@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('Auth')->group(function (){
     Route::post('register', 'RegisterController@userRegistration')->name('user.registration');
     Route::post('login', 'LoginController@login')->name('login');
+    Route::post('forgot-password', 'ResetPasswordController@forgotPassword')->name('forgot.password');
+    Route::post('reset/{token}', 'ResetPasswordController@resetPassword')->name('reset.password');
+    Route::get('reset/{token}', 'ResetPasswordController@resetView')->name('reset.view');
 
 
     Route::middleware(['auth:sanctum'])->group(function (){
