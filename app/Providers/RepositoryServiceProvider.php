@@ -17,6 +17,7 @@ use App\Contracts\Repositories\JobStatusRepository;
 use App\Contracts\Repositories\MarketplaceJobRepository;
 use App\Contracts\Repositories\MarketplaceLocationRepository;
 use App\Contracts\Repositories\MarketplaceProposalRepository;
+use App\Contracts\Repositories\PasswordResetRepository;
 use App\Contracts\Repositories\PaymentMethodRepository;
 use App\Contracts\Repositories\PaymentRepository;
 use App\Contracts\Repositories\PayoutMethodRepository;
@@ -42,6 +43,7 @@ use App\Repositories\JobStatusRepositoryEloquent;
 use App\Repositories\MarketplaceJobRepositoryEloquent;
 use App\Repositories\MarketplaceLocationRepositoryEloquent;
 use App\Repositories\MarketplaceProposalRepositoryEloquent;
+use App\Repositories\PasswordResetRepositoryEloquent;
 use App\Repositories\PaymentMethodRepositoryEloquent;
 use App\Repositories\PaymentRepositoryEloquent;
 use App\Repositories\PayoutRepositoryEloquent;
@@ -126,6 +128,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(MarketplaceProposalRepository::class, function (){
             return $this->app->make(MarketplaceProposalRepositoryEloquent::class);
+        });
+
+        $this->app->bind(PasswordResetRepository::class, function (){
+            return $this->app->make(PasswordResetRepositoryEloquent::class);
         });
 
         $this->app->bind(ProposalStatusRepository::class, function (){

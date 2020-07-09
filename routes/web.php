@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('/docs');
 });
+
+Route::get('/testmail', function () {
+    return view('mail.user.reset-password');
+});
