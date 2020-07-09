@@ -133,6 +133,17 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have one password reset method
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function passwordReset()
+    {
+        return $this->hasOne(PasswordReset::class);
+    }
+
+
+    /**
      * A user can have many payment methods.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
