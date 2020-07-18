@@ -78,7 +78,7 @@ class LoginController extends Controller
             );
         }
 
-        $user->load(['profile', 'businesses']);
+        $user->load(['profile', 'businesses.profile']);
 
         $token = $user->createToken('login');
 

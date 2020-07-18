@@ -56,6 +56,10 @@ class Handler extends ExceptionHandler
     {
         $render =  parent::render($request, $exception);
 
+        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+            app('sentry')->captureException($exception);
+        }
+
         if($request->expectsJson()){
             $message = $exception->getMessage();
 

@@ -7,9 +7,6 @@ These routes are responsible for requesting and editing jobs.
 - [Request Job](#submit)
 
 
-- [Edit Job](#edit-job)
-
-
 
 <a name="submit"></a>
 ## Request Job
@@ -71,43 +68,6 @@ Content
             "name": "Medium"
         }
     }
-}
-
-```
-
-
-
-<a name="edit-job"></a>
-## Edit Job
-
-Edit a customers marketplace job.
-### Endpoint
-|Method|URI|Authentication|
-|:-|:-|:-|
-|`PATCH`|`/business/{unique_id}/marketplace/job/{id}`|`true`|
-
-
-### Body Params
-|Name|Type|Status|Description|
-|:-|:-|:-|:-|
-|`description`|`string`|`optional`|`The description of the job.`|
-|`complete_before`|`string`|`optional`|`The deadline for the job.`|
-|`street_address`|`string`|`optional`|`The address of the job location`|
-|`city`|`string`|`optional`|`The city of the job location.`|
-|`state`|`string`|`optional`|`The state of the job location.`|
-|`zip`|`string`|`optional`|`The zip code of the job location.`|
-
-
-> {success} Example Success Response
-Code `201`
-
-Content
-
-```json
-{
-    "success": true,
-    "message": "Your job has been updated.",
-    "data": null
 }
 
 ```
