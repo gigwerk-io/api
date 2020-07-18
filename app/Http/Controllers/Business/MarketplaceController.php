@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Business;
 
 use App\Contracts\Repositories\UserRepository;
+use App\Enum\Marketplace\ProposalStatus;
 use App\Enum\Marketplace\Status;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Marketplace\CustomerActionsController;
 use App\Models\Business;
 use App\Models\MarketplaceJob;
-use Composer\EventDispatcher\EventDispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use Lukeraymonddowning\Poser\Tests\Models\User;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
 use Solomon04\Documentation\Annotation\ResponseExample;
@@ -21,6 +20,22 @@ use Solomon04\Documentation\Annotation\ResponseExample;
  */
 class MarketplaceController extends Controller
 {
+    /**
+     * @var Dispatcher
+     */
+    private $eventDispatcher;
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    public function __construct(Dispatcher $eventDispatcher , UserRepository $userRepository)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * @Meta(name="All Jobs", description="View all jobs in a business marketplace.", href="all-jobs")
      * @ResponseExample(status=200, example="responses/business/marketplace/all.marketplace.jobs-200.json")
@@ -71,7 +86,7 @@ class MarketplaceController extends Controller
 
     /**
      * @meta(name="Assign worker", description="Assign a worker to a job", href="assign-job")
-     * @ResponseExample(status=200, example="...."
+     * @ResponseExample(status=200)
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -79,49 +94,48 @@ class MarketplaceController extends Controller
      */
     public function assign(Request $request)
     {
-        // probably not validating the right field
-        $this->validate($request, [
-            'id' => 'exists:marketplace_jobs,id',
-        ]);
-
         /** @var Business $business */
         $business = $request->get('business');
 
-        /** @var MarketplaceJob $job */
-        $job = $business->marketplaceJobs()
+        /** @var MarketplaceJob $marketplaceJob */
+        $marketplaceJob = $business->marketplaceJobs()
             ->where('id' , '=' , $request->id)
             ->first();
 
-        //probably not right - unsure how to use the CustomerActionsController for it tho
         /** @var $worker */
         $worker = $business->users()
-            ->where('id' , '=' , $request->id)
+            ->where('user_id' , '=' , $request->id)
             ->first();
 
-        if (is_null($worker))
+        if (is_null($marketplaceJob)) {
+            return ResponseFactory::error('Job does not exist for this business');
+        }
+        if (is_null($worker)) {
             return ResponseFactory::error('Worker does not exist or is not authorized');
+        }
 
-        if ($job->isRequested()) {
-            $job->proposals()->create([
-               'marketplace_id' => $job->id,
-               'user_id' => $worker->id,
+        if ($marketplaceJob->isRequested()) {
+
+            $marketplaceJob->proposals()->create([
+                'marketplace_id' => $marketplaceJob->id,
+                'user_id' => $worker->id,
             ]);
 
-            // took this from old assign function - not sure freelancer_accepted is the right key
-            $job->update(['freelancer_accepted' => true, 'status_id' => Status::PENDING_APPROVAL]);
-            //same issue with eventDispatcher as userRepository mentioned above
-//            EventDispatcher::dispatch(new FreelancerHasAcceptedRequest($job));
-        }
-        elseif ($job->isComplete())
-            return ResponseFactory::error('The Job is already complete');
-        elseif ($job->status_id == Status::PENDING_APPROVAL)
-            $job->proposals()->first()->update(['user_id' => $worker->id]);
-        else
-            $job->proposals()
-                ->where('status_id', '=' , 2) // not sure this is correct or proper either
+            $marketplaceJob->update(['status_id' => Status::PENDING_APPROVAL]);
+
+            $this->eventDispatcher->dispatch(new FreelancerHasAcceptedRequest($marketplaceJob));
+
+        } elseif ($marketplaceJob->isComplete()) {
+            return ResponseFactory::error('The job is already complete');
+        } elseif ($marketplaceJob->status_id == Status::PENDING_APPROVAL) {
+            $marketplaceJob->proposals()->first()->update(['user_id' => $worker->id]);
+        } else {
+            $marketplaceJob->proposals()
+                ->where('status_id', '=', ProposalStatus::APPROVED)
                 ->first()
                 ->update(['user_id' => $worker->id]);
+        }
 
-        return ResponseFactory::success('Assigned worker to a job');
+        return ResponseFactory::success('Assigned worker to a Job');
     }
 }
