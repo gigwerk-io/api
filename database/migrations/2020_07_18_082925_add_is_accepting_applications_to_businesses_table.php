@@ -14,7 +14,7 @@ class AddIsAcceptingApplicationsToBusinessesTable extends Migration
     public function up()
     {
         Schema::table('businesses', function (Blueprint $table) {
-            $table->boolean('is_accepting_applications')->after('name');
+            $table->boolean('is_accepting_applications')->after('name')->default(0);
         });
     }
 
@@ -26,7 +26,7 @@ class AddIsAcceptingApplicationsToBusinessesTable extends Migration
     public function down()
     {
         Schema::table('businesses', function (Blueprint $table) {
-            //
+            $table->dropColumn('is_accepting_applications');
         });
     }
 }
