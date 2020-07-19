@@ -61,6 +61,7 @@ class SubscriptionController extends Controller
 
         $business->subscription($currentSubscription->name)->skipTrial()->swap($request->subscription_id);
         $newSubscription = $plans->where('id', '=', $request->subscription_id)->first();
+        $currentSubscription->update(['name' =>  $newSubscription['name']]);
 
         return ResponseFactory::success(sprintf('You are now subscribed to the %s.', $newSubscription['name']));
     }
