@@ -9,6 +9,7 @@ use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\MarketplaceJob;
+use App\Notifications\Marketplace\WorkerAcceptedJobNotification;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Solomon04\Documentation\Annotation\Group;
@@ -125,12 +126,12 @@ class MarketplaceController extends Controller
             $marketplaceJob->proposals()->create([
                 'marketplace_id' => $marketplaceJob->id,
                 'user_id' => $worker->id,
-                'status_id' => $marketplaceJob->status_id,
+                'status_id' => ProposalStatus::PENDING,
             ]);
 
             $marketplaceJob->update(['status_id' => Status::PENDING_APPROVAL]);
 
-            $this->eventDispatcher->dispatch(new FreelancerHasAcceptedRequest($marketplaceJob));
+            $this->eventDispatcher->dispatch(new WorkerAcceptedJobNotification($marketplaceJob));
 
         } elseif ($marketplaceJob->isComplete()) {
             return ResponseFactory::error('The job is already complete');
