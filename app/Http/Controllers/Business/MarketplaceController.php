@@ -86,6 +86,7 @@ class MarketplaceController extends Controller
 
     /**
      * @meta(name="Assign worker", description="Assign a worker to a job", href="assign-job")
+     * @BodyParam(name="worker_id", type="numeric", status="required", description="The id of the worker being assigned", example="4")
      * @ResponseExample(status=200)
      *
      * @param Request $request
@@ -94,6 +95,11 @@ class MarketplaceController extends Controller
      */
     public function assign(Request $request)
     {
+
+        $this->validate($request, [
+            'worker_id' => 'required'
+        ]);
+
         /** @var Business $business */
         $business = $request->get('business');
 
@@ -104,7 +110,7 @@ class MarketplaceController extends Controller
 
         /** @var $worker */
         $worker = $business->users()
-            ->where('user_id' , '=' , $request->id)
+            ->where('user_id' , '=' , $request->worker_id)
             ->first();
 
         if (is_null($marketplaceJob)) {
@@ -119,6 +125,7 @@ class MarketplaceController extends Controller
             $marketplaceJob->proposals()->create([
                 'marketplace_id' => $marketplaceJob->id,
                 'user_id' => $worker->id,
+                'status_id' => $marketplaceJob->status_id,
             ]);
 
             $marketplaceJob->update(['status_id' => Status::PENDING_APPROVAL]);
