@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Enum\Marketplace\Status;
+use App\Models\Payout;
 use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -46,4 +47,5 @@ class MarketplaceJobRepositoryEloquent extends BaseRepository implements Marketp
     {
         return $this->with(['customer.profile', 'location'])->findWhere(['status_id' => Status::REQUESTED, 'business_id' => $businessId]);
     }
+
 }

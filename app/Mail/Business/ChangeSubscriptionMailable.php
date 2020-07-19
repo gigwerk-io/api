@@ -6,37 +6,38 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
 
-class IncompleteAccountMailable extends Mailable
+class ChangeSubscriptionMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $message;
     public $user;
+    public $subscriptionName;
+    public $link;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, $message)
+    public function __construct($user, $subscriptionName, $business_id)
     {
         $this->user = $user;
-        $this->message = $message;
+        $this->subscriptionName = $subscriptionName;
+        $this->link = route('show.subscription.plan', ['unique_id' => $business_id]);
     }
 
     /**
      * Build the message.
      *
-     * @return \App\Mail\Business\IncompleteAccountMailable
+     * @return \App\Mail\Business\ChangeSubscriptionMailable
      */
     public function build()
     {
         $address = 'no-reply@gigwerk.io';
-        $subject = 'Complete your account setup!';
+        $subject = 'You changed your subscription plan!';
         $name = getenv('MAIL_FROM_NAME');
-        return $this->markdown('mail.Business.IncompleteAccount')->from($address, $name)
+        return $this->markdown('mail.Business.ChangeSubscription')->from($address, $name)
             ->subject($subject);
     }
 }

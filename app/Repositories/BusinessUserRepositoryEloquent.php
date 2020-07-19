@@ -4,16 +4,15 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Contracts\Repositories\PayoutRepository;
-use App\Models\Payout;
-use App\Validators\PayoutValidator;
+use App\Contracts\Repositories\BusinessUserRepository;
+use App\Validators\BusinessUserRepositoryValidator;
 
 /**
- * Class PayoutRepositoryEloquent.
+ * Class BusinessUserRepositoryEloquent.
  *
  * @package namespace App\Repositories;
  */
-class PayoutRepositoryEloquent extends BaseRepository implements PayoutRepository
+class BusinessUserRepositoryEloquent extends BaseRepository implements BusinessUserRepository
 {
     /**
      * Specify Model class name
@@ -22,9 +21,8 @@ class PayoutRepositoryEloquent extends BaseRepository implements PayoutRepositor
      */
     public function model()
     {
-        return Payout::class;
+        return BusinessUserRepository::class;
     }
-
 
 
 

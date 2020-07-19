@@ -8,35 +8,37 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
 
-class IncompleteAccountMailable extends Mailable
+class RegisteredBusinessMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $message;
     public $user;
+    public $business;
+    public $link;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, $message)
+    public function __construct(User $user, $business)
     {
         $this->user = $user;
-        $this->message = $message;
+        $this->business = $business;
+        $this->link = route('stats', ['unique_id' => $business->unique_id]);
     }
 
     /**
      * Build the message.
      *
-     * @return \App\Mail\Business\IncompleteAccountMailable
+     * @return \App\Mail\Business\RegisteredBusinessMailable
      */
     public function build()
     {
         $address = 'no-reply@gigwerk.io';
-        $subject = 'Complete your account setup!';
+        $subject = 'You just created "' . $this->business->name . '" !';
         $name = getenv('MAIL_FROM_NAME');
-        return $this->markdown('mail.Business.IncompleteAccount')->from($address, $name)
+        return $this->markdown('mail.Business.NewBusiness')->from($address, $name)
             ->subject($subject);
     }
 }

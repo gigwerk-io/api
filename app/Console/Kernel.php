@@ -2,8 +2,11 @@
 
 namespace App\Console;
 
+use App\Console\Commands\WeeklySummaryCommand;
+use App\Console\Commands\IncompleteAccountCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Artisan;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +16,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\WeeklySummaryCommand::class,
+        Commands\IncompleteAccountCommand::class,
     ];
 
     /**
@@ -24,7 +28,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function() {
+            Artisan::call('command:WeeklySummary');
+        })->weekly();
+
+        $schedule->call(function() {
+            Artisan::call('command:IncompleteAccount');
+        })->weekly();
     }
 
     /**
