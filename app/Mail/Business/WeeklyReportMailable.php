@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class IncompleteAccountMailable extends Mailable
+class WeeklyReportMailable extends Mailable
 {
     use Queueable, SerializesModels;
 

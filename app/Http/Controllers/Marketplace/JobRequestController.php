@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Marketplace;
 
-use App\Mail\Business\UserAppliedMailable;
 use App\Events\Marketplace\CustomerHasRequested;
-use Illuminate\Mail\Mailer;
 use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
@@ -63,18 +61,12 @@ class JobRequestController extends Controller
      */
     private $filesystem;
 
-    /**
-     * @var Mailer
-     */
-    private $mailer;
-
     public function __construct(
         Geolocation $geolocation,
         Dispatcher $eventDispatcher,
         MarketplaceJobRepository $marketplaceJobRepository,
         BusinessRepository $businessRepository,
         Base64Image $base64Image,
-        Mailer $mailer,
         FilesystemManager $filesystem
     )
     {
@@ -84,7 +76,6 @@ class JobRequestController extends Controller
         $this->marketplaceJobRepository = $marketplaceJobRepository;
         $this->businessRepository = $businessRepository;
         $this->filesystem = $filesystem;
-        $this->mailer = $mailer;
     }
 
     /**

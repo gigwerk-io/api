@@ -25,8 +25,7 @@ class PayoutRepositoryEloquent extends BaseRepository implements PayoutRepositor
         return Payout::class;
     }
 
-
-
+    
 
     /**
      * Boot up the repository, pushing criteria
@@ -35,5 +34,5 @@ class PayoutRepositoryEloquent extends BaseRepository implements PayoutRepositor
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-
+    
 }

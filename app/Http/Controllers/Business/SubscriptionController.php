@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Business;
 use App\Enum\Billing\Plan;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
-use App\Mail\Business\ChangeSubscriptionMailable;
 use App\Models\Business;
 use Illuminate\Http\Request;
-use Illuminate\Mail\Mailer;
 use Illuminate\Validation\Rule;
 use Laravel\Cashier\Subscription;
 use Solomon04\Documentation\Annotation\BodyParam;
@@ -21,15 +19,6 @@ use Solomon04\Documentation\Annotation\ResponseExample;
  */
 class SubscriptionController extends Controller
 {
-    /**
-     * @var Mailer
-     */
-    private $mailer;
-
-    public function __construct(Mailer $mailer) {
-        $this->mailer = $mailer;
-    }
-
     /**
      * @Meta(name="Show Subscription", description="Show the subscription plan for a business.", href="show-subscription")
      * @ResponseExample(status=200, example="responses/business/subscription/show.subscription.plan-200.json")
@@ -59,7 +48,6 @@ class SubscriptionController extends Controller
      */
     public function update(Request $request)
     {
-        $user = $request->user();
         $plans = Plan::toCollection();
         $planIds = $plans->map(function ($item){
             return $item['id'];
@@ -73,10 +61,6 @@ class SubscriptionController extends Controller
 
         $business->subscription($currentSubscription->name)->skipTrial()->swap($request->subscription_id);
         $newSubscription = $plans->where('id', '=', $request->subscription_id)->first();
-
-        $subscriptionName = $newSubscription['name'];
-
-        $this->mailer->to($user->email)->send(new ChangeSubscriptionMailable($user, $subscriptionName, $business->unique_id));
 
         return ResponseFactory::success(sprintf('You are now subscribed to the %s.', $newSubscription['name']));
     }

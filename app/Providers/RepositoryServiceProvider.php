@@ -9,7 +9,6 @@ use App\Contracts\Repositories\BusinessInvitationRepository;
 use App\Contracts\Repositories\BusinessLocationRepository;
 use App\Contracts\Repositories\BusinessProfileRepository;
 use App\Contracts\Repositories\BusinessRepository;
-use App\Contracts\Repositories\BusinessUserRepository;
 use App\Contracts\Repositories\CategoryRepository;
 use App\Contracts\Repositories\ChatMessageRepository;
 use App\Contracts\Repositories\ChatRoomRepository;
@@ -36,7 +35,6 @@ use App\Repositories\BusinessInvitationRepositoryEloquent;
 use App\Repositories\BusinessLocationRepositoryEloquent;
 use App\Repositories\BusinessProfileRepositoryEloquent;
 use App\Repositories\BusinessRepositoryEloquent;
-use App\Repositories\BusinessUserRepositoryEloquent;
 use App\Repositories\CategoryRepositoryEloquent;
 use App\Repositories\ChatMessageRepositoryEloquent;
 use App\Repositories\ChatRoomRepositoryEloquent;
@@ -98,10 +96,6 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(BusinessProfileRepository::class, function (){
             return $this->app->make(BusinessProfileRepositoryEloquent::class);
-        });
-
-        $this->app->bind(BusinessUserRepository::class, function (){
-            return $this->app->make(BusinessUserRepositoryEloquent::class);
         });
 
         $this->app->bind(CategoryRepository::class, function (){
