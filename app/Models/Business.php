@@ -42,7 +42,7 @@ class Business extends Model implements Transformable, HasMedia
     public function users()
     {
         return $this->belongsToMany(User::class, 'business_user')->using(BusinessUser::class)
-            ->withPivot(['role_id', 'apn_token', 'fcm_token', 'email_notifications', 'sms_notifications', 'push_notifications']);
+            ->withPivot(['role_id', 'business_id', 'apn_token', 'fcm_token', 'email_notifications', 'sms_notifications', 'push_notifications']);
     }
 
     /**
