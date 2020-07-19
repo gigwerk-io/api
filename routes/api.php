@@ -177,7 +177,7 @@ Route::get('businesses', 'DataController@businesses')
     ->middleware('auth.builder')
     ->name('show.businesses');
 
-
+Route::get('subscriptions', 'DataController@subscriptions')->name('available.subscriptions');
 
 
 
