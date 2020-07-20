@@ -32,6 +32,7 @@ class Business extends Model implements Transformable, HasMedia
         'stripe_connect_id',
         'owner_id',
         'unique_id',
+        'is_accepting_applications',
     ];
 
     /**

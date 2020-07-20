@@ -11,5 +11,6 @@ $factory->define(Business::class, function (Faker $faker) {
         'name' => $faker->company,
         'subdomain_prefix' => $faker->domainWord,
         'stripe_connect_id' => 'acct_1F7RiLBKeAbZ6utM',
+        'is_accepting_applications' => 1,
     ];
 });

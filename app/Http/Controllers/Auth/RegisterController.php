@@ -179,6 +179,14 @@ class RegisterController extends Controller
         /** @var Business $business */
         $business = $this->businessRepository->findByField('unique_id', $request->unique_id)->first();
 
+        if (!$business->is_accepting_applications) {
+            return ResponseFactory::error(
+                'This business is not currently accepting applications',
+                null,
+                400
+            );
+        }
+
         if ($business->users()->where('id', '=', $user->id)->exists()) {
             return ResponseFactory::error('You are already a member of this business marketplace');
         }
