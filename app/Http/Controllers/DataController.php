@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\CategoryRepository;
 use App\Contracts\Repositories\UserRoleRepository;
+use App\Enum\Billing\Plan;
 use App\Factories\ResponseFactory;
 use Illuminate\Http\Request;
 use Solomon04\Documentation\Annotation\Meta;
@@ -56,5 +57,15 @@ class DataController extends Controller
             'Show all businesses',
             $businesses
         );
+    }
+
+    /**
+     * @Meta(name="Subscriptions", href="subscriptions", description="Show available subscription options.")
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function subscriptions()
+    {
+        return ResponseFactory::success('Show subscription plans', Plan::toCollection());
     }
 }

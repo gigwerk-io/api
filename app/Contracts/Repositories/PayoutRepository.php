@@ -11,5 +11,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface PayoutRepository extends RepositoryInterface
 {
-
+    //
 }
