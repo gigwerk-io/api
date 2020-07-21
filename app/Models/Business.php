@@ -33,6 +33,10 @@ class Business extends Model implements Transformable, HasMedia
         'owner_id',
         'unique_id',
         'is_accepting_applications',
+        'facebook_pixel_id',
+        'google_analytics_id',
+        'cloudfront_id',
+        's3_bucket_id',
     ];
 
     /**
