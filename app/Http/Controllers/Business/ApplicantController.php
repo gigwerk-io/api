@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Business;
 
+use App\Notifications\User\ApplicationApprovedNotification;
+use App\Notifications\User\ApplicationRejectedNotification;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
 use Solomon04\Documentation\Annotation\ResponseExample;
@@ -89,7 +91,7 @@ class ApplicantController extends Controller
 
 
         $applicant->update(['status_id' => ApplicationStatus::APPROVED]);
-        // TODO: Send event
+        $applicant->user->notify(new ApplicationApprovedNotification($business));
         $business->users()->attach($applicant->user, ['role_id' => Role::VERIFIED_FREELANCER]);
 
         return ResponseFactory::success('This application has been approved');
