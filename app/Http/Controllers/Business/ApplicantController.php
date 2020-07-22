@@ -126,7 +126,7 @@ class ApplicantController extends Controller
         }
 
         $applicant->update(['status_id' => ApplicationStatus::REJECTED]);
-        // TODO: Send event
+        $applicant->user->notify(new ApplicationRejectedNotification($business));
 
         return ResponseFactory::success('This application has been rejected');
     }
