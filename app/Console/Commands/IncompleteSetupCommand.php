@@ -84,18 +84,18 @@ class IncompleteSetupCommand extends Command
                             Please make sure to set up a payment method so you can start a business, start working,
                             and request jobs. Simply navigate to your settings, select the add payment method option,
                             and enter your credentials.";
-                $this->mailer->to($user->email)->send(new IncompleteAccountMailable($user, $message));
+                $this->mailer->to($user->email)->send(new IncompleteSetupMailable($user, $message));
             }
 
             if (is_null($paymentMethod) && !is_null($businessWorkers)) {
                 $message = "Please make sure to set up a payment method so you can start a business,
                             start working, and request jobs.";
-                $this->mailer->to($user->email)->send(new IncompleteAccountMailable($user, $message));
+                $this->mailer->to($user->email)->send(new IncompleteSetupMailable($user, $message));
             }
 
             if (!is_null($paymentMethod) && is_null($businessWorkers)) {
                 $message = "Don't forget to promote your business, you currently have no workers.";
-                $this->mailer->to($user->email)->send(new IncompleteAccountMailable($user, $message));
+                $this->mailer->to($user->email)->send(new IncompleteSetupMailable($user, $message));
             }
         }
     }
