@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
 
-class IncompleteAccountMailable extends Mailable
+class IncompleteSetupMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,7 +29,7 @@ class IncompleteAccountMailable extends Mailable
     /**
      * Build the message.
      *
-     * @return \App\Mail\Business\IncompleteAccountMailable
+     * @return \App\Mail\Business\IncompleteSetupMailable
      */
     public function build()
     {

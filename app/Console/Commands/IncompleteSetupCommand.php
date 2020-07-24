@@ -5,22 +5,16 @@ namespace App\Console\Commands;
 use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\PaymentMethodRepository;
 use App\Contracts\Repositories\UserRepository;
-use App\Contracts\Repositories\BusinessUserRepository;
-use App\Mail\Business\IncompleteAccountMailable;
+use App\Mail\Business\IncompleteSetupMailable;
 use Illuminate\Console\Command;
 use Illuminate\Mail\Mailer;
 
-class IncompleteAccountCommand extends Command
+class IncompleteSetupCommand extends Command
 {
     /**
      * @var BusinessRepository
      */
     private $businessRepository;
-
-    /**
-     * @var BusinessUserRepository
-     */
-    private $businessUserRepository;
 
     /**
      * @var Mailer
@@ -61,14 +55,12 @@ class IncompleteAccountCommand extends Command
     (
         UserRepository $userRepository,
         PaymentMethodRepository $paymentMethodRepository,
-        BusinessUserRepository $businessUserRepository,
         Mailer $mailer,
         BusinessRepository $businessRepository
     )
     {
         $this->userRepository = $userRepository;
         $this->paymentMethodRepository = $paymentMethodRepository;
-        $this->businessUserRepository = $businessUserRepository;
         $this->mailer = $mailer;
         $this->businessRepository = $businessRepository;
         parent::__construct();
@@ -85,9 +77,9 @@ class IncompleteAccountCommand extends Command
             $business = $this->businessRepository->findWhere(['owner_id' => $user->id])->first();
 
             $paymentMethod = $this->paymentMethodRepository->findWhere(['user_id' => $user->id])->get();
-            $businessUsers = $this->businessUserRepository->findWhere(['business_id' => $business->id])->get();
+            $businessWorkers = $business->users()->findWhere(['business_id' => $business->id])->get();
 
-            if (is_null($paymentMethod) && is_null($businessUsers)) {
+            if (is_null($paymentMethod) && is_null($businessWorkers)) {
                 $message = "Don't forget to promote your business, you currently have no workers.
                             Please make sure to set up a payment method so you can start a business, start working,
                             and request jobs. Simply navigate to your settings, select the add payment method option,
@@ -95,13 +87,13 @@ class IncompleteAccountCommand extends Command
                 $this->mailer->to($user->email)->send(new IncompleteAccountMailable($user, $message));
             }
 
-            if (is_null($paymentMethod) && !is_null($businessUsers)) {
+            if (is_null($paymentMethod) && !is_null($businessWorkers)) {
                 $message = "Please make sure to set up a payment method so you can start a business,
                             start working, and request jobs.";
                 $this->mailer->to($user->email)->send(new IncompleteAccountMailable($user, $message));
             }
 
-            if (!is_null($paymentMethod) && is_null($businessUsers)) {
+            if (!is_null($paymentMethod) && is_null($businessWorkers)) {
                 $message = "Don't forget to promote your business, you currently have no workers.";
                 $this->mailer->to($user->email)->send(new IncompleteAccountMailable($user, $message));
             }

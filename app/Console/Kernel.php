@@ -3,7 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\WeeklySummaryCommand;
-use App\Console\Commands\IncompleteAccountCommand;
+use App\Console\Commands\IncompleteSetupCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Artisan;
@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\WeeklySummaryCommand::class,
-        Commands\IncompleteAccountCommand::class,
+        Commands\IncompleteSetupCommand::class,
     ];
 
     /**
