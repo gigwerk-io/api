@@ -169,7 +169,7 @@ class RegisterController extends Controller
 
         $userBusiness = $this->businessRepository->findByField('name', $request->name)->first();
 
-        $this->mailer->to($user->email)->send(new RegisteredBusinessMailable($user, $userBusiness));
+
 
         return ResponseFactory::success(
             'Your business has been created',
