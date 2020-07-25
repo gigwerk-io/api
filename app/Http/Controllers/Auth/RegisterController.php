@@ -207,7 +207,7 @@ class RegisterController extends Controller
 
         $user->notify(new UserAppliedNotification($user, $owner, $business));
 
-        $this->mailer->to($owner->email)->send(new UserAppliedMailable($user, $business->unique_id));
+        $this->mailer->to($user->email)->send(new UserAppliedMailable($user, $business->unique_id));
 
         $business->applications()->create(['user_id' => $user->id, 'status_id' => ApplicationStatus::PENDING]);
 
