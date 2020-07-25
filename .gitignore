@@ -19,3 +19,5 @@ dump.sql
 .DS_Store
 app/Console/Commands/DummyCommand.php
 /builder.txt
+create-web-app.temp.tf
+.terraform/

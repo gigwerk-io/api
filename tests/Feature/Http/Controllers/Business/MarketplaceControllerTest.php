@@ -4,11 +4,13 @@ namespace Tests\Feature\Http\Controllers\Business;
 
 use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\UserRepository;
+use App\Factories\ResponseFactory;
 use App\Models\Business;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
+use Tests\ResponseFactoryTest;
 use Tests\TestCase;
 
 /**
@@ -19,6 +21,7 @@ class MarketplaceControllerTest extends TestCase
     const DOC_PATH = 'business/marketplace';
     const ALL_JOBS_ROUTE = 'all.marketplace.jobs';
     const SHOW_JOB_ROUTE = 'show.marketplace.job';
+    const ASSIGN_JOB_ROUTE = 'assign.marketplace.job';
 
     /**
      * @var User
@@ -61,5 +64,14 @@ class MarketplaceControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure(['data' => ['customer', 'proposals', 'category', 'price', 'description', 'location']]);
         $this->document(self::DOC_PATH, self::SHOW_JOB_ROUTE, $response->status(), $response->getContent());
+    }
+
+    public function testAssignJob()
+    {
+        $response = $this->patch(route(self::ASSIGN_JOB_ROUTE, ['unique_id' => $this->business->unique_id, 'id' => 2 , 'worker_id' => 2]));
+
+        $response->assertStatus(200);
+        $response->assertJson(ResponseFactoryTest::success('Assigned worker to a Job'));
+        $this->document(self::DOC_PATH, self::ASSIGN_JOB_ROUTE, $response->status(), $response->getContent());
     }
 }
