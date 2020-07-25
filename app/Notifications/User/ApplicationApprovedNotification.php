@@ -2,6 +2,9 @@
 
 namespace App\Notifications\User;
 
+use App\Enum\Notification\ApplicantMessage;
+use App\Enum\Notification\NotificationType;
+use App\Models\Business;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -12,13 +15,29 @@ class ApplicationApprovedNotification extends Notification
     use Queueable;
 
     /**
+     * @var Business
+     */
+    private $business;
+
+    /**
+     * @var string
+     */
+    private $title;
+    /**
+     * @var string
+     */
+    private $message;
+
+    /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Business $business
      */
-    public function __construct()
+    public function __construct(Business $business)
     {
-        //
+        $this->business = $business;
+        $this->title = NotificationType::Applicant;
+        $this->message = ApplicantMessage::APPROVED;
     }
 
     /**
@@ -29,7 +48,7 @@ class ApplicationApprovedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -41,9 +60,22 @@ class ApplicationApprovedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->line($this->message)
                     ->line('Thank you for using our application!');
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param mixed $notifiable
+     * @return array
+     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'title' => $this->title,
+            'message' => $this->message,
+        ];
     }
 
     /**
