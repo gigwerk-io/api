@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Mail\Business\RegisteredBusinessMailable;
 use App\Mail\Business\UserAppliedMailable;
+use App\Notifications\Business\UserAppliedNotification;
 use Illuminate\Mail\Mailer;
 use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
@@ -194,6 +195,8 @@ class RegisterController extends Controller
         /** @var Business $business */
         $business = $this->businessRepository->findByField('unique_id', $request->unique_id)->first();
 
+        $owner = $this->userRepository->findWhere(['id' => $business->owner_id])->first();
+
         if ($business->users()->where('id', '=', $user->id)->exists()) {
             return ResponseFactory::error('You are already a member of this business marketplace');
         }
@@ -202,7 +205,9 @@ class RegisterController extends Controller
             return ResponseFactory::error('You have already a applied to this business marketplace');
         }
 
-        $this->mailer->to($user->email)->send(new UserAppliedMailable($user, $business->unique_id));
+        $user->notify(new UserAppliedNotification($user, $owner, $business));
+
+        $this->mailer->to($owner->email)->send(new UserAppliedMailable($user, $business->unique_id));
 
         $business->applications()->create(['user_id' => $user->id, 'status_id' => ApplicationStatus::PENDING]);
 
