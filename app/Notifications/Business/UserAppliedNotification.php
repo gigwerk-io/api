@@ -17,7 +17,15 @@ class UserAppliedNotification extends Notification
     public $user;
     public $owner;
     public $business;
+
+    /**
+     * @var string
+     */
     public $title;
+
+    /**
+     * @var string
+     */
     public $message;
 
     /**
@@ -25,7 +33,7 @@ class UserAppliedNotification extends Notification
      *
      * @return void
      */
-    public function __construct(User $user, $owner, $business)
+    public function __construct(User $user, $owner, Business $business)
     {
         $this->user = $user;
         $this->owner = $owner;
@@ -61,8 +69,8 @@ class UserAppliedNotification extends Notification
             'user_id' => $this->user->id,
             'title' => $this->title,
             'message' => $this->message,
-            'page' => '/dashboard',
-            'params' => $this->business->id
+            'page' => '/applicant/:id',
+            'params' => $this->user->id
         ];
     }
 
@@ -83,8 +91,8 @@ class UserAppliedNotification extends Notification
             'notification_id' => $this->id,
             'title' => $this->title,
             'message' => $this->message,
-            'page' => '/app/room',
-            'params' => $this->business->id
+            'page' => '/applicant/:id',
+            'params' => $this->user->id
         ]);
     }
 }
