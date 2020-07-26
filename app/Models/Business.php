@@ -13,7 +13,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * Class Business.
+ * Class business.
  *
  * @package namespace App\Models;
  */
@@ -48,6 +48,15 @@ class Business extends Model implements Transformable, HasMedia
     {
         return $this->belongsToMany(User::class, 'business_user')->using(BusinessUser::class)
             ->withPivot(['role_id', 'apn_token', 'fcm_token', 'email_notifications', 'sms_notifications', 'push_notifications']);
+    }
+
+    /**
+     * A business can have one owner
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function owner() {
+        return $this->belongsTo(User::class);
     }
 
     /**
