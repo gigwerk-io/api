@@ -42,7 +42,7 @@ Route::prefix('business/{unique_id}')->group(function (){
         });
     });
 
-    Route::namespace('business')->group(function () {
+    Route::namespace('Business')->group(function () {
         Route::middleware(['auth:sanctum', 'business.access', 'business.owner'])->group(function () {
             Route::get('account', 'AccountController@show')->name('show.account');
             Route::patch('account', 'AccountController@updateProfile')->name('update.business.account');
