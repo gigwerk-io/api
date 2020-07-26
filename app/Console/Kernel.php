@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function() {
-            Artisan::call('command:WeeklySummary');
+            Artisan::call('app:weekly-summary');
         })->weekly();
     }
 

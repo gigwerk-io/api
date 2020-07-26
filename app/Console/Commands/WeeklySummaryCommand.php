@@ -50,7 +50,7 @@ class WeeklySummaryCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:WeeklySummary';
+    protected $signature = 'app:weekly-summary';
 
     /**
      * The console command description.
@@ -93,10 +93,10 @@ class WeeklySummaryCommand extends Command
         $lastWeek = Carbon::today()->subDays(7);
 
         foreach ($businesses as $business) {
-            $businessOwner = $this->userRepository->findWhere(['id' => $business->owner_id])->first();
+            $businessOwner = $business->owner()->first();
             $weeklyApplicants = $this->applicationRepository->findWhere(['business_id' => $business->id])->where('created_at', '>=', $lastWeek)->count();
             $weeklyJobsPosted = $this->marketplaceJobRepository->findWhere(['business_id' => $business->id])->where('created_at', '>=', $lastWeek)->count();
-            $weeklyJobsCompleted = $this->marketplaceJobRepository->findWhere(['business_id' => $business->id])->where('status_id', 5)->where('created_at', '>=', $lastWeek)->count();
+            $weeklyJobsCompleted = $this->marketplaceJobRepository->findWhere(['business_id' => $business->id])->where('status_id', \App\Enum\Marketplace\Status::COMPLETE)->where('created_at', '>=', $lastWeek)->count();
 
             $marketplaceJobs = $business->marketplaceJobs()->with('payment')->get();
             $weeklyPayout = $marketplaceJobs->sum(function (MarketplaceJob $marketplaceJob) {

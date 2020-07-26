@@ -46,7 +46,7 @@ class WeeklySummaryMailable extends Mailable
         $address = 'no-reply@gigwerk.io';
         $subject = 'Weekly business report!';
         $name = getenv('MAIL_FROM_NAME');
-        return $this->markdown('mail.Business.WeeklySummary')->from($address, $name)
+        return $this->markdown('mail.business.weekly-summary')->from($address, $name)
             ->subject($subject);
     }
 }
