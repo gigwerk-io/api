@@ -24,6 +24,7 @@ use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
+use App\Notifications\Business\UserAppliedNotification;
 
 /**
  * @Group(name="Register", description="These routes belong are responsible for registration processes.")
@@ -179,6 +180,9 @@ class RegisterController extends Controller
         /** @var Business $business */
         $business = $this->businessRepository->findByField('unique_id', $request->unique_id)->first();
 
+        /** @var User $owner */
+        $owner = $business->owner()->first();
+
         if (!$business->is_accepting_applications) {
             return ResponseFactory::error(
                 'This business is not currently accepting applications',
@@ -196,6 +200,8 @@ class RegisterController extends Controller
         }
 
         // TODO: Send out notification to business.
+        $user->notify(new UserAppliedNotification($user, $business));
+
         $business->applications()->create(['user_id' => $user->id, 'status_id' => ApplicationStatus::PENDING]);
 
         return ResponseFactory::success('Your application has been sent');

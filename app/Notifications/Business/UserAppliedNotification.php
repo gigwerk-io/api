@@ -2,23 +2,49 @@
 
 namespace App\Notifications\Business;
 
+use App\Models\Business;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\User;
 
 class UserAppliedNotification extends Notification
 {
     use Queueable;
 
     /**
+     * @var Business
+     */
+    public $business;
+
+    /**
+     * @var string
+     */
+    public $message;
+
+    /**
+     * @var string
+     */
+    public $title;
+
+    /**
+     * @var User
+     */
+    public $user;
+
+    /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user, Business $business)
     {
-        //
+        $this->user = $user;
+        $this->business = $business;
+        $this->title = "Business";
+        $this->message = "Someone applied to your business!";
     }
 
     /**
@@ -29,21 +55,7 @@ class UserAppliedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return ['database'];
     }
 
     /**
@@ -52,10 +64,40 @@ class UserAppliedNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
-            //
+            'class' => Business::class,
+            'class_id' => $this->business->id,
+            'business_id' => $this->business->id,
+            'business_owner_id' => $this->business->owner()->id,
+            'user_id' => $this->user->id,
+            'title' => $this->title,
+            'message' => $this->message,
+            'page' => '/applicant/:id',
+            'params' => $this->user->id
         ];
     }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     * @param  mixed|User  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'class' => Business::class,
+            'class_id' => $this->business->id,
+            'business_id' => $this->business->id,
+            'business_owner_id' => $this->business->owner()->id,
+            'user_id' => $this->user->id,
+            'notification_id' => $this->id,
+            'title' => $this->title,
+            'message' => $this->message,
+            'page' => '/applicant/:id',
+            'params' => $this->user->id
+        ]);
+    }
+
 }
