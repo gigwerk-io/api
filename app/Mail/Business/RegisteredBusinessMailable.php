@@ -8,13 +8,13 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
 
-class UserAppliedMailable extends Mailable
+class RegisteredBusinessMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $user;
+    public $business;
     public $link;
-    public $applicant;
 
     /**
      * Create a new message instance.
@@ -23,21 +23,22 @@ class UserAppliedMailable extends Mailable
      */
     public function __construct(User $user, $business)
     {
-        $this->link = route('show.applicant', ['unique_id' => $business, 'id' => $user->id]);
         $this->user = $user;
+        $this->business = $business;
+        $this->link = route('stats', ['unique_id' => $business->unique_id]);
     }
 
     /**
      * Build the message.
      *
-     * @return \App\Mail\Business\UserAppliedMailable
+     * @return \App\Mail\Business\RegisteredBusinessMailable
      */
     public function build()
     {
         $address = 'no-reply@gigwerk.io';
-        $subject = 'Someone applied to your business!';
+        $subject = 'You just created "' . $this->business->name . '" !';
         $name = getenv('MAIL_FROM_NAME');
-        return $this->markdown('mail.business.user-applied')->from($address, $name)
+        return $this->markdown('mail.business.new-business')->from($address, $name)
             ->subject($subject);
     }
 }

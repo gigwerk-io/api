@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\Business\RegisteredBusinessMailable;
+use App\Mail\Business\UserAppliedMailable;
+use Illuminate\Mail\Mailer;
 use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
@@ -61,13 +64,19 @@ class RegisterController extends Controller
      */
     private $geolocation;
 
+    /**
+     * @var Mailer
+     */
+    private $mailer;
+
     public function __construct(
         Hasher $hasher,
         Dispatcher $eventDispatcher,
         UserRepository $userRepository,
         BusinessRepository $businessRepository,
         ApplicationRepository $applicationRepository,
-        Geolocation $geolocation
+        Geolocation $geolocation,
+        Mailer $mailer
     )
     {
         $this->hasher = $hasher;
@@ -76,6 +85,7 @@ class RegisterController extends Controller
         $this->businessRepository = $businessRepository;
         $this->applicationRepository = $applicationRepository;
         $this->geolocation = $geolocation;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -115,7 +125,7 @@ class RegisterController extends Controller
 
 
     /**
-     * @Meta(name="Create business", description="Create a business account with Gigwerk.", href="register-business")
+     * @Meta(name="Create Business", description="Create a business account with Gigwerk.", href="register-business")
      * @BodyParam(name="name", type="string", status="required", description="The name of the business", example="507 Outdoor Management")
      * @BodyParam(name="subdomain_prefix", type="string", status="required", description="The subdomain for the business", example="507outdoor")
      * @BodyParam(name="street_address", type="string", status="required", description="The address of the job location", example="123 Main St NE")
@@ -137,6 +147,7 @@ class RegisterController extends Controller
         $data['owner_id'] = $user->id;
         $data['unique_id'] = Str::uuid();
         /** @var Business $business */
+
         $business = $user->businesses()->create($data, ['role_id' => Role::VERIFIED_FREELANCER]);
 
         $location = [
@@ -155,6 +166,10 @@ class RegisterController extends Controller
 
         $business->load(['profile', 'location']);
 
+        $userBusiness = $this->businessRepository->findByField('name', $request->name)->first();
+
+        $this->mailer->to($user->email)->send(new RegisteredBusinessMailable($user, $userBusiness));
+
         return ResponseFactory::success(
             'Your business has been created',
             $business,
@@ -164,7 +179,7 @@ class RegisterController extends Controller
 
 
     /**
-     * @Meta(name="Join business", description="Request to join a business marketplace as a worker.", href="join-business")
+     * @Meta(name="Join Business", description="Request to join a business marketplace as a worker.", href="join-business")
      * @ResponseExample(status=200, example="responses/auth/register/join.business-200.json")
      * @ResponseExample(status=400, example="responses/auth/register/join.business-400.json")
      *
@@ -179,14 +194,6 @@ class RegisterController extends Controller
         /** @var Business $business */
         $business = $this->businessRepository->findByField('unique_id', $request->unique_id)->first();
 
-        if (!$business->is_accepting_applications) {
-            return ResponseFactory::error(
-                'This business is not currently accepting applications',
-                null,
-                400
-            );
-        }
-
         if ($business->users()->where('id', '=', $user->id)->exists()) {
             return ResponseFactory::error('You are already a member of this business marketplace');
         }
@@ -195,7 +202,8 @@ class RegisterController extends Controller
             return ResponseFactory::error('You have already a applied to this business marketplace');
         }
 
-        // TODO: Send out notification to business.
+        $this->mailer->to($user->email)->send(new UserAppliedMailable($user, $business->unique_id));
+
         $business->applications()->create(['user_id' => $user->id, 'status_id' => ApplicationStatus::PENDING]);
 
         return ResponseFactory::success('Your application has been sent');
