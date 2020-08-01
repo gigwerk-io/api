@@ -83,6 +83,16 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have own several businesses.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ownsBusiness()
+    {
+        return $this->hasMany(Business::class);
+    }
+
+    /**
      * A user can have many jobs.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -134,7 +144,7 @@ class User extends Authenticatable
 
     /**
      * A user can have one password reset method
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function passwordReset()

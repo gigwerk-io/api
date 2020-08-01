@@ -90,7 +90,7 @@ class LoginController extends Controller
 
 
     /**
-     * @Meta(name="Business App Login", href="business-login", description="Login to a businesses marketplace app.")
+     * @Meta(name="business App Login", href="business-login", description="Login to a businesses marketplace app.")
      * @BodyParam(name="username", type="string", status="required", description="The username or email of the user", example="business_worker")
      * @BodyParam(name="password", type="string", status="required", description="The password for the user", example="password")
      * @ResponseExample(status=200, example="responses/auth/login/business.login-200.json")
@@ -115,7 +115,7 @@ class LoginController extends Controller
 
         if (is_null($business)) {
             return ResponseFactory::error(
-                'Business does not exist.',
+                'business does not exist.',
                 null,
                 404
             );
@@ -188,7 +188,7 @@ class LoginController extends Controller
     }
 
     /**
-     * @Meta(name="Validate Business Token", href="business-validate", description="Check if a users token has access to a specific business.")
+     * @Meta(name="Validate business Token", href="business-validate", description="Check if a users token has access to a specific business.")
      * @ResponseExample(status=200, example="responses/auth/login/business.validate-200.json")
      *
      * @param Request $request

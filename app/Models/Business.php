@@ -13,7 +13,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * Class Business.
+ * Class business.
  *
  * @package namespace App\Models;
  */
@@ -58,6 +58,15 @@ class Business extends Model implements Transformable, HasMedia
     public function deployments()
     {
         return $this->hasMany(Deployment::class);
+    }
+
+    /**
+     * A business can have one owner
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function owner() {
+        return $this->belongsTo(User::class);
     }
 
     /**
