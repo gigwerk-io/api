@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(JobStatusSeeder::class);
         $this->call(ProposalStatusSeeder::class);
         $this->call(UserRoleSeeder::class);
+        $this->call(DeploymentStatusSeeder::class);
         if(app()->environment() != 'production'){
             $this->call(DevSeeder::class);
         }

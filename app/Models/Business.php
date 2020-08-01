@@ -51,6 +51,16 @@ class Business extends Model implements Transformable, HasMedia
     }
 
     /**
+     * A business can have a lot of deployments
+     *
+     * @return HasMany
+     */
+    public function deployments()
+    {
+        return $this->hasMany(Deployment::class);
+    }
+
+    /**
      * A business can have a profile
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

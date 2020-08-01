@@ -59,6 +59,9 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::get('graphs', 'DashboardController@graphs')->name('graphs');
             Route::get('leaderboard', 'DashboardController@leaderboard')->name('business.leaderboard');
 
+            Route::get('deployments', 'DeploymentController@index')->name('show.deployments');
+            Route::post('deployment', 'DeploymentController@store')->name('queue.deployment');
+
             Route::get('invoices', 'InvoiceController@index')->name('all.invoices');
             Route::get('invoice', 'InvoiceController@upcoming')->name('upcoming.invoice');
 
@@ -174,9 +177,12 @@ Route::namespace('User')->group(function (){
     });
 });
 
-Route::get('businesses', 'DataController@businesses')
-    ->middleware('auth.builder')
-    ->name('show.businesses');
+Route::middleware('auth.builder')->group(function (){
+    Route::get('businesses', 'DataController@businesses')->name('show.businesses');
+    Route::get('deployments', 'BuildController@index')->name('queued.deployments');
+    Route::put('deployment/{deployment_id}/start', 'BuildController@start')->name('start.deployment');
+    Route::put('deployment/{deployment_id}/end', 'BuildController@end')->name('end.deployment');
+});
 
 Route::get('subscriptions', 'DataController@subscriptions')->name('available.subscriptions');
 
