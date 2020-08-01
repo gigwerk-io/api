@@ -98,6 +98,7 @@ This updates a businesses profile.
 |`long_description`|`string`|`optional`|`Update the description of the business.`|
 |`primary_color`|`string`|`optional`|`Update the primary color of your business app`|
 |`secondary_color`|`string`|`optional`|`Update the secondary color of your business app`|
+|`is_accepting_applications`|`boolean`|`optional`|`Update if your business is accepting applications or not`|
 
 
 > {success} Example Success Response

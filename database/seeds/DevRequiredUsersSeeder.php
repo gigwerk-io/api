@@ -38,7 +38,7 @@ class DevRequiredUsersSeeder extends Seeder
             ->withProfile(BusinessProfileFactory::new())
             ->withLocation(BusinessLocationFactory::new())
             ->afterCreating(function (Business $business) use ($businessAdminOne, $stripe){
-                $businessAdminOne->businesses()->attach($business, ['role_id' => Role::VERIFIED_FREELANCER]);
+                $businessAdminOne->businesses()->attach($business, ['role_id' => Role::CUSTOMER]);
                 $domain = sprintf("https://first-%s.%s", app()->environment(), config('app.url_suffix'));
                 $business->businessApp()->create(['domain' => $domain]);
                 $paymentMethod = $stripe->paymentMethods->create([

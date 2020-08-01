@@ -5,11 +5,13 @@
     - [Auth](#)
         - [Login](/{{route}}/{{version}}/auth/login)
         - [Register](/{{route}}/{{version}}/auth/register)
+        - [Reset Password](/{{route}}/{{version}}/auth/reset-password)
     
     - [Business](#)
         - [Account](/{{route}}/{{version}}/business/account)
         - [Applicant](/{{route}}/{{version}}/business/applicant)
         - [Dashboard](/{{route}}/{{version}}/business/dashboard)
+        - [Deployments](/{{route}}/{{version}}/business/deployments)
         - [Invoice](/{{route}}/{{version}}/business/invoice)
         - [Marketplace](/{{route}}/{{version}}/business/marketplace)
         - [Notifications](/{{route}}/{{version}}/business/notifications)
@@ -35,5 +37,9 @@
         - [Payments](/{{route}}/{{version}}/user/payments)
         - [Payouts](/{{route}}/{{version}}/user/payouts)
         - [Profile](/{{route}}/{{version}}/user/profile)
+    
+    - [App\Http\Controllers](#)
+        - [General](/{{route}}/{{version}}/app\http\controllers/general)
+        - [General](/{{route}}/{{version}}/app\http\controllers/general)
     
   

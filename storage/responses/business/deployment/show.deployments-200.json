@@ -1,0 +1,16 @@
+{
+    "success": true,
+    "message": "Show deployments",
+    "data": [
+        {
+            "id": "8282ee32-c89a-4420-9ecc-7f3bc1179c05",
+            "business_id": 1,
+            "deployment_status_id": 2,
+            "start_time": "2020-08-01 05:50:40",
+            "end_time": null,
+            "created_at": "2020-08-01T05:50:40.000000Z",
+            "updated_at": "2020-08-01T05:50:40.000000Z",
+            "build_time": null
+        }
+    ]
+}
