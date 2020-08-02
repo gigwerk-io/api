@@ -46,7 +46,7 @@ class BuildController extends Controller
         $this->validate($request, ['deployment_id' => 'exists:deployments,id']);
         $deployment = $this->deploymentRepository->find($request->deployment_id);
 
-        $deployment->update(['start_time' => Carbon::now()->toDateTimeString(), 'status' => DeploymentStatus::PROCESSING]);
+        $deployment->update(['start_time' => Carbon::now()->toDateTimeString(), 'deployment_status_id' => DeploymentStatus::PROCESSING]);
 
         // @todo: Add deployment notification noted here: https://favr.atlassian.net/browse/GIGWERK-187
 
@@ -73,11 +73,11 @@ class BuildController extends Controller
         if (!$request->success) {
             // @todo: Add deployment failed notification noted here: https://favr.atlassian.net/browse/GIGWERK-179
             // access the failure message using: $request->failure_message
-            $deployment->update(['end_time' => Carbon::now()->toDateTimeString(), 'status' => DeploymentStatus::FAILED]);
+            $deployment->update(['end_time' => Carbon::now()->toDateTimeString(), 'deployment_status_id' => DeploymentStatus::FAILED]);
         }
 
         // @todo: Add deployment success notification noted here: https://favr.atlassian.net/browse/GIGWERK-180
-        $deployment->update(['end_time' => Carbon::now()->toDateTimeString(), 'status' => DeploymentStatus::COMPLETED]);
+        $deployment->update(['end_time' => Carbon::now()->toDateTimeString(), 'deployment_status_id' => DeploymentStatus::COMPLETED]);
 
 
         return ResponseFactory::success('Deployment has ended.', $deployment);
