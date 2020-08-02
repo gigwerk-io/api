@@ -166,9 +166,7 @@ class RegisterController extends Controller
 
         $business->load(['profile', 'location']);
 
-        $userBusiness = $this->businessRepository->findByField('name', $request->name)->first();
-
-        $this->mailer->to($user->email)->send(new RegisteredBusinessMailable($user, $userBusiness));
+        $this->mailer->to($user->email)->send(new RegisteredBusinessMailable($user, $business));
 
         return ResponseFactory::success(
             'Your business has been created',

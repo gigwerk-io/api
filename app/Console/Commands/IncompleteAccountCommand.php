@@ -73,14 +73,17 @@ class IncompleteAccountCommand extends Command
      */
     public function handle()
     {
-        foreach ($this->userRepository as $user) {
-            $business = $this->businessRepository->findWhere(['owner_id' => $user->id])->first();
+        /** @var \App\Models\Business $businesses */
+        $businesses = $this->businessRepository->all();
 
-            $paymentMethod = $this->paymentMethodRepository->findWhere(['user_id' => $user->id])->get();
-            $businessWorkers = $business->users()->findWhere(['business_id' => $business->id])->get();
+        foreach ($businesses as $business) {
+            /** @var \App\Models\Business $business */
 
-            if (is_null($paymentMethod) || is_null($businessWorkers)) {
-                $this->mailer->to($user->email)->send(new IncompleteAccountMailable($user, $paymentMethod, $businessWorkers));
+            /** @var \App\Models\User $owner */
+            $owner = $business->owner()->first();
+
+            if ($business->paymentMethods()->count() > 0 || $business->marketplaceJobs()->count() > 0 || $business->users()->count() > 1 || $business->applications()->count() > 0) {
+                $this->mailer->to($owner->email)->send(new IncompleteAccountMailable($owner, $business));
             }
         }
     }

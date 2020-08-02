@@ -12,20 +12,20 @@ class IncompleteAccountMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
-    public $paymentMethod;
-    public $businessWorkers;
+    public $owner;
+    public $link;
+    public $business;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, $paymentMethod, $businessWorkers)
+    public function __construct(User $owner, $business)
     {
-        $this->user = $user;
-        $this->paymentMethod = $paymentMethod;
-        $this->businessWorkers = $businessWorkers;
+        $this->owner = $owner;
+        $this->link = route('stats', ['unique_id' => $business->unique_id]);
+        $this->business = $business;
     }
 
     /**
