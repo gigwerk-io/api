@@ -6,6 +6,7 @@ use App\Enum\Billing\Plan;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
+use App\Notifications\Business\ChangedSubscriptionNotification;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Cashier\Subscription;
@@ -48,6 +49,8 @@ class SubscriptionController extends Controller
      */
     public function update(Request $request)
     {
+        $user = $request->user();
+
         $plans = Plan::toCollection();
         $planIds = $plans->map(function ($item){
             return $item['id'];
@@ -62,6 +65,10 @@ class SubscriptionController extends Controller
         $business->subscription($currentSubscription->name)->skipTrial()->swap($request->subscription_id);
         $newSubscription = $plans->where('id', '=', $request->subscription_id)->first();
         $currentSubscription->update(['name' =>  $newSubscription['name']]);
+
+        $subscriptionName = $newSubscription['name'];
+
+        $user->notify(new ChangedSubscriptionNotification($user, $subscriptionName, $business));
 
         return ResponseFactory::success(sprintf('You are now subscribed to the %s.', $newSubscription['name']));
     }
