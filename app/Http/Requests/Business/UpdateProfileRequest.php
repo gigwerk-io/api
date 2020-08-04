@@ -31,7 +31,8 @@ class UpdateProfileRequest extends FormRequest
             'short_description' => ['string'],
             'long_description' => ['string'],
             'primary_color' => ['string'],
-            'secondary_color' => ['string']
+            'secondary_color' => ['string'],
+            'is_accepting_applications' => ['boolean'],
         ];
     }
 }

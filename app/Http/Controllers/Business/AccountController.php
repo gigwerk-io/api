@@ -79,6 +79,7 @@ class AccountController extends Controller
      * @BodyParam(name="long_description", type="string", status="optional", description="Update the description of the business.")
      * @BodyParam(name="primary_color", type="string", status="optional", description="Update the primary color of your business app")
      * @BodyParam(name="secondary_color", type="string", status="optional", description="Update the secondary color of your business app")
+     * @BodyParam(name="is_accepting_applications", type="boolean", status="optional", description="Update if your business is accepting applications or not")
      * @ResponseExample(status=200, example="responses/business/account/update.business.account-200.json")
      *
      * @param UpdateProfileRequest $request
@@ -133,6 +134,10 @@ class AccountController extends Controller
 
         if ($request->has('secondary_color')) {
             $business->profile()->update(['secondary_color' => $request->secondary_color]);
+        }
+
+        if ($request->has('is_accepting_applications')) {
+            $business->profile()->update(['is_accepting_applications' => $request->is_accepting_applications]);
         }
 
         return ResponseFactory::success(

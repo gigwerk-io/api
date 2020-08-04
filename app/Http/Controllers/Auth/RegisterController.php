@@ -115,7 +115,7 @@ class RegisterController extends Controller
 
 
     /**
-     * @Meta(name="Create Business", description="Create a business account with Gigwerk.", href="register-business")
+     * @Meta(name="Create business", description="Create a business account with Gigwerk.", href="register-business")
      * @BodyParam(name="name", type="string", status="required", description="The name of the business", example="507 Outdoor Management")
      * @BodyParam(name="subdomain_prefix", type="string", status="required", description="The subdomain for the business", example="507outdoor")
      * @BodyParam(name="street_address", type="string", status="required", description="The address of the job location", example="123 Main St NE")
@@ -164,7 +164,7 @@ class RegisterController extends Controller
 
 
     /**
-     * @Meta(name="Join Business", description="Request to join a business marketplace as a worker.", href="join-business")
+     * @Meta(name="Join business", description="Request to join a business marketplace as a worker.", href="join-business")
      * @ResponseExample(status=200, example="responses/auth/register/join.business-200.json")
      * @ResponseExample(status=400, example="responses/auth/register/join.business-400.json")
      *
@@ -178,6 +178,14 @@ class RegisterController extends Controller
 
         /** @var Business $business */
         $business = $this->businessRepository->findByField('unique_id', $request->unique_id)->first();
+
+        if (!$business->is_accepting_applications) {
+            return ResponseFactory::error(
+                'This business is not currently accepting applications',
+                null,
+                400
+            );
+        }
 
         if ($business->users()->where('id', '=', $user->id)->exists()) {
             return ResponseFactory::error('You are already a member of this business marketplace');

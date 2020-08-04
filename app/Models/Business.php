@@ -13,7 +13,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * Class Business.
+ * Class business.
  *
  * @package namespace App\Models;
  */
@@ -32,6 +32,11 @@ class Business extends Model implements Transformable, HasMedia
         'stripe_connect_id',
         'owner_id',
         'unique_id',
+        'is_accepting_applications',
+        'facebook_pixel_id',
+        'google_analytics_id',
+        'cloudfront_id',
+        's3_bucket_id',
     ];
 
     /**
@@ -43,6 +48,25 @@ class Business extends Model implements Transformable, HasMedia
     {
         return $this->belongsToMany(User::class, 'business_user')->using(BusinessUser::class)
             ->withPivot(['role_id', 'apn_token', 'fcm_token', 'email_notifications', 'sms_notifications', 'push_notifications']);
+    }
+
+    /**
+     * A business can have a lot of deployments
+     *
+     * @return HasMany
+     */
+    public function deployments()
+    {
+        return $this->hasMany(Deployment::class);
+    }
+
+    /**
+     * A business can have one owner
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function owner() {
+        return $this->belongsTo(User::class);
     }
 
     /**

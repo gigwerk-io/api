@@ -30,7 +30,7 @@ class BusinessProfile extends Model implements Transformable
     ];
 
     /**
-     * Business profiles belong to a business.
+     * business profiles belong to a business.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

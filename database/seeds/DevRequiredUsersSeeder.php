@@ -34,11 +34,11 @@ class DevRequiredUsersSeeder extends Seeder
             ->withPaymentMethods(PaymentMethodFactory::new())
             ->create();
 
-        $businessOne = BusinessFactory::new()->withAttributes(['name' => 'First Business Inc.', 'subdomain_prefix' => 'first', 'unique_id' => 'ea11187b-fba5-31c8-87b4-84928c0334d6'])
+        $businessOne = BusinessFactory::new()->withAttributes(['name' => 'First business Inc.', 'subdomain_prefix' => 'first', 'unique_id' => 'ea11187b-fba5-31c8-87b4-84928c0334d6'])
             ->withProfile(BusinessProfileFactory::new())
             ->withLocation(BusinessLocationFactory::new())
             ->afterCreating(function (Business $business) use ($businessAdminOne, $stripe){
-                $businessAdminOne->businesses()->attach($business, ['role_id' => Role::VERIFIED_FREELANCER]);
+                $businessAdminOne->businesses()->attach($business, ['role_id' => Role::CUSTOMER]);
                 $domain = sprintf("https://first-%s.%s", app()->environment(), config('app.url_suffix'));
                 $business->businessApp()->create(['domain' => $domain]);
                 $paymentMethod = $stripe->paymentMethods->create([
@@ -52,7 +52,7 @@ class DevRequiredUsersSeeder extends Seeder
                 ]);
 
 
-                $business->createOrGetStripeCustomer(['name' => $business->name, 'description' => 'The First Business Inc of America']);
+                $business->createOrGetStripeCustomer(['name' => $business->name, 'description' => 'The First business Inc of America']);
                 $business->addPaymentMethod($paymentMethod);
                 $business->updateDefaultPaymentMethod($paymentMethod);
 
@@ -116,7 +116,7 @@ class DevRequiredUsersSeeder extends Seeder
             ->withPaymentMethods(PaymentMethodFactory::new())
             ->create();
 
-        $businessTwo = BusinessFactory::new()->withAttributes(['name' => 'Second Business LLC', 'subdomain_prefix' => 'second', 'unique_id' => '048d54b7-54fc-3e4e-87c5-d575ff867b84'])
+        $businessTwo = BusinessFactory::new()->withAttributes(['name' => 'Second business LLC', 'subdomain_prefix' => 'second', 'unique_id' => '048d54b7-54fc-3e4e-87c5-d575ff867b84'])
             ->withProfile(BusinessProfileFactory::new()->withAttributes(['image' => 'https://gigwerk-disk.s3.amazonaws.com/second.png']))
             ->withLocation(BusinessLocationFactory::new())
             ->afterCreating(function (Business $business) use ($businessAdminTwo, $stripe){
@@ -134,7 +134,7 @@ class DevRequiredUsersSeeder extends Seeder
                     ],
                 ]);
 
-                $business->createOrGetStripeCustomer(['name' => $business->name, 'description' => 'The Second Business LLC of America']);
+                $business->createOrGetStripeCustomer(['name' => $business->name, 'description' => 'The Second business LLC of America']);
                 $business->addPaymentMethod($paymentMethod);
                 $business->updateDefaultPaymentMethod($paymentMethod);
 

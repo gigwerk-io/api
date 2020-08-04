@@ -41,7 +41,7 @@ Content
         "id": 1,
         "owner_id": 1,
         "unique_id": "63f084c7-a899-3f6b-bb7d-e8b054e13b66",
-        "name": "First Business Inc.",
+        "name": "First business Inc.",
         "subdomain_prefix": "demo",
         "stripe_connect_id": "acct_1F7RiLBKeAbZ6utM",
         "created_at": "2020-06-07T01:20:39.000000Z",
@@ -98,6 +98,7 @@ This updates a businesses profile.
 |`long_description`|`string`|`optional`|`Update the description of the business.`|
 |`primary_color`|`string`|`optional`|`Update the primary color of your business app`|
 |`secondary_color`|`string`|`optional`|`Update the secondary color of your business app`|
+|`is_accepting_applications`|`boolean`|`optional`|`Update if your business is accepting applications or not`|
 
 
 > {success} Example Success Response

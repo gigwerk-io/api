@@ -5,13 +5,14 @@ namespace App\Providers;
 use App\Contracts\Repositories\ApplicationRepository;
 use App\Contracts\Repositories\ApplicationStatusRepository;
 use App\Contracts\Repositories\BusinessAppRepository;
-use App\Contracts\Repositories\BusinessInvitationRepository;
 use App\Contracts\Repositories\BusinessLocationRepository;
 use App\Contracts\Repositories\BusinessProfileRepository;
 use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\CategoryRepository;
 use App\Contracts\Repositories\ChatMessageRepository;
 use App\Contracts\Repositories\ChatRoomRepository;
+use App\Contracts\Repositories\DeploymentRepository;
+use App\Contracts\Repositories\DeploymentStatusRepository;
 use App\Contracts\Repositories\JobIntensityRepository;
 use App\Contracts\Repositories\JobStatusRepository;
 use App\Contracts\Repositories\MarketplaceJobRepository;
@@ -38,6 +39,8 @@ use App\Repositories\BusinessRepositoryEloquent;
 use App\Repositories\CategoryRepositoryEloquent;
 use App\Repositories\ChatMessageRepositoryEloquent;
 use App\Repositories\ChatRoomRepositoryEloquent;
+use App\Repositories\DeploymentRepositoryEloquent;
+use App\Repositories\DeploymentStatusRepositoryEloquent;
 use App\Repositories\JobIntensityRepositoryEloquent;
 use App\Repositories\JobStatusRepositoryEloquent;
 use App\Repositories\MarketplaceJobRepositoryEloquent;
@@ -109,6 +112,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ChatRoomRepository::class, function (){
             return $this->app->make(ChatRoomRepositoryEloquent::class);
         });
+
+        $this->app->bind(DeploymentRepository::class, DeploymentRepositoryEloquent::class);
+        $this->app->bind(DeploymentStatusRepository::class, DeploymentStatusRepositoryEloquent::class);
 
         $this->app->bind(JobIntensityRepository::class, function (){
             return $this->app->make(JobIntensityRepositoryEloquent::class);

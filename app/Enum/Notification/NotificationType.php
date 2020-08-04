@@ -9,4 +9,5 @@ class NotificationType
     const CHAT = 'Chat';
     const Payment = 'Payment';
     const Marketplace = 'Marketplace';
+    const Applicant = 'Applicant';
 }

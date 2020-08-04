@@ -10,6 +10,7 @@ use Laravel\Cashier\PaymentMethod;
 use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
+use Solomon04\Documentation\Annotation\ResponseExample;
 use Stripe\Exception\InvalidRequestException;
 
 /**
@@ -19,6 +20,7 @@ class PaymentMethodController extends Controller
 {
     /**
      * @Meta(name="Show Payment Methods", description="Show all of a business's payment methods.", href="all-payment-methods")
+     * @ResponseExample(status=200, example="responses/business/payment-method/show.all.payment.methods-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -38,6 +40,7 @@ class PaymentMethodController extends Controller
     /**
      * @Meta(name="Save Payment Method", description="Save a payment method for a business.", href="save-payment-method")
      * @BodyParam(name="payment_method_id", status="required", type="string", description="The id of the payment method object created by Stripe.")
+     * @ResponseExample(status=200, example="responses/business/payment-method/save.payment.method-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -62,6 +65,7 @@ class PaymentMethodController extends Controller
 
     /**
      * @Meta(name="Update Default", description="Update a business's default payment method.", href="default-payment-method")
+     * @ResponseExample(status=200, example="responses/business/payment-method/update.default.payment.method-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -84,6 +88,7 @@ class PaymentMethodController extends Controller
 
     /**
      * @Meta(name="Remove Payment Method", description="Remove a business's payment method.", href="remove-payment-method")
+     * @ResponseExample(status=200, example="responses/business/payment-method/remove.payment.method-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
