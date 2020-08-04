@@ -60,8 +60,8 @@ class ChangedSubscriptionNotification extends Notification
             'user_id' => $this->user->id,
             'title' => 'Changed Subscription',
             'message' => 'You changed you subscription to ' . $this->subscriptionName,
-            'page' => '/business/:unique_id/subscription',
-            'params' => $this->business->unique_id
+            'page' => '/subscription',
+            'params' => null
         ];
     }
 
@@ -79,8 +79,8 @@ class ChangedSubscriptionNotification extends Notification
             'notification_id' => $this->id,
             'title' => 'Changed Subscription',
             'message' => 'You changed you subscription for ' . $this->subscriptionName,
-            'page' => '/business/:unique_id/subscription',
-            'params' => $this->business->unique_id
+            'page' => '/subscription',
+            'params' => null
         ]);
     }
 }
