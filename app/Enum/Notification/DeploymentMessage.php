@@ -5,7 +5,7 @@ namespace App\Enum\Notification;
 
 class DeploymentMessage
 {
-    const FAILED = 'This Deployment Has Failed';
-    const SUCCESSFUL = 'This Deployment Has Succeeded';
+    const FAILED = 'This deployment has failed';
+    const SUCCESSFUL = 'This deployment has succeeded';
 }
 
