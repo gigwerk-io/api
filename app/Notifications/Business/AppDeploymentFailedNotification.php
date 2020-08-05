@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Business;
 
 use App\Enum\Notification\DeploymentMessage;
 use App\Enum\Notification\NotificationType;
@@ -33,13 +33,13 @@ class AppDeploymentFailedNotification extends Notification
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Deployment $deployment
      */
-    public function __construct(Deployment $deployment , $message)
+    public function __construct(Deployment $deployment)
     {
         $this->deployment = $deployment;
         $this->title = NotificationType::Deployment;
-        $this->message = $message;
+        $this->message = DeploymentMessage::FAILED;
     }
 
     /**
