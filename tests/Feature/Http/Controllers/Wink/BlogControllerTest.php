@@ -18,7 +18,16 @@ class BlogControllerTest extends TestCase
     const ALL_BLOG_POSTS_ROUTE = 'all.blog.posts';
     const SHOW_BLOG_POST_ROUTE = 'show.blog.post';
 
-
+    /**
+     * @covers ::index
+     */
+    public function testViewAllBlogPosts()
+    {
+        $response = $this->get(route(self::ALL_BLOG_POSTS_ROUTE));
+        $response->assertStatus(200);
+        $response->assertJsonStructure();
+        $this->document(self::DOC_PATH, self::ALL_BLOG_POSTS_ROUTE, $response->status(), $response->getContent());
+    }
 
     public function testShowApplicant()
     {
