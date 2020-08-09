@@ -37,6 +37,17 @@ class Business extends Model implements Transformable, HasMedia
         'google_analytics_id',
         'cloudfront_id',
         's3_bucket_id',
+        'is_approved'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_accepting_applications' => 'bool',
+        'is_approved' => 'bool'
     ];
 
     /**
@@ -127,5 +138,17 @@ class Business extends Model implements Transformable, HasMedia
     public function receivesBroadcastNotificationsOn()
     {
         return 'organization.'.$this->unique_id;
+    }
+
+    /**
+     * Route notifications for the mail channel.
+     *
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return array|string
+     */
+    public function routeNotificationForMail($notification)
+    {
+        // Return name and email address...
+        return [$this->owner->email => $this->name];
     }
 }

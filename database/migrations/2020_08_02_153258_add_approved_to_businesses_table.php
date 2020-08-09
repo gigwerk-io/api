@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsAcceptingApplicationsToBusinessesTable extends Migration
+class AddApprovedToBusinessesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddIsAcceptingApplicationsToBusinessesTable extends Migration
     public function up()
     {
         Schema::table('businesses', function (Blueprint $table) {
-            $table->boolean('is_accepting_applications')->after('name')->default(false);
+            $table->boolean('is_approved')->after('is_accepting_applications')->default(false);
         });
     }
 
@@ -26,7 +26,7 @@ class AddIsAcceptingApplicationsToBusinessesTable extends Migration
     public function down()
     {
         Schema::table('businesses', function (Blueprint $table) {
-            $table->dropColumn('is_accepting_applications');
+            $table->dropColumn('is_approved');
         });
     }
 }
