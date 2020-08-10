@@ -10,5 +10,4 @@ class NotificationType
     const Payment = 'Payment';
     const Marketplace = 'Marketplace';
     const Applicant = 'Applicant';
-    const Deployment = 'Deployment';
 }
