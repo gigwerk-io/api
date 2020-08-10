@@ -1,4 +1,4 @@
-# GitHub Action for Laravel with MySQL and Redis
+# GitHub Action for Laravel with MySQL and Redis.
 name: Gigwerk API
 on: [push, pull_request]
 jobs:
