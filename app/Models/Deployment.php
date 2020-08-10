@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -15,7 +14,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  */
 class Deployment extends Model implements Transformable
 {
-    use TransformableTrait, Notifiable;
+    use TransformableTrait;
 
     /**
      * The accessors to append to the model's array form.
