@@ -33,6 +33,7 @@ trait DatabaseSetup
         if (!static::$migrated) {
             $this->whenMigrationsChange(function() {
                 $this->artisan('migrate:fresh --seed');
+                $this->artisan('wink:migrate');
                 $this->app[Kernel::class]->setArtisan(null);
             });
             static::$migrated = true;

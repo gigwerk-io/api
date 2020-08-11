@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Wink;
 
+use App\Contracts\Repositories\WinkPostRepository;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,18 +12,24 @@ use Wink\WinkPost;
 class BlogController extends Controller
 {
     /**
+     * @var WinkPostRepository
+     */
+    private $winkPostRepository;
+
+    /**
      * @var DatabaseManager
      */
     private $databaseManager;
 
-    public function __construct(DatabaseManager $databaseManager)
+    public function __construct(DatabaseManager $databaseManager, WinkPostRepository $winkPostRepository)
     {
         $this->databaseManager = $databaseManager;
+        $this->winkPostRepository = $winkPostRepository;
     }
 
     public function index()
     {
-        $posts = $this->databaseManager->select("select * from wink_posts");
+        $posts = $this->winkPostRepository->all();
 
         if ($posts) {
             return ResponseFactory::success(
@@ -40,7 +47,7 @@ class BlogController extends Controller
 
     public function show($id)
     {
-        $post = $this->databaseManager->select("select * from wink_posts where id = ? limit 1", [$id]);
+        $post = $this->winkPostRepository->find($id);
 
         if($post) {
             return ResponseFactory::success(
