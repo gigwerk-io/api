@@ -4,6 +4,7 @@ namespace App\Notifications\Business;
 
 use App\Enum\Notification\DeploymentMessage;
 use App\Enum\Notification\NotificationType;
+use App\Models\Business;
 use App\Models\Deployment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,9 +18,9 @@ class AppDeploymentSucceededNotification extends Notification
 
 
     /**
-     * @var Deployment
+     * @var Business
      */
-    private $deployment;
+    private $business;
 
     /**
      * @var string
@@ -37,9 +38,9 @@ class AppDeploymentSucceededNotification extends Notification
      *
      * @param Deployment $deployment
      */
-    public function __construct(Deployment $deployment)
+    public function __construct(Business $business)
     {
-        $this->deployment = $deployment;
+        $this->business = $business;
         $this->title = NotificationType::Deployment;
         $this->message = DeploymentMessage::SUCCESSFUL;
     }
@@ -85,17 +86,4 @@ class AppDeploymentSucceededNotification extends Notification
         ]);
     }
 
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
 }
