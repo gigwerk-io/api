@@ -72,8 +72,7 @@ class BuildController extends Controller
         $deployment = $this->deploymentRepository->find($request->deployment_id);
 
         if (!$request->success) {
-            $deployment->business->owner->notify(new AppDeploymentFailedNotification($deployment));
-            // access the failure message using: $request->failure_message
+            $deployment->business->notify(new AppDeploymentFailedNotification($deployment->business));
             $deployment->update(['end_time' => Carbon::now()->toDateTimeString(), 'deployment_status_id' => DeploymentStatus::FAILED]);
             return ResponseFactory::error('Deployment has ended.', $deployment);
         }
