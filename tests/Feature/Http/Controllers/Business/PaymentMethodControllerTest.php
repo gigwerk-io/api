@@ -52,7 +52,7 @@ class PaymentMethodControllerTest extends TestCase
         $response = $this->get(route(self::ALL_PAYMENT_METHODS_ROUTE, ['unique_id' => $this->business->unique_id]));
 
         $response->assertStatus(200);
-        $response->assertJsonStructure(['data' => [['id', 'card', 'billing_details']]]);
+        $response->assertJsonStructure(['data' => [['id', 'card', 'billing_details', 'default']]]);
         $this->document(self::DOC_PATH, self::ALL_PAYMENT_METHODS_ROUTE, $response->status(), $response->getContent());
     }
 
