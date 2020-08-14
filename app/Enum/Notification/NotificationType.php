@@ -11,5 +11,6 @@ class NotificationType
     const Marketplace = 'Marketplace';
     const Applicant = 'Applicant';
     const Deployment = 'Deployment';
+    const Business = 'Business';
     const Registration = 'Registration';
 }
