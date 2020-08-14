@@ -62,7 +62,7 @@ class BusinessRegistrationNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Registered Business')
-            ->markdown('/mail/business/business-register-notification');
+            ->markdown('mail.business.business-register-notification');
     }
 
     public function toDatabase($notifiable)
