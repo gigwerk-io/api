@@ -19,6 +19,7 @@ use App\Http\Requests\Auth\BusinessRegisterRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Models\Business;
 use App\Models\User;
+use App\Notifications\Business\BusinessRegistrationNotification;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Http\Request;
@@ -154,6 +155,8 @@ class RegisterController extends Controller
         $business->profile()->create();
 
         $business->load(['profile', 'location']);
+
+        $business->notify(new BusinessRegistrationNotification($business));
 
         return ResponseFactory::success(
             'Your business has been created',
