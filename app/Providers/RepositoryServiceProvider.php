@@ -29,6 +29,7 @@ use App\Contracts\Repositories\UserProfileRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Contracts\Repositories\UserRoleRepository;
 use App\Contracts\Repositories\UserSavedLocationRepository;
+use App\Contracts\Repositories\WinkPostRepository;
 use App\Repositories\ApplicationRepositoryEloquent;
 use App\Repositories\ApplicationStatusRepositoryEloquent;
 use App\Repositories\BusinessAppRepositoryEloquent;
@@ -56,6 +57,7 @@ use App\Repositories\UserProfileRepositoryEloquent;
 use App\Repositories\UserRepositoryEloquent;
 use App\Repositories\UserRoleRepositoryEloquent;
 use App\Repositories\UserSavedLocationRepositoryEloquent;
+use App\Repositories\WinkPostRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -178,6 +180,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(UserSavedLocationRepository::class, function (){
             return $this->app->make(UserSavedLocationRepositoryEloquent::class);
+        });
+
+        $this->app->bind(WinkPostRepository::class, function (){
+            return $this->app->make(WinkPostRepositoryEloquent::class);
         });
     }
 }

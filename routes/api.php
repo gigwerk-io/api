@@ -186,6 +186,9 @@ Route::middleware('auth.builder')->group(function (){
 
 Route::get('subscriptions', 'DataController@subscriptions')->name('available.subscriptions');
 
-
+Route::namespace('Wink')->group(function () {
+    Route::get('blog-posts', 'BlogController@index')->name('all.blog.posts');
+    Route::get('blog-post/{id}', 'BlogController@show')->name('show.blog.post');
+});
 
 
