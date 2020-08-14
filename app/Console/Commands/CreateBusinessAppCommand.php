@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Contracts\Repositories\BusinessRepository;
 use App\Models\Business;
+use App\Notifications\Business\BusinessApprovedNotification;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Filesystem\Filesystem;
@@ -86,6 +87,7 @@ class CreateBusinessAppCommand extends Command
             try {
                 $this->business = $this->businessRepository->findByUuid($this->argument('uuid'));
                 $this->business->update(['is_approved' => true]);
+                $this->business->notify(new BusinessApprovedNotification($this->business));
                 return true;
             }catch (ModelNotFoundException $modelNotFoundException) {
                 $this->error($modelNotFoundException->getMessage());
