@@ -6,6 +6,7 @@ use App\Contracts\Repositories\DeploymentRepository;
 use App\Enum\Business\DeploymentStatus;
 use App\Factories\ResponseFactory;
 use App\Notifications\Business\AppDeploymentFailedNotification;
+use App\Notifications\Business\AppDeploymentSucceededNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -76,7 +77,7 @@ class BuildController extends Controller
             return ResponseFactory::error('Deployment has ended.', $deployment);
         }
 
-        // @todo: Add deployment success notification noted here: https://favr.atlassian.net/browse/GIGWERK-180
+        $deployment->business->notify(new AppDeploymentSucceededNotification($deployment->business));
         $deployment->update(['end_time' => Carbon::now()->toDateTimeString(), 'deployment_status_id' => DeploymentStatus::COMPLETED]);
 
 
