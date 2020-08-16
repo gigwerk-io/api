@@ -7,5 +7,6 @@ class DeploymentMessage
 {
     const FAILED = 'This deployment has failed';
     const SUCCESSFUL = 'This deployment has succeeded';
+    const QUEUED = 'Your deployment has been queued';
 }
 
