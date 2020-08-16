@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Contracts\Repositories\BusinessRepository;
 use App\Models\Business;
 use App\Notifications\Business\BusinessApprovedNotification;
+use App\Notifications\Business\BusinessRejectedNotification;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Filesystem\Filesystem;
@@ -97,6 +98,10 @@ class CreateBusinessAppCommand extends Command
 
         if (!$foundBusiness) {
             return 1;
+        }
+
+        if (!$this->business->is_approved) {
+            $this->business->notify(new BusinessRejectedNotification($this->business));
         }
 
 
