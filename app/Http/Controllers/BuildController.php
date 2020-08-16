@@ -7,6 +7,7 @@ use App\Enum\Business\DeploymentStatus;
 use App\Factories\ResponseFactory;
 use App\Notifications\Business\AppDeploymentFailedNotification;
 use App\Notifications\Business\AppDeploymentSucceededNotification;
+use App\Notifications\Business\DeploymentProcessingNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -49,7 +50,7 @@ class BuildController extends Controller
 
         $deployment->update(['start_time' => Carbon::now()->toDateTimeString(), 'deployment_status_id' => DeploymentStatus::PROCESSING]);
 
-        // @todo: Add deployment notification noted here: https://favr.atlassian.net/browse/GIGWERK-187
+        $deployment->business->notify(new DeploymentProcessingNotification($deployment->business));
 
         return ResponseFactory::success('Deployment has started.', $deployment);
     }
