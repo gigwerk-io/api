@@ -43,7 +43,8 @@
         "solomon04/documentation": "^0.2.0",
         "spatie/laravel-medialibrary": "^8.2",
         "stevebauman/location": "^5.0",
-        "stripe/stripe-php": "^7.32"
+        "stripe/stripe-php": "^7.32",
+        "themsaid/wink": "^1.0"
     },
     "require-dev": {
         "beyondcode/laravel-er-diagram-generator": "^1.4",

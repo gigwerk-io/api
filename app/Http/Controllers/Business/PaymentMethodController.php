@@ -30,9 +30,17 @@ class PaymentMethodController extends Controller
         /** @var Business $business */
         $business = $request->get('business');
 
+        // Get all payment methods.
         $paymentMethods = $business->paymentMethods()->map(function (PaymentMethod $paymentMethod) {
-            return $paymentMethod->asStripePaymentMethod();
+            $paymentMethod = $paymentMethod->asStripePaymentMethod();
+            $paymentMethod->default = false;
+            return $paymentMethod;
         });
+
+        // Find default payment method.
+        $default = $business->defaultPaymentMethod()->asStripePaymentMethod();
+        $default->default = true;
+        $paymentMethods->add($default);
 
         return ResponseFactory::success('Show payment methods', $paymentMethods);
     }
@@ -54,7 +62,7 @@ class PaymentMethodController extends Controller
 
         try {
             $paymentMethod = $business->updateDefaultPaymentMethod($request->payment_method_id);
-        }catch (InvalidRequestException $exception) {
+        } catch (InvalidRequestException $exception) {
             return ResponseFactory::error($exception->getMessage());
         }
 
@@ -77,10 +85,9 @@ class PaymentMethodController extends Controller
 
         try {
             $business->updateDefaultPaymentMethod($request->payment_method_id);
-        }catch (InvalidRequestException $exception) {
+        } catch (InvalidRequestException $exception) {
             return ResponseFactory::error($exception->getMessage());
         }
-
 
 
         return ResponseFactory::success('Your default payment method has been updated.');
@@ -100,7 +107,7 @@ class PaymentMethodController extends Controller
 
         try {
             $paymentMethod = $business->findPaymentMethod($request->payment_method_id);
-        }catch (InvalidRequestException $exception) {
+        } catch (InvalidRequestException $exception) {
             return ResponseFactory::error($exception->getMessage());
         }
 

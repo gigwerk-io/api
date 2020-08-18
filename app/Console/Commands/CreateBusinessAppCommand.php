@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Contracts\Repositories\BusinessRepository;
 use App\Models\Business;
+use App\Notifications\Business\BusinessApprovedNotification;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Filesystem\Filesystem;
@@ -80,9 +81,13 @@ class CreateBusinessAppCommand extends Command
             return 1;
         }
 
+        $suffix = !app()->environment('production') ? '-' . app()->environment() : '';
+
         $foundBusiness = $this->task('Finding the business.', function () {
             try {
                 $this->business = $this->businessRepository->findByUuid($this->argument('uuid'));
+                $this->business->update(['is_approved' => true]);
+                $this->business->notify(new BusinessApprovedNotification($this->business));
                 return true;
             }catch (ModelNotFoundException $modelNotFoundException) {
                 $this->error($modelNotFoundException->getMessage());
@@ -95,10 +100,10 @@ class CreateBusinessAppCommand extends Command
         }
 
 
-        $createdTerraformTempFile = $this->task('Create temporary Terraform file', function () {
+        $createdTerraformTempFile = $this->task('Create temporary Terraform file', function () use ($suffix) {
             $terraformFileContent = file_get_contents(base_path('create-web-app.tf'));
 
-            $domain = $this->business->subdomain_prefix . '.' . config('app.url_suffix');
+            $domain = $this->business->subdomain_prefix . '.'  .$suffix.'.' . config('app.url_suffix');
             $this->business->businessApp()->update(['s3_bucket' => $domain]);
             $terraformFileContent = str_replace('{ACCESS_KEY}', config('filesystems.disks.s3.key'), $terraformFileContent);
             $terraformFileContent = str_replace('{SECRET_KEY}', config('filesystems.disks.s3.secret'), $terraformFileContent);
