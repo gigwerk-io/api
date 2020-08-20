@@ -6,6 +6,7 @@ use App\Enum\Business\DeploymentStatus;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
+use App\Notifications\Business\DeploymentQueuedNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -49,7 +50,7 @@ class DeploymentController extends Controller
 
         $deployment = $business->deployments()->create(['deployment_status_id' => DeploymentStatus::QUEUED, 'id' => Str::uuid()]);
 
-        // @todo: Add deployment notification noted here: https://favr.atlassian.net/browse/GIGWERK-186
+        $business->notify(new DeploymentQueuedNotification($business));
 
         return ResponseFactory::success('Deployment has been queued.');
     }

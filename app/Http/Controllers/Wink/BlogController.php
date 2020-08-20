@@ -29,7 +29,7 @@ class BlogController extends Controller
 
     public function index()
     {
-        $posts = $this->winkPostRepository->all();
+        $posts = $this->winkPostRepository->with(['author', 'tags'])->all();
 
         if ($posts) {
             return ResponseFactory::success(
@@ -47,7 +47,7 @@ class BlogController extends Controller
 
     public function show($id)
     {
-        $post = $this->winkPostRepository->find($id);
+        $post = $this->winkPostRepository->with(['author', 'tags'])->find($id);
 
         if($post) {
             return ResponseFactory::success(
