@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'database_connection' => env('WINK_DB_CONNECTION', 'gigwerk'),
+    'database_connection' => env('WINK_DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -76,5 +76,5 @@ return [
     |
     */
 
-    'preview_path' => '/{postSlug}',
+    'preview_path' => env('BLOG_DOMAIN', 'http://localhost:3000') . '/blog/{postSlug}',
 ];
