@@ -7,10 +7,10 @@ These routes belong are responsible for registration processes.
 - [Create User](#register-user)
 
 
-- [Create Business](#register-business)
+- [Create business](#register-business)
 
 
-- [Join Business](#join-business)
+- [Join business](#join-business)
 
 
 
@@ -72,7 +72,7 @@ Content
 
 
 <a name="register-business"></a>
-## Create Business
+## Create business
 
 Create a business account with Gigwerk.
 ### Endpoint
@@ -141,7 +141,7 @@ Content
 
 
 <a name="join-business"></a>
-## Join Business
+## Join business
 
 Request to join a business marketplace as a worker.
 ### Endpoint

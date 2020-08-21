@@ -42,4 +42,7 @@
         - [General](/{{route}}/{{version}}/app\http\controllers/general)
         - [General](/{{route}}/{{version}}/app\http\controllers/general)
     
+    - [Wink](#)
+        - [Blog](/{{route}}/{{version}}/wink/blog)
+    
   
