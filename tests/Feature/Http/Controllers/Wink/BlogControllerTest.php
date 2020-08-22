@@ -21,11 +21,6 @@ class BlogControllerTest extends TestCase
     const ALL_BLOG_POSTS_ROUTE = 'all.blog.posts';
     const SHOW_BLOG_POST_ROUTE = 'show.blog.post';
 
-    /**
-     * @var WinkPostRepository
-     */
-    public $winkPostRepository;
-
     public $post;
 
     public $author;
@@ -33,8 +28,6 @@ class BlogControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        /** @var WinkPostRepository $winkPostRepository */
-        $winkPostRepository = $this->app->make(WinkPostRepository::class);
         $this->author = factory(WinkAuthor::class)->create();
         $this->post = factory(WinkPost::class)->create([
             "author_id" => $this->author->id
@@ -48,15 +41,18 @@ class BlogControllerTest extends TestCase
     {
         $response = $this->get(route(self::ALL_BLOG_POSTS_ROUTE));
         $response->assertStatus(200);
-        $response->assertJsonStructure(['data' => 'data', 'message', 'success']);
+        $response->assertJsonStructure(['data' => [['author', 'title', 'tags']]]);
         $this->document(self::DOC_PATH, self::ALL_BLOG_POSTS_ROUTE, $response->status(), $response->getContent());
     }
 
+    /**
+     * @covers ::show
+     */
     public function testViewBlogPost()
     {
         $response = $this->get(route(self::SHOW_BLOG_POST_ROUTE, ['id' => $this->post->id]));
         $response->assertStatus(200);
-        $response->assertJsonStructure(['data' => 'data', 'message', 'success']);
+        $response->assertJsonStructure(['data' => ['author', 'title', 'tags']]);
         $this->document(self::DOC_PATH, self::SHOW_BLOG_POST_ROUTE, $response->status(), $response->getContent());
     }
 }

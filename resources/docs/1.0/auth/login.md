@@ -13,10 +13,10 @@ These routes belong are responsible for creating deleting and validating login/s
 - [End Session](#logout)
 
 
-- [Business App Login](#business-login)
+- [business App Login](#business-login)
 
 
-- [Validate Business Token](#business-validate)
+- [Validate business Token](#business-validate)
 
 
 
@@ -136,7 +136,7 @@ Content
 
 
 <a name="business-login"></a>
-## Business App Login
+## business App Login
 
 Login to a businesses marketplace app.
 ### Endpoint
@@ -195,7 +195,7 @@ Content
 
 
 <a name="business-validate"></a>
-## Validate Business Token
+## Validate business Token
 
 Check if a users token has access to a specific business.
 ### Endpoint

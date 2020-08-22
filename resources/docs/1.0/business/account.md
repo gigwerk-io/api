@@ -41,7 +41,7 @@ Content
         "id": 1,
         "owner_id": 1,
         "unique_id": "63f084c7-a899-3f6b-bb7d-e8b054e13b66",
-        "name": "First business Inc.",
+        "name": "First Business Inc.",
         "subdomain_prefix": "demo",
         "stripe_connect_id": "acct_1F7RiLBKeAbZ6utM",
         "created_at": "2020-06-07T01:20:39.000000Z",

@@ -1,0 +1,32 @@
+{
+    "success": true,
+    "message": "Blog post found.",
+    "data": {
+        "id": "61f44dba-bb6c-3c79-9a30-335dd24e68af",
+        "slug": "molestiae-at-consequatur-perspiciatis-eveniet-rerum-saepe",
+        "title": "Dr.",
+        "excerpt": "Dolor omnis explicabo et quibusdam sint qui nihil.",
+        "body": "Quis sed aut qui voluptas quae doloremque perspiciatis. Nihil in doloremque rem repellendus expedita voluptatum impedit quae. Temporibus suscipit exercitationem ut modi eos animi sint.",
+        "published": true,
+        "publish_date": "2020-08-20 16:25:20",
+        "featured_image": "https:\/\/lorempixel.com\/640\/480\/?23666",
+        "featured_image_caption": "Consequatur consequatur voluptas ut dolores et delectus necessitatibus.",
+        "author_id": "85dba02d-b684-390a-b319-d20efbb835ad",
+        "created_at": "2020-08-20 16:25:20",
+        "updated_at": "2020-08-20 16:25:20",
+        "meta": null,
+        "markdown": true,
+        "author": {
+            "id": "85dba02d-b684-390a-b319-d20efbb835ad",
+            "slug": "Molestias et amet ut neque laudantium numquam.",
+            "name": "Prof. Paris O'Hara II",
+            "email": "rosenbaum.davin@yahoo.com",
+            "bio": "Excepturi vel enim enim voluptatem aut aut.",
+            "avatar": "https:\/\/secure.gravatar.com\/avatar\/1297f641fe0aebbbcff3ee8a93a89960?s=80",
+            "created_at": "2020-08-20T16:25:20.000000Z",
+            "updated_at": "2020-08-20T16:25:20.000000Z",
+            "meta": null
+        },
+        "tags": []
+    }
+}
