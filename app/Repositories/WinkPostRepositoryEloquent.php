@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Contracts\Repositories\WinkPostRepository;
@@ -34,5 +35,16 @@ class WinkPostRepositoryEloquent extends BaseRepository implements WinkPostRepos
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
+
+    public function findBySlug(string $slug)
+    {
+        $post = $this->findByField('slug', $slug)->first();
+        if (is_null($post)) {
+            throw new ModelNotFoundException(sprintf('The post with the slug of %s could not be found.', $slug));
+        }
+
+        return $post;
+    }
+
 
 }

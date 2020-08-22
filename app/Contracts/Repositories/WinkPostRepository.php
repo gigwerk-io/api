@@ -11,5 +11,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface WinkPostRepository extends RepositoryInterface
 {
-    //
+    public function findBySlug(string $slug);
 }
