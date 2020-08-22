@@ -30,7 +30,8 @@ class BlogControllerTest extends TestCase
         parent::setUp();
         $this->author = factory(WinkAuthor::class)->create();
         $this->post = factory(WinkPost::class)->create([
-            "author_id" => $this->author->id
+            "author_id" => $this->author->id,
+            'slug' => 'foo'
         ]);
     }
 
@@ -50,7 +51,7 @@ class BlogControllerTest extends TestCase
      */
     public function testViewBlogPost()
     {
-        $response = $this->get(route(self::SHOW_BLOG_POST_ROUTE, ['id' => $this->post->id]));
+        $response = $this->get(route(self::SHOW_BLOG_POST_ROUTE, ['slug' => $this->post->slug]));
         $response->assertStatus(200);
         $response->assertJsonStructure(['data' => ['author', 'title', 'tags']]);
         $this->document(self::DOC_PATH, self::SHOW_BLOG_POST_ROUTE, $response->status(), $response->getContent());

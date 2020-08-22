@@ -55,12 +55,12 @@ class BlogController extends Controller
      * @Meta(name="All Blog Posts", description="View all of the wink blog posts.", href="all-posts")
      * @ResponseExample(status=200, example="responses/wink/blog-posts/show.blog.post-200.json")
      *
-     * @param $id
+     * @param $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $post = $this->winkPostRepository->with(['author', 'tags'])->find($id);
+        $post = $this->winkPostRepository->with(['author', 'tags'])->findBySlug($slug);
 
         if(is_null($post)) {
             return ResponseFactory::error(
