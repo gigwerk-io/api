@@ -87,6 +87,9 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::patch('user/{id}', 'UserController@update')->name('business.update.user');
             Route::delete('user/{id}', 'UserController@delete')->name('business.remove.user');
 
+            Route::get('plugins', 'PluginController@show')->name('business.plugins');
+            Route::patch('plugins', 'PluginController@update')->name('update.business.plugins');
+
         });
     });
 
