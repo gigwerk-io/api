@@ -90,6 +90,8 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::get('plugins', 'PluginController@show')->name('business.plugins');
             Route::patch('plugins', 'PluginController@update')->name('update.business.plugins');
 
+            Route::post('drag-drop-form', 'DragDropFormController@store')->name('store.drag.drop.form');
+
         });
     });
 
