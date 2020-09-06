@@ -2,24 +2,12 @@
 
 namespace App\Http\Controllers\Business;
 
-use App\Contracts\Repositories\UserRepository;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
-use App\Models\Business;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class DragDropFormController extends Controller
 {
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
 
     public function store(Request $request)
     {
