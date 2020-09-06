@@ -83,13 +83,13 @@ class User extends Authenticatable Implements MustVerifyEmail
     }
 
     /**
-     * A user can have own several businesses.
+     * A user can own several businesses.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function ownsBusiness()
     {
-        return $this->hasMany(Business::class);
+        return $this->hasMany(Business::class, 'owner_id');
     }
 
     /**

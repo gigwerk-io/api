@@ -22,6 +22,9 @@ class CreateBusinessesTable extends Migration
             $table->string('name');
             $table->string('subdomain_prefix')->unique();
             $table->string('stripe_connect_id')->nullable();
+            $table->text('application_form')->nullable();
+            $table->string('application_form_name')->nullable();
+            $table->string('application_form_description')->nullable();
 
             $table->foreign('owner_id')->references('id')->on('users');
             $table->timestamps();

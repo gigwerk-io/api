@@ -37,7 +37,10 @@ class Business extends Model implements Transformable, HasMedia
         'google_analytics_id',
         'cloudfront_id',
         's3_bucket_id',
-        'is_approved'
+        'is_approved',
+        'application_form',
+        'application_form_name',
+        'application_form_description'
     ];
 
     /**
