@@ -15,7 +15,7 @@ class DragDropFormController extends Controller
         $user = $request->user();
         $business = $user->ownsBusiness()->first();
 
-        if (isSet($data, $business)) {
+        if (isSet($business)) {
             $business->update([
                 'application_form' => serialize($data['form']),
                 'application_form_name' => $data['formHeader']['formTitle'],
@@ -25,7 +25,7 @@ class DragDropFormController extends Controller
             return ResponseFactory::success('form data submitted', $data);
         } else {
             return ResponseFactory::error(
-                'Invalid form data.',
+                'Invalid business or form data.',
                 null,
                 401
             );
