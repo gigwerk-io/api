@@ -109,7 +109,7 @@ class JobRequestController extends Controller
         $data['customer_id'] = $user->id;
         $data['status_id'] = Status::REQUESTED;
         $data['complete_before'] = Carbon::parse($request->complete_before)->toDateTimeString();
-        $data['client_name'] = $user->first_name . " " . $user->last_name;
+        $data['client_name'] = $request->client_name;
 
         if ($request->has('image_one')) {
             $image = base64_decode($request->image_one);
