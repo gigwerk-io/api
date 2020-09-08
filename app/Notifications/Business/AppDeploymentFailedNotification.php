@@ -44,6 +44,16 @@ class AppDeploymentFailedNotification extends Notification
     }
 
     /**
+     * Get access to this notification's business
+     *
+     * @return Business
+     */
+    public function getBusiness()
+    {
+        return $this->business;
+    }
+
+    /**
      * Get the notification's delivery channels.
      *
      * @param  mixed  $notifiable

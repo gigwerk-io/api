@@ -92,4 +92,9 @@ class DeploymentQueuedNotification extends Notification
             ''
         ]);
     }
+
+    public function getBusiness()
+    {
+        return $this->business;
+    }
 }

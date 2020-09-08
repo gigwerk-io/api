@@ -86,4 +86,9 @@ class AppDeploymentSucceededNotification extends Notification
         ]);
     }
 
+    public function getBusiness()
+    {
+        return $this->business;
+    }
+
 }
