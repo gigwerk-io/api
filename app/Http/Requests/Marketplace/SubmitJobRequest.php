@@ -33,7 +33,8 @@ class SubmitJobRequest extends FormRequest
             'city' => ['required', 'string'],
             'state' => ['required', new Abbr('US')],
             'zip' => ['required', 'postal_code:US'],
-            'price' => ['required', 'numeric']
+            'price' => ['required', 'numeric'],
+            'client_name' => ['required', 'string'],
         ];
     }
 }
