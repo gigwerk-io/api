@@ -6,12 +6,10 @@ use App\Contracts\Repositories\BusinessRepository;
 use App\Models\Business;
 use App\Notifications\Business\AppDeploymentFailedNotification;
 use App\Notifications\Business\AppDeploymentSucceededNotification;
-use App\Notifications\Business\BusinessRegistrationNotification;
 use App\Notifications\Business\DeploymentProcessingNotification;
 use App\Notifications\Business\DeploymentQueuedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Notifications\Notification;
 use Illuminate\Support\Testing\Fakes\NotificationFake;
 use Tests\TestCase;
 
