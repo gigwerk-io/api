@@ -6,26 +6,21 @@ namespace App\Enum\Billing;
 
 class Plan
 {
-    const BASIC = [
-        'id' => 'price_1GxacvD2YnIDoaEIvDuZUD5W',
-        'name' => 'Basic Plan'
-    ];
-    const PRO = [
-        'id' => 'price_1GxadxD2YnIDoaEI8iOxwkI9',
-        'name' => 'Pro Plan'
+    const STANDARD = [
+        'id' => 'price_1HPVUED2YnIDoaEISuW0WPeZ',
+        'name' => 'Standard'
     ];
 
-    const ENTERPRISE = [
-        'id' => 'price_1GyqM4D2YnIDoaEIXvGKWdiJ',
-        'name' => 'Enterprise Plan'
+    const PRO = [
+        'id' => 'price_1HPVVFD2YnIDoaEI6HF3KWGC',
+        'name' => 'Pro'
     ];
 
     public static function toCollection()
     {
         return collect([
-            self::BASIC,
+            self::STANDARD,
             self::PRO,
-            self::ENTERPRISE,
         ]);
     }
 }
