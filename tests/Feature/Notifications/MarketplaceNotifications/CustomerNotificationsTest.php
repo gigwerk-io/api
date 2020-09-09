@@ -3,10 +3,8 @@
 namespace Tests\Feature\Notifications\MarketplaceNotifications;
 
 use App\Contracts\Repositories\BusinessRepository;
-use App\Contracts\Repositories\UserRepository;
 use App\Models\Business;
 use App\Models\MarketplaceJob;
-use App\Models\User;
 use App\Notifications\Marketplace\CustomerApprovedWorkerNotification;
 use App\Notifications\Marketplace\CustomerCancelledJobNotification;
 use App\Notifications\Marketplace\CustomerNeedsToReviewNotification;

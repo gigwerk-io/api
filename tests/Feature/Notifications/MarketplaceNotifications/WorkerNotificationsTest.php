@@ -3,7 +3,6 @@
 namespace Tests\Feature\Notifications\MarketplaceNotifications;
 
 use App\Contracts\Repositories\BusinessRepository;
-use App\Contracts\Repositories\UserRepository;
 use App\Models\Business;
 use App\Models\MarketplaceJob;
 use App\Notifications\Marketplace\WorkerAcceptedJobNotification;
@@ -12,7 +11,6 @@ use App\Notifications\Marketplace\WorkerCompletedJobNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Testing\Fakes\NotificationFake;
-use Tests\Factories\MarketplaceJobFactory;
 use Tests\TestCase;
 
 class WorkerNotificationsTest extends TestCase

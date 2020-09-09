@@ -7,7 +7,6 @@ use App\Contracts\Repositories\UserRepository;
 use App\Enum\Billing\Plan;
 use App\Models\Business;
 use App\Models\User;
-use App\Notifications\Business\BusinessApprovedNotification;
 use App\Notifications\Business\ChangedSubscriptionNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
