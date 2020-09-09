@@ -39,7 +39,7 @@ class DeploymentNotificationTest extends TestCase
     {
         $this->notification->send($this->business, new AppDeploymentFailedNotification($this->business));
         $this->notification->assertSentTo($this->business, AppDeploymentFailedNotification::class, function (AppDeploymentFailedNotification $notification) {
-            return $notification->getBusiness() === $this->business;
+            return $notification->business === $this->business;
         });
     }
 
@@ -47,7 +47,7 @@ class DeploymentNotificationTest extends TestCase
     {
         $this->notification->send($this->business, new AppDeploymentSucceededNotification($this->business));
         $this->notification->assertSentTo($this->business, AppDeploymentSucceededNotification::class, function (AppDeploymentSucceededNotification $notification) {
-            return $notification->getBusiness() === $this->business;
+            return $notification->business === $this->business;
         });
     }
 
@@ -55,7 +55,7 @@ class DeploymentNotificationTest extends TestCase
     {
         $this->notification->send($this->business, new DeploymentProcessingNotification($this->business));
         $this->notification->assertSentTo($this->business, DeploymentProcessingNotification::class, function (DeploymentProcessingNotification $notification) {
-            return $notification->getBusiness() === $this->business;
+            return $notification->business === $this->business;
         });
     }
 
@@ -63,7 +63,7 @@ class DeploymentNotificationTest extends TestCase
     {
         $this->notification->send($this->business, new DeploymentQueuedNotification ($this->business));
         $this->notification->assertSentTo($this->business, DeploymentQueuedNotification ::class, function (DeploymentQueuedNotification $notification) {
-            return $notification->getBusiness() === $this->business;
+            return $notification->business === $this->business;
         });
     }
 }

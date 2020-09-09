@@ -20,17 +20,17 @@ class AppDeploymentSucceededNotification extends Notification
     /**
      * @var Business
      */
-    private $business;
+    public $business;
 
     /**
      * @var string
      */
-    private $title;
+    public $title;
 
     /**
      * @var string
      */
-    private $message;
+    public $message;
 
 
     /**
@@ -85,10 +85,4 @@ class AppDeploymentSucceededNotification extends Notification
             'message' => $this->message,
         ]);
     }
-
-    public function getBusiness()
-    {
-        return $this->business;
-    }
-
 }
