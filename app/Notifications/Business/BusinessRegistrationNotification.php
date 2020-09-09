@@ -17,17 +17,17 @@ class BusinessRegistrationNotification extends Notification
     /**
      * @var Business
      */
-    private $business;
+    public $business;
 
     /**
      * @var string
      */
-    private $title;
+    public $title;
 
     /**
      * @var string
      */
-    private $message;
+    public $message;
 
     /**
      * Create a new notification instance.
