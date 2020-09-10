@@ -41,7 +41,7 @@ class ChangedSubscriptionNotificationTest extends TestCase
 
     public function testChangedSubscriptionNotification()
     {
-        $this->notification->send($this->business, new ChangedSubscriptionNotification($this->user, Plan::ENTERPRISE, $this->business));
+        $this->notification->send($this->business, new ChangedSubscriptionNotification($this->user, Plan::PRO, $this->business));
         $this->notification->assertSentTo($this->business, ChangedSubscriptionNotification::class, function (ChangedSubscriptionNotification $notification) {
             return $notification->business === $this->business;
         });
