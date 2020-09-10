@@ -1,19 +1,17 @@
 <?php
 
-namespace Tests\Feature\Notifications\MarketplaceNotifications;
+namespace Tests\Feature\Notifications\Marketplace;
 
 use App\Contracts\Repositories\BusinessRepository;
 use App\Models\Business;
 use App\Models\MarketplaceJob;
 use App\Notifications\Marketplace\WorkerAcceptedJobNotification;
-use App\Notifications\Marketplace\WorkerArrivedNotification;
-use App\Notifications\Marketplace\WorkerCompletedJobNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Testing\Fakes\NotificationFake;
 use Tests\TestCase;
 
-class WorkerNotificationsTest extends TestCase
+class WorkerAcceptedJobNotificationTest extends TestCase
 {
     /**
      * @var NotificationFake
@@ -42,22 +40,6 @@ class WorkerNotificationsTest extends TestCase
     {
         $this->notification->send($this->marketplaceJob, new WorkerAcceptedJobNotification($this->marketplaceJob));
         $this->notification->assertSentTo($this->marketplaceJob, WorkerAcceptedJobNotification::class, function (WorkerAcceptedJobNotification $notification) {
-            return $this->marketplaceJob === $notification->marketplaceJob;
-        });
-    }
-
-    public function testWorkerArrivedNotification()
-    {
-        $this->notification->send($this->marketplaceJob, new WorkerArrivedNotification($this->marketplaceJob));
-        $this->notification->assertSentTo($this->marketplaceJob, WorkerArrivedNotification::class, function (WorkerArrivedNotification $notification) {
-            return $this->marketplaceJob === $notification->marketplaceJob;
-        });
-    }
-
-    public function testWorkerCompletedJobNotification()
-    {
-        $this->notification->send($this->marketplaceJob, new WorkerCompletedJobNotification ($this->marketplaceJob));
-        $this->notification->assertSentTo($this->marketplaceJob, WorkerCompletedJobNotification ::class, function (WorkerCompletedJobNotification $notification) {
             return $this->marketplaceJob === $notification->marketplaceJob;
         });
     }
