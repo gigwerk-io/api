@@ -67,7 +67,7 @@ class DevRequiredUsersSeeder extends Seeder
                 ]);
                 $business->addPaymentMethod($paymentMethod2);
 
-                $business->newSubscription(Plan::PRO['name'], Plan::PRO['id'])->trialDays(14)->create();
+                $business->newSubscription(Plan::PRO['name'], Plan::PRO['id'])->create();
             })
             ->create(['owner_id' => $businessAdminOne->id]);
 
@@ -138,7 +138,7 @@ class DevRequiredUsersSeeder extends Seeder
                 $business->addPaymentMethod($paymentMethod);
                 $business->updateDefaultPaymentMethod($paymentMethod);
 
-                $business->newSubscription(Plan::BASIC['name'], Plan::BASIC['id'])->trialDays(14)->create();
+                $business->newSubscription(Plan::STANDARD['name'], Plan::STANDARD['id'])->create();
             })
             ->create(['owner_id' => $businessAdminTwo->id]);
 

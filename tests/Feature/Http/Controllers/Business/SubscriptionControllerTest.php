@@ -62,7 +62,7 @@ class SubscriptionControllerTest extends TestCase
         self::markTestIncomplete();
         $response = $this->patch(route(self::UPDATE_SUBSCRIPTION_ROUTE, [
             'unique_id' => $this->business->unique_id,
-        ]), ['subscription_id' => Plan::BASIC['id']]);
+        ]), ['subscription_id' => Plan::STANDARD['id']]);
 
         $response->assertStatus(200);
         $response->assertJson(ResponseFactoryTest::success('You are now subscribed to the Basic Plan.'));
