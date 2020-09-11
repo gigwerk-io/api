@@ -65,6 +65,8 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::get('invoices', 'InvoiceController@index')->name('all.invoices');
             Route::get('invoice', 'InvoiceController@upcoming')->name('upcoming.invoice');
 
+            Route::post('google/oauth', 'IntegrationController@generateOAuthUrl')->name('generate.google.url');
+
             Route::get('jobs', 'MarketplaceController@index')->name('all.marketplace.jobs');
             Route::get('job/{id}', 'MarketplaceController@show')->name('show.marketplace.job');
             Route::patch('job/{id}/assign', 'MarketplaceController@assign')->name('assign.marketplace.job');
@@ -87,8 +89,8 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::patch('user/{id}', 'UserController@update')->name('business.update.user');
             Route::delete('user/{id}', 'UserController@delete')->name('business.remove.user');
 
-            Route::get('plugins', 'PluginController@show')->name('business.plugins');
-            Route::patch('plugins', 'PluginController@update')->name('update.business.plugins');
+            Route::get('integrations', 'IntegrationController@show')->name('business.integrations');
+            Route::patch('integrations', 'IntegrationController@update')->name('update.business.integrations');
 
         });
     });
@@ -194,4 +196,4 @@ Route::namespace('Wink')->group(function () {
     Route::get('blog-post/{slug}', 'BlogController@show')->name('show.blog.post');
 });
 
-
+Route::get('google/oauth', 'Business\IntegrationController@generateOAuthToken')->name('generate.google.token');
