@@ -12,6 +12,7 @@
         - [Applicant](/{{route}}/{{version}}/business/applicant)
         - [Dashboard](/{{route}}/{{version}}/business/dashboard)
         - [Deployments](/{{route}}/{{version}}/business/deployments)
+        - [Integrations](/{{route}}/{{version}}/business/integrations)
         - [Invoice](/{{route}}/{{version}}/business/invoice)
         - [Marketplace](/{{route}}/{{version}}/business/marketplace)
         - [Notifications](/{{route}}/{{version}}/business/notifications)
