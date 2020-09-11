@@ -107,6 +107,15 @@ class PaymentMethodController extends Controller
 
         try {
             $paymentMethod = $business->findPaymentMethod($request->payment_method_id);
+
+            if (is_null($paymentMethod)) {
+                return ResponseFactory::error('Payment method does not exist');
+            }
+
+            if ($paymentMethod->id === $business->defaultPaymentMethod()->id) {
+                return ResponseFactory::error('You cannot delete your default payment method.');
+            }
+
         } catch (InvalidRequestException $exception) {
             return ResponseFactory::error($exception->getMessage());
         }

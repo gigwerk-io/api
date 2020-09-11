@@ -153,6 +153,7 @@ class RegisterController extends Controller
 
         $business->location()->create($location);
         $business->profile()->create();
+        $business->integration()->create();
 
         $business->load(['profile', 'location']);
 

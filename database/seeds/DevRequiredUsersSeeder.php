@@ -41,6 +41,7 @@ class DevRequiredUsersSeeder extends Seeder
                 $businessAdminOne->businesses()->attach($business, ['role_id' => Role::CUSTOMER]);
                 $domain = sprintf("https://first-%s.%s", app()->environment(), config('app.url_suffix'));
                 $business->businessApp()->create(['domain' => $domain]);
+                $business->integration()->create();
                 $paymentMethod = $stripe->paymentMethods->create([
                     'type' => 'card',
                     'card' => [
@@ -123,6 +124,7 @@ class DevRequiredUsersSeeder extends Seeder
                 $businessAdminTwo->businesses()->attach($business, ['role_id' => Role::VERIFIED_FREELANCER]);
                 $domain = sprintf("https://second-%s.%s", app()->environment(), config('app.url_suffix'));
                 $business->businessApp()->create(['domain' => $domain]);
+                $business->integration()->create();
 
                 $paymentMethod = $stripe->paymentMethods->create([
                     'type' => 'card',

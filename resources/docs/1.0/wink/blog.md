@@ -74,7 +74,7 @@ View all of the wink blog posts.
 ### Endpoint
 |Method|URI|Authentication|
 |:-|:-|:-|
-|`GET`|`/blog-post/{id}`|`false`|
+|`GET`|`/blog-post/{slug}`|`false`|
 
 
 

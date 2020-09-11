@@ -29,6 +29,7 @@ Submit a job to the marketplace feed.
 |`zip`|`string`|`required`|`The zip code of the job location.`|
 |`category_id`|`numeric`|`required`|`The category id of the job.`|
 |`business_id`|`string`|`required`|`The uuid of the business marketplace.`|
+|`client_name`|`string`|`required`|`The first and last name of the client.`|
 |`price`|`numeric`|`required`|`The price of the job.`|
 |`image_one`|`string`|`optional`|`Base64 encoded image of job.`|
 |`image_two`|`string`|`optional`|`Base64 encoded image of job.`|
