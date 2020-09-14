@@ -4,16 +4,16 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Contracts\Repositories\ApplicationStatusRepository;
-use App\Models\ApplicationStatus;
-use App\Validators\ApplicationStatusValidator;
+use App\Contracts\Repositories\ApplicationEventRepository;
+use App\Models\ApplicationEvent;
+use App\Validators\ApplicationEventValidator;
 
 /**
- * Class ApplicationStatusRepositoryEloquent.
+ * Class ApplicationEventRepositoryEloquent.
  *
  * @package namespace App\Repositories;
  */
-class ApplicationStatusRepositoryEloquent extends BaseRepository implements ApplicationStatusRepository
+class ApplicationEventRepositoryEloquent extends BaseRepository implements ApplicationEventRepository
 {
     /**
      * Specify Model class name
@@ -22,7 +22,7 @@ class ApplicationStatusRepositoryEloquent extends BaseRepository implements Appl
      */
     public function model()
     {
-        return ApplicationStatus::class;
+        return ApplicationEvent::class;
     }
 
     

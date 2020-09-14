@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\ApplicationStatus;
 use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
@@ -10,7 +11,6 @@ use App\Contracts\Geolocation\Geolocation;
 use App\Contracts\Repositories\ApplicationRepository;
 use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\UserRepository;
-use App\Enum\User\ApplicationStatus;
 use App\Enum\User\Role;
 use App\Events\User\Registered;
 use App\Factories\ResponseFactory;
@@ -200,7 +200,7 @@ class RegisterController extends Controller
         }
 
         // TODO: Send out notification to business.
-        $business->applications()->create(['user_id' => $user->id, 'status_id' => ApplicationStatus::PENDING]);
+        $business->applications()->create(['user_id' => $user->id, 'status' => ApplicationStatus::NEW]);
 
         return ResponseFactory::success('Your application has been sent');
     }

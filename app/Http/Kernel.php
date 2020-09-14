@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\ApplicationExists;
 use App\Http\Middleware\BusinessOwner;
 use App\Http\Middleware\CanAccessBusiness;
 use App\Http\Middleware\ExpectsJsonMiddleware;
@@ -63,6 +64,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'application.exists' => ApplicationExists::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.builder' => \App\Http\Middleware\BuilderAuthentication::class,

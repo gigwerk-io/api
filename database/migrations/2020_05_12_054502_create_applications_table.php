@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ApplicationStatus;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -19,12 +20,11 @@ class CreateApplicationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('business_id');
-            $table->unsignedBigInteger('status_id');
+            $table->integer('status')->default(ApplicationStatus::NEW);
 
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('business_id')->references('id')->on('businesses');
-            $table->foreign('status_id')->references('id')->on('application_statuses');
             $table->timestamps();
 		});
 	}

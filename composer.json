@@ -15,6 +15,7 @@
         "ext-json": "*",
         "ext-zlib": "*",
         "axlon/laravel-postal-code-validation": "^2.1",
+        "bensampo/laravel-enum": "2.x",
         "binarytorch/larecipe": "^2.3",
         "binarytorch/larecipe-dark-theme": "^0.1.4",
         "doctrine/annotations": "^1.10",
