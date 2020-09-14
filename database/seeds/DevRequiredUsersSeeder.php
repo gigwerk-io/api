@@ -1,8 +1,8 @@
 <?php
 
 use App\Enum\Billing\Plan;
-use App\Enum\User\ApplicationStatus;
 use App\Enum\User\Role;
+use App\Enums\ApplicationStatus;
 use App\Models\Business;
 use App\Models\User;
 use Carbon\Carbon;
@@ -83,7 +83,7 @@ class DevRequiredUsersSeeder extends Seeder
                 $businessOne->users()->attach($user, ['role_id' => Role::VERIFIED_FREELANCER]);
                 $businessOne->applications()->create([
                     'user_id' => $user->id,
-                    'status_id' => ApplicationStatus::APPROVED
+                    'status' => ApplicationStatus::APPROVED
                 ]);
             })->create();
 
@@ -96,7 +96,7 @@ class DevRequiredUsersSeeder extends Seeder
                 $businessOne->users()->attach($user, ['role_id' => Role::PENDING_FREELANCER]);
                 $businessOne->applications()->create([
                     'user_id' => $user->id,
-                    'status_id' => ApplicationStatus::APPROVED
+                    'status' => ApplicationStatus::APPROVED
                 ]);
             })->create();;
         // Create a pending application for business one
@@ -107,7 +107,7 @@ class DevRequiredUsersSeeder extends Seeder
             ->afterCreating(function (User $user) use ($businessOne){
                 $businessOne->applications()->create([
                     'user_id' => $user->id,
-                    'status_id' => ApplicationStatus::PENDING
+                    'status' => ApplicationStatus::NEW
                 ]);
             })->create();
 
@@ -153,7 +153,7 @@ class DevRequiredUsersSeeder extends Seeder
                 $businessTwo->users()->attach($user, ['role_id' => Role::VERIFIED_FREELANCER]);
                 $businessTwo->applications()->create([
                     'user_id' => $user->id,
-                    'status_id' => ApplicationStatus::APPROVED
+                    'status' => ApplicationStatus::APPROVED
                 ]);
             })->create();
 
@@ -166,7 +166,7 @@ class DevRequiredUsersSeeder extends Seeder
                 $businessTwo->users()->attach($user, ['role_id' => Role::PENDING_FREELANCER]);
                 $businessTwo->applications()->create([
                     'user_id' => $user->id,
-                    'status_id' => ApplicationStatus::APPROVED
+                    'status' => ApplicationStatus::APPROVED
                 ]);
             })->create();
 
@@ -178,7 +178,7 @@ class DevRequiredUsersSeeder extends Seeder
             ->afterCreating(function (User $user) use ($businessTwo){
                 $businessTwo->applications()->create([
                     'user_id' => $user->id,
-                    'status_id' => ApplicationStatus::PENDING
+                    'status' => ApplicationStatus::NEW
                 ]);
             })->create();
 
@@ -191,13 +191,13 @@ class DevRequiredUsersSeeder extends Seeder
                 $businessTwo->users()->attach($user, ['role_id' => Role::VERIFIED_FREELANCER]);
                 $businessTwo->applications()->create([
                     'user_id' => $user->id,
-                    'status_id' => ApplicationStatus::APPROVED
+                    'status' => ApplicationStatus::APPROVED
                 ]);
 
                 $businessOne->users()->attach($user, ['role_id' => Role::VERIFIED_FREELANCER]);
                 $businessOne->applications()->create([
                     'user_id' => $user->id,
-                    'status_id' => ApplicationStatus::APPROVED
+                    'status' => ApplicationStatus::APPROVED
                 ]);
             })->create();
     }

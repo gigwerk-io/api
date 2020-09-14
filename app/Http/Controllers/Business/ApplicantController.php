@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\Business;
 
+use App\Enums\ApplicationEventType;
+use App\Enums\ApplicationStatus;
+use App\Http\Middleware\ApplicationExists;
+use App\Models\Application;
 use App\Notifications\User\ApplicationApprovedNotification;
 use App\Notifications\User\ApplicationRejectedNotification;
+use BenSampo\Enum\Rules\EnumKey;
+use BenSampo\Enum\Rules\EnumValue;
+use Carbon\Carbon;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
 use Solomon04\Documentation\Annotation\ResponseExample;
-use App\Enum\User\ApplicationStatus;
 use App\Enum\User\Role;
 use App\Factories\ResponseFactory;
 use App\Http\Controllers\Controller;
@@ -16,6 +22,9 @@ use Illuminate\Http\Request;
 
 /**
  * @Group(name="Applicant", description="Manage all of your businesses applications & applicants.")
+ *
+ * We are setting applications via middleware to remove redundant code.
+ * @see ApplicationExists
  */
 class ApplicantController extends Controller
 {
@@ -28,12 +37,20 @@ class ApplicantController extends Controller
      */
     public function index(Request $request)
     {
+        $this->validate($request, ['status' => new EnumValue(ApplicationStatus::class, false)]);
         /** @var Business $business */
         $business = $request->get('business');
 
-        $applicants = $business->applications()->with(['status', 'user.profile'])->get();
+        $applications = $business->applications()->with(['user.profile'])->get();
 
-        return ResponseFactory::success('View all applicants', $applicants);
+        if ($request->has('status')) {
+            $status = $request->status;
+            $applications = $applications->filter(function($application) use ($status){
+                return $application->status == $status;
+            })->values();
+        }
+
+        return ResponseFactory::success('View all applicants', $applications);
     }
 
     /**
@@ -45,21 +62,53 @@ class ApplicantController extends Controller
      */
     public function show(Request $request)
     {
-        /** @var Business $business */
-        $business = $request->get('business');
+        /** @var Application $application */
+        $application = $request->get('application');
+        $application->load('events');
 
-        $applicant = $business->applications()->with(['status', 'user.profile'])->where('id', '=', $request->id)->first();
-        $applicant->append('averageRating');
+        return ResponseFactory::success('View all applicants', $application);
+    }
 
-        if(is_null($applicant)) {
-            return ResponseFactory::error(
-                'Applicant not found',
-                null,
-                404
-            );
+    public function schedule(Request $request)
+    {
+        $this->validate($request, [
+            'event_type' => ['required', new EnumValue(ApplicationEventType::class, false)],
+            'start_time' => ['required', 'date'],
+            'end_time' => ['required', 'date'],
+        ]);
+
+        /** @var Application $application */
+        $application = $request->get('application');
+
+        // This prevents having multiple scheduled events. We might change it in the future if no longer useful.
+        if ($application->events()->where('completed', '=', false)->count() > 0) {
+            return ResponseFactory::error('You already have an event scheduled.');
         }
 
-        return ResponseFactory::success('View all applicants', $applicant);
+        switch ($request->event_type) {
+            case ApplicationEventType::PHONE_SCREEN:
+                $status = ApplicationStatus::PHONE_SCREENING;
+                break;
+            case ApplicationEventType::INTERVIEW:
+                $status = ApplicationStatus::INTERVIEWING;
+                break;
+            case ApplicationEventType::ONBOARD:
+                $status = ApplicationStatus::ONBOARDING;
+                break;
+            default:
+                $status = $application->status;
+                break;
+        }
+
+        $application->update(['status' => $status]);
+        $data = $request->only(['event_type', 'start_time', 'end_time']);
+        $data['start_time'] = Carbon::parse($data['start_time'])->toDateTimeString();
+        $data['end_time'] = Carbon::parse($data['end_time'])->toDateTimeString();
+        $event = $application->events()->create($data);
+        // @todo: create an event in google calendar
+        // Calendar::create($event)
+
+        return ResponseFactory::success('Your event has been scheduled.', $event->load('application.user.profile'));
     }
 
     /**
@@ -75,24 +124,17 @@ class ApplicantController extends Controller
         /** @var Business $business */
         $business = $request->get('business');
 
-        $applicant = $business->applications()->with(['status', 'user.profile'])->where('id', '=', $request->id)->first();
+        /** @var Application $application */
+        $application = $request->get('application');
 
-        if(is_null($applicant)) {
-            return ResponseFactory::error(
-                'Applicant not found',
-                null,
-                404
-            );
-        }
-
-        if ($business->users()->where('id', '=', $applicant->user->id)->exists()) {
+        if ($business->users()->where('id', '=', $application->user->id)->exists()) {
             return ResponseFactory::error('This user has already joined your business');
         }
 
 
-        $applicant->update(['status_id' => ApplicationStatus::APPROVED]);
-        $applicant->user->notify(new ApplicationApprovedNotification($business));
-        $business->users()->attach($applicant->user, ['role_id' => Role::VERIFIED_FREELANCER]);
+        $application->update(['status_id' => ApplicationStatus::APPROVED]);
+        $application->user->notify(new ApplicationApprovedNotification($business));
+        $business->users()->attach($application->user, ['role_id' => Role::VERIFIED_FREELANCER]);
 
         return ResponseFactory::success('This application has been approved');
     }
@@ -111,22 +153,15 @@ class ApplicantController extends Controller
         /** @var Business $business */
         $business = $request->get('business');
 
-        $applicant = $business->applications()->with(['status', 'user.profile'])->where('id', '=', $request->id)->first();
+        /** @var Application $application */
+        $application = $request->get('application');
 
-        if(is_null($applicant)) {
-            return ResponseFactory::error(
-                'Applicant not found',
-                null,
-                404
-            );
-        }
-
-        if ($business->users()->where('id', '=', $applicant->user->id)->exists()) {
+        if ($business->users()->where('id', '=', $application->user->id)->exists()) {
             return ResponseFactory::error('This user has already joined your business');
         }
 
-        $applicant->update(['status_id' => ApplicationStatus::REJECTED]);
-        $applicant->user->notify(new ApplicationRejectedNotification($business));
+        $application->update(['status' => ApplicationStatus::REJECTED]);
+        $application->user->notify(new ApplicationRejectedNotification($business));
 
         return ResponseFactory::success('This application has been rejected');
     }
@@ -142,20 +177,10 @@ class ApplicantController extends Controller
      */
     public function delete(Request $request)
     {
-        /** @var Business $business */
-        $business = $request->get('business');
+        /** @var Application $application */
+        $application = $request->get('application');
 
-        $applicant = $business->applications()->with(['status', 'user.profile'])->where('id', '=', $request->id)->first();
-
-        if(is_null($applicant)) {
-            return ResponseFactory::error(
-                'Application not found',
-                null,
-                404
-            );
-        }
-
-        $applicant->delete();
+        $application->delete();
 
         return ResponseFactory::success('This application has been removed');
     }

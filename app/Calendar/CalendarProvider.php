@@ -5,10 +5,19 @@ namespace App\Calendar;
 
 
 use App\Contracts\Calendar\Calendar;
+use Google_Client;
 
-class CalendarProvider implements Calendar
+class CalendarProvider
 {
     const CALENDAR_ID = 'primary';
+
+    public static $client;
+
+    public static function init($token)
+    {
+        self::$client = new Google_Client();
+        self::$client->setAccessToken($token);
+    }
 
     public static function create()
     {
