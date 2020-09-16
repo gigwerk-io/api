@@ -34,6 +34,6 @@ class SendWelcomeEmail
      */
     public function handle(Registered $event)
     {
-        $this->mailer->to($event->user->email)->send(new RegisteredMailable());
+        $this->mailer->to($event->user->email)->send(new RegisteredMailable($event->user));
     }
 }
