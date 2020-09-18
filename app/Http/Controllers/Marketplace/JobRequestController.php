@@ -87,7 +87,7 @@ class JobRequestController extends Controller
      * @BodyParam(name="state", type="string", status="required", description="The state of the job location.", example="MN")
      * @BodyParam(name="zip", type="string", status="required", description="The zip code of the job location.", example="55901")
      * @BodyParam(name="category_id", type="numeric", status="required", description="The category id of the job.", example="1")
-     * @BodyParam(name="business_id", type="string", status="required", description="The uuid of the business marketplace.", example="67327c61-b00d-4820-b764-94529a17bf45")
+     * @BodyParam(name="intensity", type="numeric", status="required", description="The intensity id of the job.", example="1")
      * @BodyParam(name="client_name", type="string", status="required", description="The first and last name of the client.", example="John Doe")
      * @BodyParam(name="price", type="numeric", status="required", description="The price of the job.", example="50.00")
      * @BodyParam(name="image_one", type="string", status="optional", description="Base64 encoded image of job.")
