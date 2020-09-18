@@ -20,7 +20,7 @@ class RegisteredMailable extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param User $user
      */
     public function __construct(User $user)
     {
@@ -34,6 +34,6 @@ class RegisteredMailable extends Mailable
      */
     public function build()
     {
-        return $this->markdown('user.welcome');
+        return $this->markdown('mail.user.welcome');
     }
 }
