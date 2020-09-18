@@ -16,11 +16,6 @@ class UserAppliedMailable extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var Business
-     */
-    private $business;
-
-    /**
      * @var User
      */
     public $owner;
