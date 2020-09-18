@@ -53,8 +53,10 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::middleware(['application.exists'])->group(function (){
                 Route::get('applicant/{id}', 'ApplicantController@show')->name('show.applicant');
                 Route::post('applicant/{id}/approve', 'ApplicantController@approve')->name('approve.applicant');
-                Route::post('applicant/{id}/schedule', 'ApplicantController@schedule')->name('schedule.applicant');
-                Route::patch('applicant/{id}/schedule/{event_id}', 'ApplicantController@reschedule')->name('reschedule.applicant');
+                Route::middleware('active.access.token')->group(function (){
+                    Route::post('applicant/{id}/schedule', 'ApplicantController@schedule')->name('schedule.applicant');
+                    Route::patch('applicant/{id}/schedule/{event_id}', 'ApplicantController@reschedule')->name('reschedule.applicant');
+                });
                 Route::post('applicant/{id}/reject', 'ApplicantController@reject')->name('reject.applicant');
                 Route::delete('applicant/{id}', 'ApplicantController@delete')->name('delete.application');
             });

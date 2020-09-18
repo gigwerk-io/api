@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Business;
 
+use App\Calendar\CalendarProvider;
 use App\Enums\ApplicationEventType;
 use App\Enums\ApplicationStatus;
 use App\Http\Middleware\ApplicationExists;
+use App\Http\Requests\Business\CreateCalendarEventRequest;
 use App\Models\Application;
+use App\Models\ApplicationEvent;
 use App\Notifications\User\ApplicationApprovedNotification;
 use App\Notifications\User\ApplicationRejectedNotification;
 use BenSampo\Enum\Rules\EnumKey;
@@ -29,11 +32,22 @@ use Illuminate\Http\Request;
 class ApplicantController extends Controller
 {
     /**
+     * @var CalendarProvider
+     */
+    protected $calendar;
+
+    public function __construct(CalendarProvider $calendar)
+    {
+        $this->calendar = $calendar;
+    }
+
+    /**
      * @Meta(name="View Applicants", description="Show all of the applicants in a business.", href="all")
      * @ResponseExample(status=200, example="responses/business/applicant/all.applicants-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function index(Request $request)
     {
@@ -69,13 +83,21 @@ class ApplicantController extends Controller
         return ResponseFactory::success('View all applicants', $application);
     }
 
-    public function schedule(Request $request)
+    /**
+     * @Meta(name="Schedule Calendar Event", description="Add a calendar event to Google.", href="calendar-event")
+     *
+     * @param CreateCalendarEventRequest $request
+     * @return \Illuminate\Http\Response
+     * @throws \App\Exceptions\MissingAccessTokenException
+     */
+    public function schedule(CreateCalendarEventRequest $request)
     {
-        $this->validate($request, [
-            'event_type' => ['required', new EnumValue(ApplicationEventType::class, false)],
-            'start_time' => ['required', 'date'],
-            'end_time' => ['required', 'date'],
-        ]);
+        /** @var Business $business */
+        $business = $request->get('business');
+
+        if (is_null($business->integration->google_access_token)) {
+            return ResponseFactory::error('Missing Google Access Token.');
+        }
 
         /** @var Application $application */
         $application = $request->get('application');
@@ -101,12 +123,17 @@ class ApplicantController extends Controller
         }
 
         $application->update(['status' => $status]);
-        $data = $request->only(['event_type', 'start_time', 'end_time']);
-        $data['start_time'] = Carbon::parse($data['start_time'])->toDateTimeString();
-        $data['end_time'] = Carbon::parse($data['end_time'])->toDateTimeString();
+        $data = $request->all();
+        $data['start_time'] = Carbon::parse($data['start_time'], new \DateTimeZone($data['timezone']))
+            ->setTimezone(config('app.timezone'))
+            ->toDateTimeString();
+        $data['end_time'] = Carbon::parse($data['end_time'], new \DateTimeZone($data['timezone']))
+            ->setTimezone(config('app.timezone'))
+            ->toDateTimeString();
+        /** @var ApplicationEvent $event */
         $event = $application->events()->create($data);
-        // @todo: create an event in google calendar
-        // Calendar::create($event)
+        $calendarEvent = $this->calendar->create($event);
+        $event->update(['google_calendar_id' => $calendarEvent->id]);
 
         return ResponseFactory::success('Your event has been scheduled.', $event->load('application.user.profile'));
     }

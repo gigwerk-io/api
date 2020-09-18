@@ -27,7 +27,10 @@ class ApplicationEvent extends Model implements Transformable
         'application_id',
         'start_time',
         'end_time',
-        'completed'
+        'completed',
+        'notes',
+        'google_calendar_id',
+        'timezone'
     ];
 
     /**
@@ -59,6 +62,11 @@ class ApplicationEvent extends Model implements Transformable
         return $this->belongsTo(Application::class, 'application_id');
     }
 
+    /**
+     * Get the description of the event. (E.g. Phone Screening)
+     *
+     * @return string
+     */
     public function getEventTypeDescriptionAttribute()
     {
         return $this->event_type->description;

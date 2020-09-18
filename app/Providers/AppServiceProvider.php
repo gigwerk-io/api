@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Calendar\CalendarProvider;
+use App\Contracts\Calendar\Calendar;
 use Google_Client;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
@@ -37,14 +39,10 @@ class AppServiceProvider extends ServiceProvider
                 'clientId'     => env('GOOGLE_CLIENT_ID'),
                 'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
                 'redirectUri'  => route('generate.google.token'),
+                'accessType'   => 'offline'
             ]);
         });
 
-        // Dynamic Google Client for Calendar.
-        $this->app->singleton(Google_Client::class, function ($app, $parameters){
-            $client = new Google_Client();
-            $client->setAccessToken($parameters['access_token']);
-            return $client;
-        });
+        $this->app->bind(Calendar::class, CalendarProvider::class);
     }
 }
