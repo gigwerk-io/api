@@ -34,6 +34,6 @@ class RegisteredMailable extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.user.welcome');
+        return $this->markdown('mail.user.welcome')->subject('Welcome!');
     }
 }
