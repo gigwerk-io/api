@@ -51,6 +51,16 @@ class Application extends Model implements Transformable
     }
 
     /**
+     * An application belongs to a business
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function business()
+    {
+        return $this->belongsTo(Business::class);
+    }
+
+    /**
      * An application can have schedule events.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
