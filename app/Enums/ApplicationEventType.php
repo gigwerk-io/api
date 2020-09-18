@@ -17,4 +17,9 @@ final class ApplicationEventType extends Enum
     const INTERVIEW =   2;
     const ONBOARD = 3;
     const OTHER = 4;
+
+    public static function parseDatabase($value)
+    {
+        return (integer)$value;
+    }
 }
