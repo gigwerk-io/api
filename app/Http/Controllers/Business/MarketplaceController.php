@@ -66,7 +66,9 @@ class MarketplaceController extends Controller
 
         if ($request->has('status')) {
             $status = $request->status;
-            $marketplaceJobs = $marketplaceJobs->where('status_id', $status);
+            $marketplaceJobs = $marketplaceJobs->filter(function($marketplaceJob) use ($status){
+                return $marketplaceJob->status_id == $status;
+            })->values();
         }
 
 
