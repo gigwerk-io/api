@@ -19,17 +19,17 @@ class AppDeploymentFailedNotification extends Notification
     /**
      * @var Business
      */
-    private $business;
+    public $business;
 
     /**
      * @var string
      */
-    private $title;
+    public $title;
 
     /**
      * @var string
      */
-    private $message;
+    public $message;
 
     /**
      * Create a new notification instance.
@@ -53,6 +53,7 @@ class AppDeploymentFailedNotification extends Notification
     {
         return ['mail', 'broadcast' , 'database'];
     }
+
 
     /**
      * Get the mail representation of the notification.
@@ -97,5 +98,4 @@ class AppDeploymentFailedNotification extends Notification
             'message' => $this->message,
         ];
     }
-
 }

@@ -61,6 +61,7 @@ class JobRequestControllerTest extends TestCase
             'category_id' => 1,
             'intensity_id' => 2,
             'price' => 25,
+            'client_name' => $marketplaceJob->client_name,
         ]);
 
 

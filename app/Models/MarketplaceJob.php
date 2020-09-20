@@ -35,7 +35,8 @@ class MarketplaceJob extends Model implements Transformable
         'image_one',
         'image_two',
         'image_three',
-        'business_id'
+        'business_id',
+        'client_name',
     ];
 
     /**

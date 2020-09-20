@@ -29,11 +29,13 @@ class SubmitJobRequest extends FormRequest
             'description' => ['required', 'string'],
             'complete_before' => ['required', 'date'],
             'category_id' => ['required', 'exists:categories,id'],
+            'intensity_id' => ['required', 'exists:categories,id'],
             'street_address' => ['required', 'string'],
             'city' => ['required', 'string'],
             'state' => ['required', new Abbr('US')],
             'zip' => ['required', 'postal_code:US'],
-            'price' => ['required', 'numeric']
+            'price' => ['required', 'numeric'],
+            'client_name' => ['required', 'string'],
         ];
     }
 }

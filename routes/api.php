@@ -50,10 +50,16 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::get('stripe', 'AccountController@stripeLogin')->name('business.stripe.login');
 
             Route::get('applicants', 'ApplicantController@index')->name('all.applicants');
-            Route::get('applicant/{id}', 'ApplicantController@show')->name('show.applicant');
-            Route::post('applicant/{id}/approve', 'ApplicantController@approve')->name('approve.applicant');
-            Route::post('applicant/{id}/reject', 'ApplicantController@reject')->name('reject.applicant');
-            Route::delete('applicant/{id}', 'ApplicantController@delete')->name('delete.application');
+            Route::middleware(['application.exists'])->group(function (){
+                Route::get('applicant/{id}', 'ApplicantController@show')->name('show.applicant');
+                Route::post('applicant/{id}/approve', 'ApplicantController@approve')->name('approve.applicant');
+                Route::middleware('active.access.token')->group(function (){
+                    Route::post('applicant/{id}/schedule', 'ApplicantController@schedule')->name('schedule.applicant');
+                    Route::patch('applicant/{id}/schedule/{event_id}', 'ApplicantController@reschedule')->name('reschedule.applicant');
+                });
+                Route::post('applicant/{id}/reject', 'ApplicantController@reject')->name('reject.applicant');
+                Route::delete('applicant/{id}', 'ApplicantController@delete')->name('delete.application');
+            });
 
             Route::get('stats', 'DashboardController@stats')->name('stats');
             Route::get('graphs', 'DashboardController@graphs')->name('graphs');
@@ -64,6 +70,8 @@ Route::prefix('business/{unique_id}')->group(function (){
 
             Route::get('invoices', 'InvoiceController@index')->name('all.invoices');
             Route::get('invoice', 'InvoiceController@upcoming')->name('upcoming.invoice');
+
+            Route::post('google/oauth', 'IntegrationController@generateOAuthUrl')->name('generate.google.url');
 
             Route::get('jobs', 'MarketplaceController@index')->name('all.marketplace.jobs');
             Route::get('job/{id}', 'MarketplaceController@show')->name('show.marketplace.job');
@@ -87,8 +95,8 @@ Route::prefix('business/{unique_id}')->group(function (){
             Route::patch('user/{id}', 'UserController@update')->name('business.update.user');
             Route::delete('user/{id}', 'UserController@delete')->name('business.remove.user');
 
-            Route::get('plugins', 'PluginController@show')->name('business.plugins');
-            Route::patch('plugins', 'PluginController@update')->name('update.business.plugins');
+            Route::get('integrations', 'IntegrationController@show')->name('business.integrations');
+            Route::patch('integrations', 'IntegrationController@update')->name('update.business.integrations');
 
             Route::post('drag-drop-form', 'DragDropFormController@store')->name('store.drag.drop.form');
 
@@ -196,4 +204,4 @@ Route::namespace('Wink')->group(function () {
     Route::get('blog-post/{slug}', 'BlogController@show')->name('show.blog.post');
 });
 
-
+Route::get('google/oauth', 'Business\IntegrationController@generateOAuthToken')->name('generate.google.token');

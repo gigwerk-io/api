@@ -32,7 +32,9 @@ class SubscriptionController extends Controller
         /** @var Business $business */
         $business = $request->get('business');
 
+        /** @var Subscription $subscription */
         $subscription = $business->subscriptions()->first();
+        $subscription->stripeSubscription = $subscription->asStripeSubscription();
 
         return ResponseFactory::success('Show subscription', $subscription);
     }

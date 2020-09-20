@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Business;
 
-use App\Enum\User\ApplicationStatus;
+use App\Enums\ApplicationStatus;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
 use Solomon04\Documentation\Annotation\ResponseExample;
@@ -66,7 +66,7 @@ class DashboardController extends Controller
 
         $totalUsers = $business->users()->count();
         $totalJobs = $marketplaceJobs->count();
-        $applicants = $business->applications()->where('status_id', '=', ApplicationStatus::PENDING)->count();
+        $applicants = $business->applications()->where('status', '=', ApplicationStatus::NEW)->count();
         $payments = $marketplaceJobs->sum(function (MarketplaceJob $marketplaceJob) {
             return $marketplaceJob->payment()->sum('amount');
         });

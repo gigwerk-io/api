@@ -2,6 +2,10 @@
 
 namespace App\Mail\Business;
 
+use App\Contracts\Repositories\UserRepository;
+use App\Models\Application;
+use App\Models\Business;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -12,13 +16,24 @@ class UserAppliedMailable extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * Create a new message instance.
-     *
-     * @return void
+     * @var User
      */
-    public function __construct()
+    public $owner;
+
+    /**
+     * @var User
+     */
+    public $applicant;
+
+    /**
+     * Create a new message instance.
+     * @param Business $business
+     * @param Application $application
+     */
+    public function __construct(Business $business , Application $application)
     {
-        //
+        $this->owner = $business->owner;
+        $this->applicant = $application->load('user.profile');
     }
 
     /**
@@ -28,6 +43,6 @@ class UserAppliedMailable extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->markdown('mail.business.new-applicant')->subject('New Application');
     }
 }
