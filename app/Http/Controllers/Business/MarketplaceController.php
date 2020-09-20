@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Business;
 
+use App\Contracts\Repositories\MarketplaceJobRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Enum\Marketplace\ProposalStatus;
 use App\Enum\Marketplace\Status;
@@ -27,14 +28,24 @@ class MarketplaceController extends Controller
     private $eventDispatcher;
 
     /**
+     * @var MarketplaceJobRepository
+     */
+    private $marketplaceJobRepository;
+
+    /**
      * @var UserRepository
      */
     private $userRepository;
 
-    public function __construct(Dispatcher $eventDispatcher , UserRepository $userRepository)
+    public function __construct(
+        Dispatcher $eventDispatcher,
+        UserRepository $userRepository,
+        MarketplaceJobRepository $marketplaceJobRepository
+    )
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->userRepository = $userRepository;
+        $this->marketplaceJobRepository = $marketplaceJobRepository;
     }
 
     /**
@@ -52,6 +63,14 @@ class MarketplaceController extends Controller
         $marketplaceJobs = $business->marketplaceJobs()
             ->with(['customer.profile', 'proposals.user.profile', 'category'])
             ->get();
+
+        if ($request->has('status')) {
+            $status = $request->status;
+            $marketplaceJobs = $marketplaceJobs->filter(function($marketplaceJob) use ($status){
+                return $marketplaceJob->status_id == $status;
+            })->values();
+        }
+
 
         return ResponseFactory::success('Show all marketplace jobs', $marketplaceJobs);
     }
