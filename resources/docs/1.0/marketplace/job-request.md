@@ -28,7 +28,7 @@ Submit a job to the marketplace feed.
 |`state`|`string`|`required`|`The state of the job location.`|
 |`zip`|`string`|`required`|`The zip code of the job location.`|
 |`category_id`|`numeric`|`required`|`The category id of the job.`|
-|`business_id`|`string`|`required`|`The uuid of the business marketplace.`|
+|`intensity`|`numeric`|`required`|`The intensity id of the job.`|
 |`client_name`|`string`|`required`|`The first and last name of the client.`|
 |`price`|`numeric`|`required`|`The price of the job.`|
 |`image_one`|`string`|`optional`|`Base64 encoded image of job.`|
@@ -46,27 +46,69 @@ Content
     "success": true,
     "message": "Job Successfully Posted!",
     "data": {
-        "description": "Veniam unde cumque nulla aliquid ea accusantium inventore quasi. Mollitia et repellendus id itaque recusandae omnis.",
-        "complete_before": "2020-05-21 05:50:42",
+        "description": "Nisi unde rerum occaecati quae rem illo eveniet. Esse et est rerum repudiandae et.",
+        "complete_before": "2020-09-22 13:30:38",
         "category_id": 1,
         "intensity_id": 2,
         "price": 25,
-        "image_one": "\/marketplace\/60ebde0b-e28c-4c25-aff0-c4ebee3ca900.jpeg",
+        "client_name": "Keanu Boyle PhD",
         "business_id": 1,
         "customer_id": 1,
         "status_id": 1,
-        "updated_at": "2020-05-21T05:50:42.000000Z",
-        "created_at": "2020-05-21T05:50:42.000000Z",
-        "id": 9,
+        "updated_at": "2020-09-22T13:30:38.000000Z",
+        "created_at": "2020-09-22T13:30:38.000000Z",
+        "id": 10,
         "status": "Requested",
-        "intensity": "Medium",
+        "intensity": "Medium (2-4 hours)",
+        "customer": {
+            "id": 1,
+            "first_name": "Peter",
+            "last_name": "Weyland",
+            "username": "admin_one",
+            "email": "admin_one@mail.com",
+            "phone": "(460) 419-8167",
+            "apn_token": null,
+            "fcm_token": null,
+            "email_verified_at": "2020-09-22T13:23:49.000000Z",
+            "last_seen_at": null,
+            "deleted_at": null,
+            "created_at": "2020-09-22T13:23:49.000000Z",
+            "updated_at": "2020-09-22T13:23:49.000000Z",
+            "isActive": false,
+            "lastSeen": null,
+            "profile": {
+                "id": 1,
+                "user_id": 1,
+                "image": "https:\/\/gigwerk-disk.s3.amazonaws.com\/seed\/peter-weyland.png",
+                "description": "Founder and owner of the Weyland Corporation",
+                "created_at": "2020-09-22T13:23:49.000000Z",
+                "updated_at": "2020-09-22T13:23:49.000000Z"
+            }
+        },
+        "business": {
+            "id": 1,
+            "owner_id": 1,
+            "unique_id": "ea11187b-fba5-31c8-87b4-84928c0334d6",
+            "name": "Weyland-Yutani Corporation",
+            "is_accepting_applications": true,
+            "is_approved": false,
+            "subdomain_prefix": "weyland-yutani",
+            "stripe_connect_id": "acct_1F7RiLBKeAbZ6utM",
+            "created_at": "2020-09-22T13:23:49.000000Z",
+            "updated_at": "2020-09-22T13:23:51.000000Z",
+            "deleted_at": null,
+            "stripe_id": "cus_I4K7grXAClDEcl",
+            "card_brand": "visa",
+            "card_last_four": "4242",
+            "trial_ends_at": null
+        },
         "job_status": {
             "id": 1,
             "name": "Requested"
         },
         "job_intensity": {
             "id": 2,
-            "name": "Medium"
+            "name": "Medium (2-4 hours)"
         }
     }
 }

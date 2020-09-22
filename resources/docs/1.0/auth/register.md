@@ -46,22 +46,23 @@ Content
     "message": "User has been successfully registered.",
     "data": {
         "user": {
-            "first_name": "Ima",
-            "last_name": "Casper",
-            "username": "SbA1ZmSRie",
-            "email": "SbA1ZmSRie@mail.com",
-            "phone": "+115515942179",
-            "updated_at": "2020-05-19T03:55:50.000000Z",
-            "created_at": "2020-05-19T03:55:50.000000Z",
-            "id": 10,
+            "first_name": "Chelsie",
+            "last_name": "Ulises",
+            "username": "JND1pEqwB2",
+            "email": "JND1pEqwB2@mail.com",
+            "phone": "+117349268830",
+            "updated_at": "2020-09-22T13:30:08.000000Z",
+            "created_at": "2020-09-22T13:30:08.000000Z",
+            "id": 76,
             "isActive": false,
+            "lastSeen": null,
             "profile": {
-                "id": 10,
-                "user_id": 10,
+                "id": 76,
+                "user_id": 76,
                 "image": "https:\/\/s3.us-east-2.amazonaws.com\/favr-images\/user.png",
                 "description": null,
-                "created_at": "2020-05-19T03:55:50.000000Z",
-                "updated_at": "2020-05-19T03:55:50.000000Z"
+                "created_at": "2020-09-22T13:30:08.000000Z",
+                "updated_at": "2020-09-22T13:30:08.000000Z"
             }
         }
     }
@@ -102,36 +103,53 @@ Content
     "success": true,
     "message": "Your business has been created",
     "data": {
-        "name": "Christiansen PLC",
-        "subdomain_prefix": "feest",
+        "name": "Gaylord LLC",
+        "subdomain_prefix": "prosacco",
         "owner_id": 1,
-        "unique_id": "78716621-5da5-4e16-813c-10d44113542b",
-        "updated_at": "2020-05-19T03:55:50.000000Z",
-        "created_at": "2020-05-19T03:55:50.000000Z",
-        "id": 11,
+        "unique_id": "e09c2c2c-37c3-4cb9-aabf-c6f766001acf",
+        "updated_at": "2020-09-22T13:30:08.000000Z",
+        "created_at": "2020-09-22T13:30:08.000000Z",
+        "id": 3,
         "profile": {
-            "id": 7,
-            "business_id": 11,
+            "id": 3,
+            "business_id": 3,
             "image": null,
             "cover": null,
             "short_description": null,
             "long_description": null,
             "primary_color": null,
             "secondary_color": null,
-            "created_at": "2020-05-19T03:55:51.000000Z",
-            "updated_at": "2020-05-19T03:55:51.000000Z"
+            "created_at": "2020-09-22T13:30:10.000000Z",
+            "updated_at": "2020-09-22T13:30:10.000000Z"
         },
         "location": {
-            "id": 7,
-            "business_id": 11,
-            "street_address": "820 Schaden Locks Apt. 320",
+            "id": 3,
+            "business_id": 3,
+            "street_address": "832 Stiedemann Row",
             "city": "Rochester",
             "state": "MN",
             "zip": "55901",
-            "lat": 44.0780552,
-            "long": -92.5098914,
-            "created_at": "2020-05-19T03:55:51.000000Z",
-            "updated_at": "2020-05-19T03:55:51.000000Z"
+            "lat": 44.0308259,
+            "long": -92.4752535,
+            "created_at": "2020-09-22T13:30:10.000000Z",
+            "updated_at": "2020-09-22T13:30:10.000000Z"
+        },
+        "owner": {
+            "id": 1,
+            "first_name": "Peter",
+            "last_name": "Weyland",
+            "username": "admin_one",
+            "email": "admin_one@mail.com",
+            "phone": "(460) 419-8167",
+            "apn_token": null,
+            "fcm_token": null,
+            "email_verified_at": "2020-09-22T13:23:49.000000Z",
+            "last_seen_at": null,
+            "deleted_at": null,
+            "created_at": "2020-09-22T13:23:49.000000Z",
+            "updated_at": "2020-09-22T13:23:49.000000Z",
+            "isActive": false,
+            "lastSeen": null
         }
     }
 }

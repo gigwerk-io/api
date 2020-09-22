@@ -4,16 +4,16 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Contracts\Repositories\ApplicationFormRepository;
-use App\Models\ApplicationForm;
-use App\Validators\ApplicationFormValidator;
+use App\Contracts\Repositories\BusinessFormRepository;
+use App\Models\BusinessForm;
+use App\Validators\BusinessFormValidator;
 
 /**
- * Class ApplicationFormRepositoryRepositoryEloquent.
+ * Class BusinessFormRepositoryEloquent.
  *
  * @package namespace App\Repositories;
  */
-class ApplicationFormRepositoryEloquent extends BaseRepository implements ApplicationFormRepository
+class BusinessFormRepositoryEloquent extends BaseRepository implements BusinessFormRepository
 {
     /**
      * Specify Model class name
@@ -22,10 +22,10 @@ class ApplicationFormRepositoryEloquent extends BaseRepository implements Applic
      */
     public function model()
     {
-        return ApplicationForm::class;
+        return BusinessForm::class;
     }
 
-
+    
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +34,5 @@ class ApplicationFormRepositoryEloquent extends BaseRepository implements Applic
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-
+    
 }

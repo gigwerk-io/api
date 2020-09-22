@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class ApplicationForm extends Model implements Transformable
+/**
+ * Class BusinessForm.
+ *
+ * @package namespace App\Models;
+ */
+class BusinessForm extends Model implements Transformable
 {
-    protected $table = 'application_form';
-
     use TransformableTrait;
 
     /**
@@ -18,28 +21,26 @@ class ApplicationForm extends Model implements Transformable
      * @var array
      */
     protected $fillable = [
-        'owner_id',
         'business_id',
-        'application_form',
-        'application_form_name',
-        'application_form_description'
+        'form',
     ];
 
     /**
-     * A form can have one owner
+     * The attributes that should be cast.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @var array
      */
-    public function owner() {
-        return $this->belongsTo(User::class);
-    }
+    protected $casts = [
+        'form' => 'array' // store the form structure as json
+    ];
 
     /**
-     * A form can have one business
+     * A form belongs to a business
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function business() {
+    public function business()
+    {
         return $this->belongsTo(Business::class);
     }
 }

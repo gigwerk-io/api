@@ -14,6 +14,7 @@ use App\Notifications\User\ApplicationRejectedNotification;
 use BenSampo\Enum\Rules\EnumKey;
 use BenSampo\Enum\Rules\EnumValue;
 use Carbon\Carbon;
+use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
 use Solomon04\Documentation\Annotation\ResponseExample;
@@ -85,6 +86,12 @@ class ApplicantController extends Controller
 
     /**
      * @Meta(name="Schedule Calendar Event", description="Add a calendar event to Google.", href="calendar-event")
+     * @BodyParam(name="event_type", type="numeric", status="required", description="This is the type of event.")
+     * @BodyParam(name="start_time", type="string", status="required", description="The start time of the meeting.")
+     * @BodyParam(name="end_time", type="string", status="required", description="The end time of the meeting.")
+     * @BodyParam(name="timezone", type="string", status="required", description="The timezone of the creator.")
+     * @BodyParam(name="notes", type="string", status="optional", description="Any additional notes added by creator.")
+     * @ResponseExample(status=200, example="responses/business/applicant/schedule.applicant-200.json")
      *
      * @param CreateCalendarEventRequest $request
      * @return \Illuminate\Http\Response

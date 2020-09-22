@@ -168,7 +168,7 @@ class JobRequestController extends Controller
      * @BodyParam(name="city", type="string", status="optional", description="The city of the job location.", example="Rochester")
      * @BodyParam(name="state", type="string", status="optional", description="The state of the job location.", example="MN")
      * @BodyParam(name="zip", type="string", status="optional", description="The zip code of the job location.", example="55901")
-     * @ResponseExample(status=201, example="responses/marketplace/request/edit.job-200.json")
+     * @ResponseExample(status=200, example="responses/marketplace/request/edit.job-200.json")
      *
      * @param EditJobRequest $request
      * @return \Illuminate\Http\Response

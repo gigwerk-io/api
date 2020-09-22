@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Contracts\Repositories\ApplicationFormRepository;
 use App\Contracts\Repositories\ApplicationEventRepository;
 use App\Contracts\Repositories\ApplicationRepository;
 use App\Contracts\Repositories\BusinessAppRepository;
+use App\Contracts\Repositories\BusinessFormRepository;
 use App\Contracts\Repositories\BusinessIntegrationRepository;
 use App\Contracts\Repositories\BusinessLocationRepository;
 use App\Contracts\Repositories\BusinessProfileRepository;
@@ -32,10 +32,10 @@ use App\Contracts\Repositories\UserRepository;
 use App\Contracts\Repositories\UserRoleRepository;
 use App\Contracts\Repositories\UserSavedLocationRepository;
 use App\Contracts\Repositories\WinkPostRepository;
-use App\Repositories\ApplicationFormRepositoryEloquent;
 use App\Repositories\ApplicationEventRepositoryEloquent;
 use App\Repositories\ApplicationRepositoryEloquent;
 use App\Repositories\BusinessAppRepositoryEloquent;
+use App\Repositories\BusinessFormRepositoryEloquent;
 use App\Repositories\BusinessIntegrationRepositoryEloquent;
 use App\Repositories\BusinessLocationRepositoryEloquent;
 use App\Repositories\BusinessProfileRepositoryEloquent;
@@ -82,10 +82,6 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(ApplicationFormRepository::class, function (){
-            return $this->app->make(ApplicationFormRepositoryEloquent::class);
-        });
-
         $this->app->bind(ApplicationRepository::class, function (){
             return $this->app->make(ApplicationRepositoryEloquent::class);
         });
@@ -95,6 +91,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(BusinessAppRepository::class, function (){
             return $this->app->make(BusinessAppRepositoryEloquent::class);
         });
+
+        $this->app->bind(BusinessFormRepository::class, BusinessFormRepositoryEloquent::class);
 
         $this->app->bind(BusinessLocationRepository::class, function (){
             return $this->app->make(BusinessLocationRepositoryEloquent::class);

@@ -52,7 +52,7 @@ Content
     "success": true,
     "message": "Get express OAuth URL",
     "data": {
-        "url": "https:\/\/connect.stripe.com\/express\/YLPHFXPPmixS"
+        "url": "https:\/\/connect.stripe.com\/express\/qPWj7HBJZvtV"
     }
 }
 

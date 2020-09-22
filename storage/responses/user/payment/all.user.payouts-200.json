@@ -1,0 +1,16 @@
+{
+    "success": true,
+    "message": "Show all payouts",
+    "data": [
+        {
+            "id": 1,
+            "marketplace_id": 5,
+            "user_id": 1,
+            "amount": 22,
+            "stripe_token": "tr_1GrDBwD2YnIDoaEI3xNREgHK",
+            "reversed": false,
+            "created_at": "2020-06-07T01:20:53.000000Z",
+            "updated_at": "2020-06-07T01:20:53.000000Z"
+        }
+    ]
+}

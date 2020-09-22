@@ -58,6 +58,11 @@ class DevRequiredUsersSeeder extends Seeder
                 $domain = sprintf("https://%s-%s.%s",$business->subdomain_prefix, app()->environment(), config('app.url_suffix'));
                 $business->businessApp()->create(['domain' => $domain]);
                 $business->integration()->create();
+                $business->form()->create([
+                    'form' => json_decode(
+                        file_get_contents(database_path('data/applicant-form.json'))
+                    )
+                ]);
                 $paymentMethod = $stripe->paymentMethods->create([
                     'type' => 'card',
                     'card' => [
@@ -140,6 +145,11 @@ class DevRequiredUsersSeeder extends Seeder
                 $domain = sprintf("https://second-%s.%s", app()->environment(), config('app.url_suffix'));
                 $business->businessApp()->create(['domain' => $domain]);
                 $business->integration()->create();
+                $business->form()->create([
+                    'form' => json_decode(
+                        file_get_contents(database_path('data/applicant-form.json'))
+                    )
+                ]);
 
                 $paymentMethod = $stripe->paymentMethods->create([
                     'type' => 'card',

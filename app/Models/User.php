@@ -113,16 +113,6 @@ class User extends Authenticatable Implements MustVerifyEmail
     }
 
     /**
-     * A user has many application forms.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function applicationForm()
-    {
-        return $this->hasMany(ApplicationForm::class);
-    }
-
-    /**
      * A user can have many proposals.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

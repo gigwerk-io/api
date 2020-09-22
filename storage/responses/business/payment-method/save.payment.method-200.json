@@ -2,7 +2,7 @@
     "success": true,
     "message": "Payment method has been saved.",
     "data": {
-        "id": "pm_1GzT1eD2YnIDoaEIcAmTX0Ai",
+        "id": "pm_1HUBZYD2YnIDoaEIs8vrcDv7",
         "object": "payment_method",
         "billing_details": {
             "address": {
@@ -42,8 +42,8 @@
             },
             "wallet": null
         },
-        "created": 1593460342,
-        "customer": "cus_HYa0DYBwS9r7IL",
+        "created": 1600781420,
+        "customer": "cus_I4K7grXAClDEcl",
         "livemode": false,
         "metadata": [],
         "type": "card"

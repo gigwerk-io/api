@@ -154,6 +154,12 @@ class RegisterController extends Controller
         $business->location()->create($location);
         $business->profile()->create();
         $business->integration()->create();
+        // add on-boarding form with default questions
+        $business->form()->create([
+            'form' => json_decode(
+                file_get_contents(database_path('data/applicant-form.json'))
+            )
+        ]);
 
         $business->load(['profile', 'location']);
 
