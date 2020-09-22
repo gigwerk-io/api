@@ -4,13 +4,13 @@
     "data": {
         "jobs": {
             "labels": [
-                "Dec",
-                "Jan",
-                "Feb",
                 "Mar",
                 "Apr",
                 "May",
-                "Jun"
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep"
             ],
             "datasets": [
                 {
@@ -29,13 +29,13 @@
         },
         "payments": {
             "labels": [
-                "Dec",
-                "Jan",
-                "Feb",
                 "Mar",
                 "Apr",
                 "May",
-                "Jun"
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep"
             ],
             "datasets": [
                 {
@@ -47,7 +47,7 @@
                         0,
                         0,
                         0,
-                        70
+                        57
                     ]
                 }
             ]

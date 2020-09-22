@@ -40,36 +40,42 @@ Content
     "data": {
         "id": 1,
         "owner_id": 1,
-        "unique_id": "63f084c7-a899-3f6b-bb7d-e8b054e13b66",
-        "name": "First Business Inc.",
-        "subdomain_prefix": "demo",
+        "unique_id": "ea11187b-fba5-31c8-87b4-84928c0334d6",
+        "name": "Weyland-Yutani Corporation",
+        "is_accepting_applications": true,
+        "is_approved": false,
+        "subdomain_prefix": "weyland-yutani",
         "stripe_connect_id": "acct_1F7RiLBKeAbZ6utM",
-        "created_at": "2020-06-07T01:20:39.000000Z",
-        "updated_at": "2020-06-07T01:20:39.000000Z",
+        "created_at": "2020-09-22T13:23:49.000000Z",
+        "updated_at": "2020-09-22T13:23:51.000000Z",
         "deleted_at": null,
+        "stripe_id": "cus_I4K7grXAClDEcl",
+        "card_brand": "visa",
+        "card_last_four": "4242",
+        "trial_ends_at": null,
         "location": {
             "id": 1,
             "business_id": 1,
-            "street_address": "2904 Janis Heights",
+            "street_address": "997 Hettinger Ports",
             "city": "Rochester",
             "state": "MN",
             "zip": "55901",
             "lat": 44.0446131,
             "long": -92.4841607,
-            "created_at": "2020-06-07T01:20:39.000000Z",
-            "updated_at": "2020-06-07T01:20:39.000000Z"
+            "created_at": "2020-09-22T13:23:54.000000Z",
+            "updated_at": "2020-09-22T13:23:54.000000Z"
         },
         "profile": {
             "id": 1,
             "business_id": 1,
-            "image": "http:\/\/507outdoormanagement.com\/wp-content\/uploads\/2019\/10\/foliage-2942282_1920-1920x730.jpg",
-            "cover": "http:\/\/507outdoormanagement.com\/wp-content\/uploads\/2019\/10\/foliage-2942282_1920-1920x730.jpg",
-            "short_description": "Voluptas aut iusto nesciunt enim quia dignissimos aliquid.",
-            "long_description": "Ea odio nemo cupiditate ab et. Consequatur eius placeat laudantium laborum eos explicabo. Reiciendis molestias dolores aut ipsa. Molestiae explicabo libero est sunt quae ratione nihil.",
-            "primary_color": "#c9e64a",
-            "secondary_color": "#00dd11",
-            "created_at": "2020-06-07T01:20:39.000000Z",
-            "updated_at": "2020-06-07T01:20:39.000000Z"
+            "image": "https:\/\/gigwerk-disk.s3.amazonaws.com\/seed\/weyland-yutani.png",
+            "cover": "https:\/\/gigwerk-disk.s3.amazonaws.com\/roch.jpg",
+            "short_description": "Building better worlds",
+            "long_description": "Primarily a technology supplier, manufacturing synthetics, spaceships and computers for a wide range of industrial and commercial clients",
+            "primary_color": "#a04c5a",
+            "secondary_color": "#002200",
+            "created_at": "2020-09-22T13:23:54.000000Z",
+            "updated_at": "2020-09-22T13:23:54.000000Z"
         }
     }
 }
@@ -173,7 +179,7 @@ Content
     "success": true,
     "message": "Stripe OAuth link created",
     "data": {
-        "url": "https:\/\/connect.stripe.com\/express\/tLP0XCtao0e7"
+        "url": "https:\/\/connect.stripe.com\/express\/isEjQmCaS7aj"
     }
 }
 

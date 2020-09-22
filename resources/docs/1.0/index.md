@@ -12,6 +12,7 @@
         - [Applicant](/{{route}}/{{version}}/business/applicant)
         - [Dashboard](/{{route}}/{{version}}/business/dashboard)
         - [Deployments](/{{route}}/{{version}}/business/deployments)
+        - [Form](/{{route}}/{{version}}/business/form)
         - [Integrations](/{{route}}/{{version}}/business/integrations)
         - [Invoice](/{{route}}/{{version}}/business/invoice)
         - [Marketplace](/{{route}}/{{version}}/business/marketplace)
@@ -38,10 +39,6 @@
         - [Payments](/{{route}}/{{version}}/user/payments)
         - [Payouts](/{{route}}/{{version}}/user/payouts)
         - [Profile](/{{route}}/{{version}}/user/profile)
-    
-    - [App\Http\Controllers](#)
-        - [General](/{{route}}/{{version}}/app\http\controllers/general)
-        - [General](/{{route}}/{{version}}/app\http\controllers/general)
     
     - [Wink](#)
         - [Blog](/{{route}}/{{version}}/wink/blog)

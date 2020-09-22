@@ -87,6 +87,17 @@ class Business extends Model implements Transformable, HasMedia
     }
 
     /**
+     * A business can have a form for their applicants.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function form()
+    {
+        return $this->hasOne(BusinessForm::class);
+    }
+
+
+    /**
      * A business can have many jobs.
      *
      * @return HasMany

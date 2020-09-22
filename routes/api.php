@@ -55,7 +55,7 @@ Route::prefix('business/{unique_id}')->group(function (){
                 Route::post('applicant/{id}/approve', 'ApplicantController@approve')->name('approve.applicant');
                 Route::middleware('active.access.token')->group(function (){
                     Route::post('applicant/{id}/schedule', 'ApplicantController@schedule')->name('schedule.applicant');
-                    Route::patch('applicant/{id}/schedule/{event_id}', 'ApplicantController@reschedule')->name('reschedule.applicant');
+                    // Route::patch('applicant/{id}/schedule/{event_id}', 'ApplicantController@reschedule')->name('reschedule.applicant');
                 });
                 Route::post('applicant/{id}/reject', 'ApplicantController@reject')->name('reject.applicant');
                 Route::delete('applicant/{id}', 'ApplicantController@delete')->name('delete.application');
@@ -67,6 +67,9 @@ Route::prefix('business/{unique_id}')->group(function (){
 
             Route::get('deployments', 'DeploymentController@index')->name('show.deployments');
             Route::post('deployment', 'DeploymentController@store')->name('queue.deployment');
+
+            Route::get('form', 'FormController@show')->name('show.form');
+            Route::patch('form', 'FormController@update')->name('update.form');
 
             Route::get('invoices', 'InvoiceController@index')->name('all.invoices');
             Route::get('invoice', 'InvoiceController@upcoming')->name('upcoming.invoice');

@@ -12,12 +12,7 @@ use Solomon04\Documentation\Annotation\Meta;
 
 class DataController extends Controller
 {
-    /**
-     * @Meta(name="Categories", href="categories", description="Show all available categories")
-     *
-     * @param CategoryRepository $categoryRepository
-     * @return \Illuminate\Http\Response
-     */
+
     public function categories(CategoryRepository $categoryRepository)
     {
         $categories = $categoryRepository->all();
@@ -27,13 +22,7 @@ class DataController extends Controller
         );
     }
 
-    /**
-     * @Meta(name="Roles", href="roles", description="Potential user roles within Gigwerk")
-     *
-     *
-     * @param UserRoleRepository $userRoleRepository
-     * @return \Illuminate\Http\Response
-     */
+
     public function roles(UserRoleRepository $userRoleRepository)
     {
         $roles = $userRoleRepository->all();
@@ -43,12 +32,7 @@ class DataController extends Controller
         );
     }
 
-    /**
-     * @Skip
-     *
-     * @param BusinessRepository $businessRepository
-     * @return \Illuminate\Http\Response
-     */
+
     public function businesses(BusinessRepository $businessRepository)
     {
         $businesses = $businessRepository->with(['profile', 'location', 'businessApp'])->all();
@@ -59,11 +43,6 @@ class DataController extends Controller
         );
     }
 
-    /**
-     * @Meta(name="Subscriptions", href="subscriptions", description="Show available subscription options.")
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function subscriptions()
     {
         return ResponseFactory::success('Show subscription plans', Plan::toCollection());

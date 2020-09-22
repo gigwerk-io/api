@@ -31,10 +31,35 @@ Content
     "data": {
         "sender_id": 1,
         "text": "Foo bar",
-        "chat_room_id": "049ab3ca-c18d-4d5a-864b-f106ad5d0857",
-        "updated_at": "2020-05-29T12:56:11.000000Z",
-        "created_at": "2020-05-29T12:56:11.000000Z",
-        "id": 4
+        "chat_room_id": "0f83f05a-2ad0-4026-8cab-6c1144dd702b",
+        "updated_at": "2020-09-22T13:30:29.000000Z",
+        "created_at": "2020-09-22T13:30:29.000000Z",
+        "id": 3,
+        "sender": {
+            "id": 1,
+            "first_name": "Peter",
+            "last_name": "Weyland",
+            "username": "admin_one",
+            "email": "admin_one@mail.com",
+            "phone": "(460) 419-8167",
+            "apn_token": null,
+            "fcm_token": null,
+            "email_verified_at": "2020-09-22T13:23:49.000000Z",
+            "last_seen_at": null,
+            "deleted_at": null,
+            "created_at": "2020-09-22T13:23:49.000000Z",
+            "updated_at": "2020-09-22T13:23:49.000000Z",
+            "isActive": false,
+            "lastSeen": null,
+            "profile": {
+                "id": 1,
+                "user_id": 1,
+                "image": "https:\/\/gigwerk-disk.s3.amazonaws.com\/seed\/peter-weyland.png",
+                "description": "Founder and owner of the Weyland Corporation",
+                "created_at": "2020-09-22T13:23:49.000000Z",
+                "updated_at": "2020-09-22T13:23:49.000000Z"
+            }
+        }
     }
 }
 

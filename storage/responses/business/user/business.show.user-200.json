@@ -3,31 +3,43 @@
     "message": "Show user",
     "data": {
         "id": 2,
-        "first_name": "Augustine",
-        "last_name": "Maryam",
+        "first_name": "Angelina",
+        "last_name": "Jennie",
         "username": "worker_one",
-        "email": "florence43@example.net",
-        "phone": "(347) 356-0729",
+        "email": "worker_one@mail.com",
+        "phone": "589-200-0246",
         "apn_token": null,
         "fcm_token": null,
-        "email_verified_at": "2020-05-21T05:41:09.000000Z",
+        "email_verified_at": "2020-09-22T13:23:54.000000Z",
         "last_seen_at": null,
         "deleted_at": null,
-        "created_at": "2020-05-21T05:41:09.000000Z",
-        "updated_at": "2020-05-21T05:41:09.000000Z",
+        "created_at": "2020-09-22T13:23:54.000000Z",
+        "updated_at": "2020-09-22T13:23:54.000000Z",
+        "role": "Verified Freelancer",
+        "rating": 5,
         "isActive": false,
+        "lastSeen": null,
         "pivot": {
             "business_id": 1,
             "user_id": 2,
-            "role_id": 1
+            "role_id": 1,
+            "apn_token": null,
+            "fcm_token": null,
+            "email_notifications": true,
+            "sms_notifications": true,
+            "push_notifications": true,
+            "role": {
+                "id": 1,
+                "name": "Verified Freelancer"
+            }
         },
         "profile": {
             "id": 2,
             "user_id": 2,
-            "image": "https:\/\/i.picsum.photos\/id\/691\/600\/600.jpg",
-            "description": "Vel quis voluptas ut rerum quod.",
-            "created_at": "2020-05-21T05:41:09.000000Z",
-            "updated_at": "2020-05-21T05:41:09.000000Z"
+            "image": "https:\/\/randomuser.me\/api\/portraits\/men\/92.jpg",
+            "description": "Molestiae consequuntur dolores omnis possimus.",
+            "created_at": "2020-09-22T13:23:54.000000Z",
+            "updated_at": "2020-09-22T13:23:54.000000Z"
         },
         "marketplace_proposals": [
             {
@@ -39,35 +51,36 @@
                 "review": null,
                 "arrived_at": null,
                 "completed_at": null,
-                "created_at": "2020-05-21T05:41:11.000000Z",
-                "updated_at": "2020-05-21T05:41:11.000000Z",
+                "created_at": "2020-09-22T13:24:00.000000Z",
+                "updated_at": "2020-09-22T13:24:00.000000Z",
                 "status": "Pending",
                 "marketplace_job": {
                     "id": 2,
                     "business_id": 1,
                     "customer_id": 1,
                     "category_id": 1,
-                    "price": 31,
-                    "description": "Dolores sit facere assumenda nostrum id est. Ratione asperiores id harum ipsam quia molestias.",
+                    "client_name": "Lois Deckow",
+                    "price": 12,
+                    "description": "Aliquid dolorum quia non voluptatum. Fugiat et alias autem delectus eum.",
                     "status_id": 2,
                     "intensity_id": 3,
-                    "complete_before": "2020-05-22 00:00:00",
+                    "complete_before": "2020-09-23 00:00:00",
                     "views": 0,
-                    "image_one": "https:\/\/thenewswheel.com\/wp-content\/uploads\/2018\/04\/junk-yards-pay-most-for-cars-760x507.jpg",
+                    "image_one": "https:\/\/www.simplemost.com\/wp-content\/uploads\/2017\/01\/8320434990_4c84ea6e62_o-750x500.jpg",
                     "image_two": null,
                     "image_three": null,
-                    "created_at": "2020-05-21T05:41:11.000000Z",
-                    "updated_at": "2020-05-21T05:41:11.000000Z",
+                    "created_at": "2020-09-22T13:24:00.000000Z",
+                    "updated_at": "2020-09-22T13:24:00.000000Z",
                     "deleted_at": null,
                     "status": "Pending Approval",
-                    "intensity": "Hard",
+                    "intensity": "Hard (more than 4 hours)",
                     "job_status": {
                         "id": 2,
                         "name": "Pending Approval"
                     },
                     "job_intensity": {
                         "id": 3,
-                        "name": "Hard"
+                        "name": "Hard (more than 4 hours)"
                     }
                 },
                 "proposal_status": {
@@ -84,35 +97,36 @@
                 "review": null,
                 "arrived_at": null,
                 "completed_at": null,
-                "created_at": "2020-05-21T05:41:11.000000Z",
-                "updated_at": "2020-05-21T05:41:11.000000Z",
+                "created_at": "2020-09-22T13:24:01.000000Z",
+                "updated_at": "2020-09-22T13:24:01.000000Z",
                 "status": "Approved",
                 "marketplace_job": {
                     "id": 3,
                     "business_id": 1,
                     "customer_id": 1,
                     "category_id": 1,
-                    "price": 27,
-                    "description": "Aut et laboriosam quam quisquam sed consectetur sint. Dolor commodi occaecati et eligendi qui.",
+                    "client_name": "Mr. Candido Streich",
+                    "price": 16,
+                    "description": "Deserunt in exercitationem aut. Mollitia in aut qui eos tenetur et architecto accusantium.",
                     "status_id": 3,
                     "intensity_id": 3,
-                    "complete_before": "2020-05-22 00:00:00",
+                    "complete_before": "2020-09-23 00:00:00",
                     "views": 0,
-                    "image_one": "https:\/\/www.simplemost.com\/wp-content\/uploads\/2017\/01\/8320434990_4c84ea6e62_o-750x500.jpg",
+                    "image_one": "https:\/\/thenewswheel.com\/wp-content\/uploads\/2018\/04\/junk-yards-pay-most-for-cars-760x507.jpg",
                     "image_two": null,
                     "image_three": null,
-                    "created_at": "2020-05-21T05:41:11.000000Z",
-                    "updated_at": "2020-05-21T05:41:11.000000Z",
+                    "created_at": "2020-09-22T13:24:01.000000Z",
+                    "updated_at": "2020-09-22T13:24:01.000000Z",
                     "deleted_at": null,
                     "status": "Approved",
-                    "intensity": "Hard",
+                    "intensity": "Hard (more than 4 hours)",
                     "job_status": {
                         "id": 3,
                         "name": "Approved"
                     },
                     "job_intensity": {
                         "id": 3,
-                        "name": "Hard"
+                        "name": "Hard (more than 4 hours)"
                     }
                 },
                 "proposal_status": {
@@ -127,37 +141,84 @@
                 "status_id": 2,
                 "rating": null,
                 "review": null,
-                "arrived_at": "2020-05-21 00:00:00",
+                "arrived_at": "2020-09-22 00:00:00",
                 "completed_at": null,
-                "created_at": "2020-05-21T05:41:11.000000Z",
-                "updated_at": "2020-05-21T05:41:11.000000Z",
+                "created_at": "2020-09-22T13:24:01.000000Z",
+                "updated_at": "2020-09-22T13:24:01.000000Z",
                 "status": "Approved",
                 "marketplace_job": {
                     "id": 4,
                     "business_id": 1,
                     "customer_id": 1,
                     "category_id": 1,
-                    "price": 40,
-                    "description": "Consequatur ipsam voluptatem vero eligendi eligendi. Unde illum enim corporis autem tempora eligendi.",
+                    "client_name": "Helena Terry",
+                    "price": 38,
+                    "description": "Numquam quos in id consequuntur. Autem quam neque quos velit qui est fuga.",
                     "status_id": 4,
                     "intensity_id": 3,
-                    "complete_before": "2020-05-22 00:00:00",
+                    "complete_before": "2020-09-23 00:00:00",
                     "views": 0,
-                    "image_one": "https:\/\/www.simplemost.com\/wp-content\/uploads\/2017\/01\/8320434990_4c84ea6e62_o-750x500.jpg",
+                    "image_one": "https:\/\/thenewswheel.com\/wp-content\/uploads\/2018\/04\/junk-yards-pay-most-for-cars-760x507.jpg",
                     "image_two": null,
                     "image_three": null,
-                    "created_at": "2020-05-21T05:41:11.000000Z",
-                    "updated_at": "2020-05-21T05:41:11.000000Z",
+                    "created_at": "2020-09-22T13:24:01.000000Z",
+                    "updated_at": "2020-09-22T13:24:01.000000Z",
                     "deleted_at": null,
                     "status": "In Progress",
-                    "intensity": "Hard",
+                    "intensity": "Hard (more than 4 hours)",
                     "job_status": {
                         "id": 4,
                         "name": "In Progress"
                     },
                     "job_intensity": {
                         "id": 3,
-                        "name": "Hard"
+                        "name": "Hard (more than 4 hours)"
+                    }
+                },
+                "proposal_status": {
+                    "id": 2,
+                    "name": "Approved"
+                }
+            },
+            {
+                "id": 4,
+                "marketplace_id": 5,
+                "user_id": 2,
+                "status_id": 2,
+                "rating": "5",
+                "review": "Good job!",
+                "arrived_at": "2020-09-22 00:00:00",
+                "completed_at": "2020-09-21 23:00:00",
+                "created_at": "2020-09-22T13:24:01.000000Z",
+                "updated_at": "2020-09-22T13:24:01.000000Z",
+                "status": "Approved",
+                "marketplace_job": {
+                    "id": 5,
+                    "business_id": 1,
+                    "customer_id": 1,
+                    "category_id": 1,
+                    "client_name": "Rusty Weimann",
+                    "price": 19,
+                    "description": "Culpa optio rerum vero quis et qui. Quia et provident asperiores voluptate.",
+                    "status_id": 5,
+                    "intensity_id": 3,
+                    "complete_before": "2020-09-23 00:00:00",
+                    "views": 0,
+                    "image_one": "https:\/\/www.simplemost.com\/wp-content\/uploads\/2017\/01\/8320434990_4c84ea6e62_o-750x500.jpg",
+                    "image_two": null,
+                    "image_three": null,
+                    "created_at": "2020-09-22T13:24:01.000000Z",
+                    "updated_at": "2020-09-22T13:24:01.000000Z",
+                    "deleted_at": null,
+                    "status": "Complete",
+                    "intensity": "Hard (more than 4 hours)",
+                    "job_status": {
+                        "id": 5,
+                        "name": "Complete"
+                    },
+                    "job_intensity": {
+                        "id": 3,
+                        "name": "Hard (more than 4 hours)"
                     }
                 },
                 "proposal_status": {
