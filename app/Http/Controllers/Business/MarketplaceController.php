@@ -13,6 +13,7 @@ use App\Models\MarketplaceJob;
 use App\Notifications\Marketplace\WorkerAcceptedJobNotification;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
+use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
 use Solomon04\Documentation\Annotation\ResponseExample;
@@ -61,7 +62,7 @@ class MarketplaceController extends Controller
         $business = $request->get('business');
 
         $marketplaceJobs = $business->marketplaceJobs()
-            ->with(['customer.profile', 'proposals.user.profile', 'category'])
+            ->with(['customer.profile', 'proposals.user.profile', 'category', 'location'])
             ->get();
 
         if ($request->has('status')) {
@@ -105,7 +106,7 @@ class MarketplaceController extends Controller
     }
 
     /**
-     * @meta(name="Assign worker", description="Assign a worker to a job", href="assign-job")
+     * @Meta(name="Assign worker", description="Assign a worker to a job", href="assign-job")
      * @BodyParam(name="worker_id", type="numeric", status="required", description="The id of the worker being assigned", example="4")
      * @ResponseExample(status=200)
      *
