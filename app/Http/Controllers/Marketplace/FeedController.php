@@ -246,6 +246,7 @@ class FeedController extends Controller
         $jobs = $this->marketplaceJobRepository->with([
             'customer.profile',
             'location',
+            'category',
             'proposals.user.profile'
         ])->whereHas('proposals', function ($val) use ($user){
             $val->where('user_id', '=', $user->id);

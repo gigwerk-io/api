@@ -44,6 +44,6 @@ class MarketplaceJobRepositoryEloquent extends BaseRepository implements Marketp
      */
     public function getRequestedJobs($businessId)
     {
-        return $this->with(['customer.profile', 'location'])->findWhere(['status_id' => Status::REQUESTED, 'business_id' => $businessId]);
+        return $this->with(['customer.profile', 'location', 'category'])->findWhere(['status_id' => Status::REQUESTED, 'business_id' => $businessId]);
     }
 }
