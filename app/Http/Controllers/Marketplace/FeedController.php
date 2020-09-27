@@ -164,7 +164,7 @@ class FeedController extends Controller
         /** @var MarketplaceJob $marketplaceJob */
         $marketplaceJob = $request->get('job');
         $marketplaceJob->update(['views' => $marketplaceJob['views'] + 1]);
-        $marketplaceJob->load(['customer.profile', 'location', 'proposals.user.profile']);
+        $marketplaceJob->load(['customer.profile', 'location', 'category', 'proposals.user.profile']);
         $marketplaceJob['distance_away'] = $this->geolocation->calculateDistanceBetweenTwoPoints(
             $marketplaceJob->location->lat,
             $marketplaceJob->location->long,
