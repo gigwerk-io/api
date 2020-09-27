@@ -184,6 +184,8 @@ return [
         App\Providers\StripeServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
 
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+
     ],
 
     /*

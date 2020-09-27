@@ -68,3 +68,17 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: laravel
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - name: Send to Ploi
+        run: curl --location --request POST 'https://ploi.io/webhooks/servers/8623/sites/19863/deploy?token=yjvXwGqjbtTUn696xkqn2eWi9ZEMEX6s4BuZjfdPN0prAN2LJy'
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: laravel
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Send to Ploi
+        run: curl --location --request POST 'https://ploi.io/webhooks/servers/8623/sites/19865/deploy?token=E9AwibYImYy2ZFHRTRa3ENkjNF6Q3r9I1MqnJZ8DImf9PfRx7E'

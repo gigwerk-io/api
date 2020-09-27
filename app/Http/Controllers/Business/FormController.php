@@ -50,11 +50,12 @@ class FormController extends Controller
         /** @var Business $business */
         $business = $request->get('business');
 
-        if ($request->has('form')) {
-            $business->form()->update([
-                'form' => $request->form
-            ]);
-        }
+        $business->form()->update([
+            'form' => [
+                'formHeader' => $request->formHeader,
+                'formComponents' => $request->formComponents
+            ]
+        ]);
 
         return ResponseFactory::success('Your business form has been updated.');
     }
