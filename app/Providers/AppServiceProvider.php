@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Calendar\CalendarProvider;
 use App\Contracts\Calendar\Calendar;
+use App\Contracts\Dashboard\Dashboard;
+use App\Dashboard\DashboardProvider;
 use Google_Client;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
@@ -44,5 +46,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(Calendar::class, CalendarProvider::class);
+        $this->app->bind(Dashboard::class, DashboardProvider::class);
     }
 }

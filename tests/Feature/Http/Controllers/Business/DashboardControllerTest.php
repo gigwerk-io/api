@@ -17,9 +17,8 @@ use Tests\TestCase;
 class DashboardControllerTest extends TestCase
 {
     const DOC_PATH = 'business/dashboard';
-    const STATS_ROUTE = 'stats';
+    const METRICS_ROUTE = 'metrics';
     const GRAPHS_ROUTE = 'graphs';
-    const LEADERBOARD_ROUTE = 'business.leaderboard';
 
     /**
      * @var User
@@ -41,15 +40,15 @@ class DashboardControllerTest extends TestCase
     }
 
     /**
-     * @covers ::stats
+     * @covers ::metrics
      */
-    public function testStats()
+    public function testMetrics()
     {
-        $response = $this->get(route(self::STATS_ROUTE, ['unique_id' => $this->business->unique_id]));
+        $response = $this->get(route(self::METRICS_ROUTE, ['unique_id' => $this->business->unique_id]));
 
         $response->assertStatus(200);
-        $response->assertJsonStructure(['data' => ['jobs', 'payments']]);
-        $this->document(self::DOC_PATH, self::STATS_ROUTE, $response->status(), $response->getContent());
+        $response->assertJsonStructure(['data' => ['applications', 'workers', 'hiring', 'jobs']]);
+        $this->document(self::DOC_PATH, self::METRICS_ROUTE, $response->status(), $response->getContent());
     }
 
     /**
@@ -62,17 +61,5 @@ class DashboardControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure(['data' => []]);
         $this->document(self::DOC_PATH, self::GRAPHS_ROUTE, $response->status(), $response->getContent());
-    }
-
-    /**
-     * @covers ::leaderboard
-     */
-    public function testLeaderboard()
-    {
-        $response = $this->get(route(self::LEADERBOARD_ROUTE, ['unique_id' => $this->business->unique_id]));
-
-        $response->assertStatus(200);
-        $response->assertJsonStructure(['data' => [['id', 'username', 'amount', 'rating']]]);
-        $this->document(self::DOC_PATH, self::LEADERBOARD_ROUTE, $response->status(), $response->getContent());
     }
 }

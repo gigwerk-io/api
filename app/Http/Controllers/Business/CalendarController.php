@@ -40,7 +40,7 @@ class CalendarController extends Controller
 
     /**
      * @Meta(name="Show Events", description="Show a list of events for a business's calendar.", href="show-events")
-     * @ResponseExample(status=200, example="responses/business/calendar/show.calendar-200")
+     * @ResponseExample(status=200, example="responses/business/calendar/show.calendar-200.json")
      *
      * @return \Illuminate\Http\Response
      */
