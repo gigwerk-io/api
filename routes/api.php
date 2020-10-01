@@ -61,9 +61,9 @@ Route::prefix('business/{unique_id}')->group(function (){
                 Route::delete('applicant/{id}', 'ApplicantController@delete')->name('delete.application');
             });
 
-            Route::get('stats', 'DashboardController@stats')->name('stats');
+            Route::get('calendar', 'CalendarController@index')->name('show.calendar');
+            Route::get('metrics', 'DashboardController@metrics')->name('metrics');
             Route::get('graphs', 'DashboardController@graphs')->name('graphs');
-            Route::get('leaderboard', 'DashboardController@leaderboard')->name('business.leaderboard');
 
             Route::get('deployments', 'DeploymentController@index')->name('show.deployments');
             Route::post('deployment', 'DeploymentController@store')->name('queue.deployment');
