@@ -43,6 +43,6 @@ class UserAppliedMailableTest extends TestCase
         $this->mailer->send(new UserAppliedMailable($this->business , $this->application));
         $this->mailer->assertSent(UserAppliedMailable::class, function (UserAppliedMailable $mail) {
             return $mail->owner === $this->business->owner;
-    });
+         });
     }
 }
