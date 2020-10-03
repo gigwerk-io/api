@@ -43,6 +43,7 @@ class DevMarketplaceJobsSeeder extends Seeder
                 ]);
 
                 $marketplaceJob->customer->notify(new WorkerAcceptedJobNotification($marketplaceJob));
+                $marketplaceJob->business->notify(new WorkerAcceptedJobNotification($marketplaceJob));
             })();
 
 
@@ -90,6 +91,7 @@ class DevMarketplaceJobsSeeder extends Seeder
                 ]);
 
                 $marketplaceJob->customer->notify(new WorkerArrivedNotification($marketplaceJob));
+                $marketplaceJob->business->notify(new WorkerArrivedNotification($marketplaceJob));
             })();
 
 
@@ -157,6 +159,7 @@ class DevMarketplaceJobsSeeder extends Seeder
                 ]);
 
                 $marketplaceJob->customer->notify(new WorkerAcceptedJobNotification($marketplaceJob));
+                $marketplaceJob->business->notify(new WorkerAcceptedJobNotification($marketplaceJob));
             })();
 
         // One approved job
@@ -202,6 +205,8 @@ class DevMarketplaceJobsSeeder extends Seeder
                 ]);
 
                 $marketplaceJob->customer->notify(new WorkerArrivedNotification($marketplaceJob));
+                $marketplaceJob->business->notify(new WorkerArrivedNotification($marketplaceJob));
+//                $marketplaceJob->business->notify(new \App\Notifications\Business\BusinessApprovedNotification($marketplaceJob->business));
             })();
     }
 }
