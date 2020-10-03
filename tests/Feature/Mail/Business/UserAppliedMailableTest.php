@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Mail\Business;
 
 use App\Contracts\Repositories\BusinessRepository;
 use App\Mail\Business\UserAppliedMailable;
