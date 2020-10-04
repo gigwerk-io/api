@@ -33,7 +33,7 @@ class WeeklySummaryMailable extends Mailable
         $this->weeklyJobsPosted = $WeeklyJobsPosted;
         $this->weeklyJobsCompleted = $weeklyJobsCompleted;
         $this->weeklyPayout = $weeklyPayout;
-        $this->link = route('stats', ['unique_id' => $business->unique_id]);
+//        $this->link = route('stats', ['unique_id' => $business->unique_id]);
     }
 
     /**
