@@ -217,6 +217,10 @@ class CustomerActionsController extends Controller
 
         $proposal->user->notify(new CustomerReviewedWorkerNotification($marketplaceJob));
 
+        $marketplaceJob->update([
+           'status_id' => Status::COMPLETE
+        ]);
+
         return ResponseFactory::success(
             'This job has been marked complete'
         );

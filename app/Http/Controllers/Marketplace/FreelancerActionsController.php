@@ -152,7 +152,7 @@ class FreelancerActionsController extends Controller
 
         $proposal = $marketplaceJob->proposals()->where('user_id', '=', $user->id)->first();
 
-        $proposal->update(['arrived[_at' => Carbon::now()->toDateTimeString()]);
+        $proposal->update(['arrived_at' => Carbon::now()->toDateTimeString()]);
 
         $marketplaceJob->update(['status_id' => Status::IN_PROGRESS]);
 

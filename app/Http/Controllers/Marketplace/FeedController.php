@@ -80,7 +80,7 @@ class FeedController extends Controller
                 'lat' => $request->lat,
                 'long' => $request->long
             ];
-        } else{
+        } else {
             // If user rejects geolocation, use IP location
             $coordinates = [
                 'lat' => $ipLocation->latitude,
@@ -104,11 +104,11 @@ class FeedController extends Controller
 
         // Determine possible actions a user can perform on a job.
         $jobs->map(function (MarketplaceJob $marketplaceJob) use ($coordinates, $user, $business) {
-            if($marketplaceJob->isOwner($user->id)){
+            if ($marketplaceJob->isOwner($user->id)) {
                 $marketplaceJob['action'] = $marketplaceJob->getPerformableCustomerAction();
-            }elseif ($user->isVerifiedFreelancer($business->id)){
+            } elseif ($user->isVerifiedFreelancer($business->id)) {
                 $marketplaceJob['action'] = $marketplaceJob->getPerformableWorkerAction($user->id);
-            }else {
+            } else {
                 $marketplaceJob['action'] = PerformableAction::NO_PERFORMABLE_ACTION;
             }
 
@@ -153,8 +153,9 @@ class FeedController extends Controller
                 'lat' => $request->lat,
                 'long' => $request->long
             ];
-        } else{
+        } else {
             // If user rejects geolocation, use IP location
+            // TODO: Remove! this might be in violation of privacy policy and law in future
             $coordinates = [
                 'lat' => $ipLocation->latitude,
                 'long' => $ipLocation->longitude
@@ -172,16 +173,21 @@ class FeedController extends Controller
             $coordinates['long']
         );
 
-        if($marketplaceJob->isOwner($user->id)){
+        if ($marketplaceJob->isOwner($user->id)) {
             $marketplaceJob['action'] = $marketplaceJob->getPerformableCustomerAction();
-        }elseif ($user->isVerifiedFreelancer($business->id)){
+        } elseif ($user->isVerifiedFreelancer($business->id)) {
             $marketplaceJob['action'] = $marketplaceJob->getPerformableWorkerAction($user->id);
-            $actionsArray = [PerformableAction::NO_PERFORMABLE_ACTION, PerformableAction::JOB_IS_COMPLETE, PerformableAction::JOB_CAN_BE_ACCEPTED];
+            $actionsArray = [
+                PerformableAction::NO_PERFORMABLE_ACTION,
+                PerformableAction::JOB_IS_COMPLETE,
+                PerformableAction::JOB_CAN_BE_ACCEPTED,
+                PerformableAction::WORKER_IS_WAITING_FOR_CUSTOMER
+            ];
             // hide location if it is in the actions array
-            if(in_array($marketplaceJob['action'], $actionsArray)){
+            if (in_array($marketplaceJob['action'], $actionsArray)) {
                 $marketplaceJob->makeHidden('location');
             }
-        }else {
+        } else {
             $marketplaceJob->makeHidden('location');
             $marketplaceJob['action'] = PerformableAction::NO_PERFORMABLE_ACTION;
         }
@@ -212,7 +218,7 @@ class FeedController extends Controller
             'location',
             'proposals.user.profile'
         ])->findWhere(['customer_id' => $user->id, 'business_id' => $business->id]);
-        $jobs->map(function (MarketplaceJob $job){
+        $jobs->map(function (MarketplaceJob $job) {
             if ($job->isComplete()) {
                 $job['action'] = PerformableAction::JOB_CAN_BE_ACCEPTED;
             } elseif ($job->isInProgress()) {
@@ -248,11 +254,11 @@ class FeedController extends Controller
             'location',
             'category',
             'proposals.user.profile'
-        ])->whereHas('proposals', function ($val) use ($user){
+        ])->whereHas('proposals', function ($val) use ($user) {
             $val->where('user_id', '=', $user->id);
         })->findWhere(['business_id' => $business->id]);
 
-        $jobs->map(function (MarketplaceJob $job) use ($user){
+        $jobs->map(function (MarketplaceJob $job) use ($user) {
             $job['action'] = $job->getPerformableWorkerAction($user->id);
             return $job;
         });
