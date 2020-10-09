@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Class MarketplaceJob.
  *
  * @package namespace App\Models;
  */
-class MarketplaceJob extends Model implements Transformable
+class MarketplaceJob extends Model implements Transformable, HasMedia
 {
-    use TransformableTrait, SoftDeletes;
+    use TransformableTrait, SoftDeletes, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -32,9 +34,6 @@ class MarketplaceJob extends Model implements Transformable
         'intensity_id',
         'complete_before',
         'views',
-        'image_one',
-        'image_two',
-        'image_three',
         'business_id',
         'client_name',
     ];

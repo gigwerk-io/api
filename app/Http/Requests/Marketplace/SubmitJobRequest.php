@@ -5,6 +5,7 @@ namespace App\Http\Requests\Marketplace;
 use App\Rules\Base64ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use LVR\State\Abbr;
+use Spatie\MediaLibrary\HasMedia;
 
 class SubmitJobRequest extends FormRequest
 {
@@ -36,6 +37,7 @@ class SubmitJobRequest extends FormRequest
             'zip' => ['required', 'postal_code:US'],
             'price' => ['required', 'numeric'],
             'client_name' => ['required', 'string'],
+            'images' => ['array']
         ];
     }
 }
