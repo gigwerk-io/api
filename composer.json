@@ -19,6 +19,7 @@
         "binarytorch/larecipe": "^2.3",
         "binarytorch/larecipe-dark-theme": "^0.1.4",
         "doctrine/annotations": "^1.10",
+        "doctrine/dbal": "^2.11",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "graham-campbell/markdown": "^12.0",
