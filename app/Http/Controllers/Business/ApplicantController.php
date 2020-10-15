@@ -169,6 +169,7 @@ class ApplicantController extends Controller
         $application->update(['status_id' => ApplicationStatus::APPROVED]);
         $application->user->notify(new ApplicationApprovedNotification($business));
         $business->users()->attach($application->user, ['role_id' => Role::VERIFIED_FREELANCER]);
+        $business->users()->update(['approved_at' => Carbon::now()->toDateString() ]);
 
         return ResponseFactory::success('This application has been approved');
     }

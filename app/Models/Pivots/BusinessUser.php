@@ -15,7 +15,7 @@ class BusinessUser extends Pivot
      *
      * @var array
      */
-     protected $fillable = ['business_id', 'user_id', 'role_id', 'apn_token', 'fcm_token', 'email_notifications', 'sms_notifications', 'push_notifications'];
+     protected $fillable = ['business_id', 'approved_at', 'user_id', 'role_id', 'apn_token', 'fcm_token', 'email_notifications', 'sms_notifications', 'push_notifications'];
 
     /**
      * The attributes that should be cast.

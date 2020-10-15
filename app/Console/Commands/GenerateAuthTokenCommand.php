@@ -13,7 +13,7 @@ class GenerateAuthTokenCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:token {username=admin_one}';
+    protected $signature = 'make:token {username=xdoyle5}';
 
     /**
      * The console command description.

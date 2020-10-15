@@ -22,6 +22,7 @@ class CreateBusinessUserTable extends Migration
             $table->boolean('email_notifications')->default(true);
             $table->boolean('sms_notifications')->default(true);
             $table->boolean('push_notifications')->default(true);
+            $table->date('approved_at')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('business_id')->references('id')->on('businesses');
