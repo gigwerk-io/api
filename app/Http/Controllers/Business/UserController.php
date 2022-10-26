@@ -31,8 +31,9 @@ class UserController extends Controller
 
         $users = $business->users()->with('profile')->get();
 
-        $users->map(function (User $user){
+        $users->map(function (User $user) use ($business){
             $user->role = $user->pivot->role->name;
+            $user->rating = $user->getRating($business->id);
             return $user;
         });
 
@@ -76,6 +77,7 @@ class UserController extends Controller
         }, 'marketplaceJobs' => function($query) use ($business) {
             $query->where('business_id', '=', $business->id);
         }]);
+        $user->rating = $user->getRating($business->id);
 
         return ResponseFactory::success(
             'Show user',

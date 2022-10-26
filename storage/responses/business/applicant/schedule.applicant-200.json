@@ -1,0 +1,53 @@
+{
+    "success": true,
+    "message": "Your event has been scheduled.",
+    "data": {
+        "event_type": 1,
+        "start_time": "2020-09-23T05:00:00.000000Z",
+        "end_time": "2020-09-23T06:00:00.000000Z",
+        "timezone": "America\/Chicago",
+        "notes": "This is a test event.",
+        "application_id": 3,
+        "updated_at": "2020-09-22T13:30:15.000000Z",
+        "created_at": "2020-09-22T13:30:14.000000Z",
+        "id": 1,
+        "google_calendar_id": "qc4oqrnep2p83sj4fce5s3kb3g",
+        "event_type_description": "Phone screen",
+        "application": {
+            "id": 3,
+            "user_id": 4,
+            "business_id": 1,
+            "status": 2,
+            "created_at": "2020-09-22T13:23:54.000000Z",
+            "updated_at": "2020-09-22T13:30:14.000000Z",
+            "average_rating": null,
+            "scheduled": "Phone screening on Sep 23rd 2020",
+            "status_description": "Phone screening",
+            "user": {
+                "id": 4,
+                "first_name": "Ora",
+                "last_name": "Anderson",
+                "username": "applicant_one",
+                "email": "ignatius44@example.org",
+                "phone": "+1 (573) 387-4587",
+                "apn_token": null,
+                "fcm_token": null,
+                "email_verified_at": "2020-09-22T13:23:54.000000Z",
+                "last_seen_at": null,
+                "deleted_at": null,
+                "created_at": "2020-09-22T13:23:54.000000Z",
+                "updated_at": "2020-09-22T13:23:54.000000Z",
+                "isActive": false,
+                "lastSeen": null,
+                "profile": {
+                    "id": 4,
+                    "user_id": 4,
+                    "image": "https:\/\/randomuser.me\/api\/portraits\/men\/97.jpg",
+                    "description": "Tempore eum est dolores libero unde impedit et.",
+                    "created_at": "2020-09-22T13:23:54.000000Z",
+                    "updated_at": "2020-09-22T13:23:54.000000Z"
+                }
+            }
+        }
+    }
+}

@@ -61,11 +61,14 @@ class JobRequestControllerTest extends TestCase
             'category_id' => 1,
             'intensity_id' => 2,
             'price' => 25,
+            'client_name' => $marketplaceJob->client_name,
+            'images' => [file_get_contents(storage_path('test/base64-image.txt'))]
         ]);
 
 
         $response->assertStatus(201);
         $response->assertJsonStructure(['data' => ['category_id', 'status_id', 'customer_id']]);
+        $this->assertDatabaseCount('media' , 1);
         $this->document(self::DOC_PATH, self::SUBMIT_JOB_ROUTE, $response->status(), $response->getContent());
     }
 

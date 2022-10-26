@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Marketplace;
 
 use App\Events\Marketplace\CustomerHasRequested;
+use Illuminate\Log\Logger;
 use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
@@ -24,6 +25,10 @@ use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use LVR\State\Abbr;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -61,13 +66,19 @@ class JobRequestController extends Controller
      */
     private $filesystem;
 
+    /**
+     * @var Logger
+     */
+    private $logger;
+
     public function __construct(
         Geolocation $geolocation,
         Dispatcher $eventDispatcher,
         MarketplaceJobRepository $marketplaceJobRepository,
         BusinessRepository $businessRepository,
         Base64Image $base64Image,
-        FilesystemManager $filesystem
+        FilesystemManager $filesystem,
+        Logger $logger
     )
     {
         $this->geolocation = $geolocation;
@@ -76,6 +87,7 @@ class JobRequestController extends Controller
         $this->marketplaceJobRepository = $marketplaceJobRepository;
         $this->businessRepository = $businessRepository;
         $this->filesystem = $filesystem;
+        $this->logger = $logger;
     }
 
     /**
@@ -87,11 +99,10 @@ class JobRequestController extends Controller
      * @BodyParam(name="state", type="string", status="required", description="The state of the job location.", example="MN")
      * @BodyParam(name="zip", type="string", status="required", description="The zip code of the job location.", example="55901")
      * @BodyParam(name="category_id", type="numeric", status="required", description="The category id of the job.", example="1")
-     * @BodyParam(name="business_id", type="string", status="required", description="The uuid of the business marketplace.", example="67327c61-b00d-4820-b764-94529a17bf45")
+     * @BodyParam(name="intensity", type="numeric", status="required", description="The intensity id of the job.", example="1")
+     * @BodyParam(name="client_name", type="string", status="required", description="The first and last name of the client.", example="John Doe")
      * @BodyParam(name="price", type="numeric", status="required", description="The price of the job.", example="50.00")
-     * @BodyParam(name="image_one", type="string", status="optional", description="Base64 encoded image of job.")
-     * @BodyParam(name="image_two", type="string", status="optional", description="Base64 encoded image of job.")
-     * @BodyParam(name="image_three", type="string", status="optional", description="Base64 encoded image of job.")
+     * @BodyParam(name="images", type="array", status="optional", description="Image for the job.")
      * @ResponseExample(status=201, example="responses/marketplace/request/submit.job-201.json")
      *
      * @param SubmitJobRequest $request
@@ -108,34 +119,26 @@ class JobRequestController extends Controller
         $data['customer_id'] = $user->id;
         $data['status_id'] = Status::REQUESTED;
         $data['complete_before'] = Carbon::parse($request->complete_before)->toDateTimeString();
+        $data['client_name'] = $request->client_name;
 
-        if ($request->has('image_one')) {
-            $image = base64_decode($request->image_one);
-            $type = $this->base64Image->getImageType($request->image_one);
-            $name = Str::uuid() . "." . $type;
-            $this->filesystem->disk('s3')->put('marketplace/' . $name, $image);
-            $data['image_one'] = sprintf("%s/%s/%s", config('filesystem.disks.s3.url'), 'marketplace', $name);
-
-        }
-
-        if ($request->has('image_two')) {
-            $image = base64_decode($request->image_two);
-            $type = $this->base64Image->getImageType($request->image_two);
-            $name = Str::uuid() . "." . $type;
-            $this->filesystem->disk('s3')->put('marketplace' . $name, $image);
-            $data['image_two'] = sprintf("%s/%s/%s", config('filesystem.disks.s3.url'), 'marketplace', $name);
-        }
-
-        if ($request->has('image_three')) {
-            $image = base64_decode($request->image_three);
-            $type = $this->base64Image->getImageType($request->image_three);
-            $name = Str::uuid() . "." . $type;
-            $this->filesystem->disk('s3')->put('marketplace' . $name, $image);
-            $data['image_three'] = sprintf("%s/%s/%s", config('filesystem.disks.s3.url'), 'marketplace', $name);
-        }
+//        dd($request->images);
 
         /** @var MarketplaceJob $marketplace */
         $marketplace = $this->marketplaceJobRepository->create($data);
+
+        if ($request->has('images')) {
+            $images = $request->images;
+            foreach ($images as $image) {
+                try {
+                    $fileExtension = $this->base64Image->getImageType($image);
+                    $marketplace->addMediaFromBase64($image , ['image/png', 'image/jpg' , 'image/jpeg'])
+                        ->usingFileName(str::random() . '.' . $fileExtension)
+                        ->toMediaCollection();
+                } catch (FileCannotBeAdded | FileDoesNotExist | FileIsTooBig | InvalidBase64Data $exception) {
+                    $this->logger->error("Unable to upload your photo but the job was still posted!" . $exception->getMessage());
+                }
+            }
+        }
 
         $location = $this->geolocation->geoLocate([$request->street_address, $request->city, $request->state, $request->zip]);
         $marketplace->location()->create([
@@ -166,7 +169,7 @@ class JobRequestController extends Controller
      * @BodyParam(name="city", type="string", status="optional", description="The city of the job location.", example="Rochester")
      * @BodyParam(name="state", type="string", status="optional", description="The state of the job location.", example="MN")
      * @BodyParam(name="zip", type="string", status="optional", description="The zip code of the job location.", example="55901")
-     * @ResponseExample(status=201, example="responses/marketplace/request/edit.job-200.json")
+     * @ResponseExample(status=200, example="responses/marketplace/request/edit.job-200.json")
      *
      * @param EditJobRequest $request
      * @return \Illuminate\Http\Response

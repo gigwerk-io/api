@@ -3,19 +3,27 @@
 namespace App\Listeners\User;
 
 use App\Events\User\Registered;
+use App\Mail\User\RegisteredMailable;
+use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 class SendWelcomeEmail
 {
+
+    /**
+     * @var Mailer
+     */
+    private $mailer;
+
     /**
      * Create the event listener.
      *
-     * @return void
+     * @param Mailer $mailer
      */
-    public function __construct()
+    public function __construct(Mailer $mailer)
     {
-        //
+        $this->mailer = $mailer;
     }
 
     /**
@@ -26,6 +34,6 @@ class SendWelcomeEmail
      */
     public function handle(Registered $event)
     {
-        //
+        $this->mailer->to($event->user->email)->send(new RegisteredMailable($event->user));
     }
 }

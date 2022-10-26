@@ -1,0 +1,94 @@
+{
+    "success": true,
+    "message": "Show metrics",
+    "data": {
+        "applications": {
+            "dataset": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                37
+            ],
+            "labels": [
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep"
+            ],
+            "total": 37,
+            "percentage": 0.972972972972973
+        },
+        "workers": {
+            "dataset": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                29
+            ],
+            "labels": [
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep"
+            ],
+            "total": 29,
+            "percentage": 0.9655172413793104
+        },
+        "jobs": {
+            "dataset": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                5
+            ],
+            "labels": [
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep"
+            ],
+            "total": 5,
+            "percentage": 0.8
+        },
+        "hiring": {
+            "dataset": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0.7567567567567568
+            ],
+            "labels": [
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep"
+            ],
+            "total": 0.7567567567567568,
+            "percentage": -0.3214285714285714
+        }
+    }
+}

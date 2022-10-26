@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Business;
 
+use App\Contracts\Repositories\MarketplaceJobRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Enum\Marketplace\ProposalStatus;
 use App\Enum\Marketplace\Status;
@@ -12,6 +13,7 @@ use App\Models\MarketplaceJob;
 use App\Notifications\Marketplace\WorkerAcceptedJobNotification;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
+use Solomon04\Documentation\Annotation\BodyParam;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
 use Solomon04\Documentation\Annotation\ResponseExample;
@@ -27,14 +29,24 @@ class MarketplaceController extends Controller
     private $eventDispatcher;
 
     /**
+     * @var MarketplaceJobRepository
+     */
+    private $marketplaceJobRepository;
+
+    /**
      * @var UserRepository
      */
     private $userRepository;
 
-    public function __construct(Dispatcher $eventDispatcher , UserRepository $userRepository)
+    public function __construct(
+        Dispatcher $eventDispatcher,
+        UserRepository $userRepository,
+        MarketplaceJobRepository $marketplaceJobRepository
+    )
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->userRepository = $userRepository;
+        $this->marketplaceJobRepository = $marketplaceJobRepository;
     }
 
     /**
@@ -50,8 +62,16 @@ class MarketplaceController extends Controller
         $business = $request->get('business');
 
         $marketplaceJobs = $business->marketplaceJobs()
-            ->with(['customer.profile', 'proposals.user.profile', 'category'])
+            ->with(['customer.profile', 'proposals.user.profile', 'category', 'location'])
             ->get();
+
+        if ($request->has('status')) {
+            $status = $request->status;
+            $marketplaceJobs = $marketplaceJobs->filter(function($marketplaceJob) use ($status){
+                return $marketplaceJob->status_id == $status;
+            })->values();
+        }
+
 
         return ResponseFactory::success('Show all marketplace jobs', $marketplaceJobs);
     }
@@ -86,7 +106,7 @@ class MarketplaceController extends Controller
     }
 
     /**
-     * @meta(name="Assign worker", description="Assign a worker to a job", href="assign-job")
+     * @Meta(name="Assign worker", description="Assign a worker to a job", href="assign-job")
      * @BodyParam(name="worker_id", type="numeric", status="required", description="The id of the worker being assigned", example="4")
      * @ResponseExample(status=200)
      *

@@ -4,8 +4,10 @@ namespace Tests\Feature\Http\Controllers\Business;
 
 use App\Contracts\Repositories\BusinessRepository;
 use App\Contracts\Repositories\UserRepository;
+use App\Enums\ApplicationEventType;
 use App\Models\Business;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
@@ -23,6 +25,7 @@ class ApplicantControllerTest extends TestCase
     const APPROVE_APPLICANT_ROUTE = 'approve.applicant';
     const REJECT_APPLICANT_ROUTE = 'reject.applicant';
     const DELETE_APPLICATION_ROUTE = 'delete.application';
+    const SCHEDULE_EVENT_ROUTE = 'schedule.applicant';
 
     /**
      * @var User
@@ -40,6 +43,12 @@ class ApplicantControllerTest extends TestCase
         $this->admin = $this->app->make(UserRepository::class)->find(1);
         // Get the business
         $this->business = $this->app->make(BusinessRepository::class)->find(1);
+        // Add test data for the google refresh token when scheduling an event.
+        $this->business->integration()->update([
+            'google_refresh_token' => file_get_contents(storage_path('test/refresh-token.txt')),
+            'google_expiration' => Carbon::yesterday(),
+            'google_access_token' => 'FaultyToken'
+        ]);
         Sanctum::actingAs($this->admin);
     }
 
@@ -90,6 +99,29 @@ class ApplicantControllerTest extends TestCase
         $response->assertStatus(400);
         $response->assertJson(ResponseFactoryTest::error('This user has already joined your business'));
         $this->document(self::DOC_PATH, self::APPROVE_APPLICANT_ROUTE, $response->status(), $response->getContent());
+    }
+
+    /**
+     * @covers ::schedule
+     */
+    public function testScheduleEvent()
+    {
+        $response = $this->post(route(self::SCHEDULE_EVENT_ROUTE, ['unique_id' => $this->business->unique_id, 'id' => 3]), [
+            'event_type' => ApplicationEventType::PHONE_SCREEN,
+            'start_time' => Carbon::tomorrow()->toDateTimeString(),
+            'end_time' => Carbon::tomorrow()->addHour()->toDateTimeString(),
+            'timezone' => 'America/Chicago',
+            'notes' => 'This is a test event.'
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['data' => ['event_type', 'start_time', 'application']]);
+        $this->assertDatabaseHas('application_events', [
+            'event_type' => 1,
+            'notes' => 'This is a test event.',
+            'timezone' => 'America/Chicago'
+        ]);
+        $this->document(self::DOC_PATH, self::SCHEDULE_EVENT_ROUTE, $response->status(), $response->getContent());
     }
 
     /**

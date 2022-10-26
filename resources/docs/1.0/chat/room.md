@@ -36,33 +36,119 @@ Content
     "message": "Show chat rooms",
     "data": [
         {
-            "id": "049ab3ca-c18d-4d5a-864b-f106ad5d0857",
+            "id": "0f83f05a-2ad0-4026-8cab-6c1144dd702b",
             "business_id": 1,
             "users": [
                 "admin_one",
                 "worker_one"
             ],
-            "created_at": "2020-05-28T23:37:00.000000Z",
-            "updated_at": "2020-05-28T23:37:00.000000Z",
+            "created_at": "2020-09-22T13:24:04.000000Z",
+            "updated_at": "2020-09-22T13:24:04.000000Z",
             "unread": 2,
-            "messages": [
+            "members": [
                 {
                     "id": 1,
-                    "chat_room_id": "049ab3ca-c18d-4d5a-864b-f106ad5d0857",
-                    "sender_id": 1,
-                    "text": "Reprehenderit sapiente labore vel ducimus. Facilis magni exercitationem omnis modi quia est.",
-                    "read": false,
-                    "created_at": "2020-05-28T23:37:00.000000Z",
-                    "updated_at": "2020-05-28T23:37:00.000000Z"
+                    "first_name": "Peter",
+                    "last_name": "Weyland",
+                    "username": "admin_one",
+                    "email": "admin_one@mail.com",
+                    "phone": "(460) 419-8167",
+                    "apn_token": null,
+                    "fcm_token": null,
+                    "email_verified_at": "2020-09-22T13:23:49.000000Z",
+                    "last_seen_at": null,
+                    "deleted_at": null,
+                    "created_at": "2020-09-22T13:23:49.000000Z",
+                    "updated_at": "2020-09-22T13:23:49.000000Z",
+                    "isActive": false,
+                    "lastSeen": null,
+                    "profile": {
+                        "id": 1,
+                        "user_id": 1,
+                        "image": "https:\/\/gigwerk-disk.s3.amazonaws.com\/seed\/peter-weyland.png",
+                        "description": "Founder and owner of the Weyland Corporation",
+                        "created_at": "2020-09-22T13:23:49.000000Z",
+                        "updated_at": "2020-09-22T13:23:49.000000Z"
+                    }
                 },
                 {
                     "id": 2,
-                    "chat_room_id": "049ab3ca-c18d-4d5a-864b-f106ad5d0857",
-                    "sender_id": 2,
-                    "text": "Quo eum et in sed eligendi. Nam aut officia maxime quod.",
+                    "first_name": "Angelina",
+                    "last_name": "Jennie",
+                    "username": "worker_one",
+                    "email": "worker_one@mail.com",
+                    "phone": "589-200-0246",
+                    "apn_token": null,
+                    "fcm_token": null,
+                    "email_verified_at": "2020-09-22T13:23:54.000000Z",
+                    "last_seen_at": null,
+                    "deleted_at": null,
+                    "created_at": "2020-09-22T13:23:54.000000Z",
+                    "updated_at": "2020-09-22T13:23:54.000000Z",
+                    "isActive": false,
+                    "lastSeen": null,
+                    "profile": {
+                        "id": 2,
+                        "user_id": 2,
+                        "image": "https:\/\/randomuser.me\/api\/portraits\/men\/92.jpg",
+                        "description": "Molestiae consequuntur dolores omnis possimus.",
+                        "created_at": "2020-09-22T13:23:54.000000Z",
+                        "updated_at": "2020-09-22T13:23:54.000000Z"
+                    }
+                }
+            ],
+            "last_message": {
+                "id": 2,
+                "chat_room_id": "0f83f05a-2ad0-4026-8cab-6c1144dd702b",
+                "sender_id": 2,
+                "text": "Sunt dolor hic debitis ea qui possimus. Incidunt ipsa mollitia aut ea omnis.",
+                "read": false,
+                "created_at": "2020-09-22T13:24:04.000000Z",
+                "updated_at": "2020-09-22T13:24:04.000000Z",
+                "sender": {
+                    "id": 2,
+                    "first_name": "Angelina",
+                    "last_name": "Jennie",
+                    "username": "worker_one",
+                    "email": "worker_one@mail.com",
+                    "phone": "589-200-0246",
+                    "apn_token": null,
+                    "fcm_token": null,
+                    "email_verified_at": "2020-09-22T13:23:54.000000Z",
+                    "last_seen_at": null,
+                    "deleted_at": null,
+                    "created_at": "2020-09-22T13:23:54.000000Z",
+                    "updated_at": "2020-09-22T13:23:54.000000Z",
+                    "isActive": false,
+                    "lastSeen": null,
+                    "profile": {
+                        "id": 2,
+                        "user_id": 2,
+                        "image": "https:\/\/randomuser.me\/api\/portraits\/men\/92.jpg",
+                        "description": "Molestiae consequuntur dolores omnis possimus.",
+                        "created_at": "2020-09-22T13:23:54.000000Z",
+                        "updated_at": "2020-09-22T13:23:54.000000Z"
+                    }
+                }
+            },
+            "messages": [
+                {
+                    "id": 1,
+                    "chat_room_id": "0f83f05a-2ad0-4026-8cab-6c1144dd702b",
+                    "sender_id": 1,
+                    "text": "Eveniet sit non sunt dignissimos ipsam nihil. Eum est saepe cupiditate accusamus omnis sunt error.",
                     "read": false,
-                    "created_at": "2020-05-28T23:37:00.000000Z",
-                    "updated_at": "2020-05-28T23:37:00.000000Z"
+                    "created_at": "2020-09-22T13:24:04.000000Z",
+                    "updated_at": "2020-09-22T13:24:04.000000Z"
+                },
+                {
+                    "id": 2,
+                    "chat_room_id": "0f83f05a-2ad0-4026-8cab-6c1144dd702b",
+                    "sender_id": 2,
+                    "text": "Sunt dolor hic debitis ea qui possimus. Incidunt ipsa mollitia aut ea omnis.",
+                    "read": false,
+                    "created_at": "2020-09-22T13:24:04.000000Z",
+                    "updated_at": "2020-09-22T13:24:04.000000Z"
                 }
             ]
         }
@@ -94,80 +180,166 @@ Content
     "success": true,
     "message": "View chat room",
     "data": {
-        "id": "049ab3ca-c18d-4d5a-864b-f106ad5d0857",
+        "id": "0f83f05a-2ad0-4026-8cab-6c1144dd702b",
         "business_id": 1,
         "users": [
             "admin_one",
             "worker_one"
         ],
-        "created_at": "2020-05-28T23:37:00.000000Z",
-        "updated_at": "2020-05-28T23:37:00.000000Z",
+        "created_at": "2020-09-22T13:24:04.000000Z",
+        "updated_at": "2020-09-22T13:24:04.000000Z",
+        "members": [
+            {
+                "id": 1,
+                "first_name": "Peter",
+                "last_name": "Weyland",
+                "username": "admin_one",
+                "email": "admin_one@mail.com",
+                "phone": "(460) 419-8167",
+                "apn_token": null,
+                "fcm_token": null,
+                "email_verified_at": "2020-09-22T13:23:49.000000Z",
+                "last_seen_at": null,
+                "deleted_at": null,
+                "created_at": "2020-09-22T13:23:49.000000Z",
+                "updated_at": "2020-09-22T13:23:49.000000Z",
+                "isActive": false,
+                "lastSeen": null,
+                "profile": {
+                    "id": 1,
+                    "user_id": 1,
+                    "image": "https:\/\/gigwerk-disk.s3.amazonaws.com\/seed\/peter-weyland.png",
+                    "description": "Founder and owner of the Weyland Corporation",
+                    "created_at": "2020-09-22T13:23:49.000000Z",
+                    "updated_at": "2020-09-22T13:23:49.000000Z"
+                }
+            },
+            {
+                "id": 2,
+                "first_name": "Angelina",
+                "last_name": "Jennie",
+                "username": "worker_one",
+                "email": "worker_one@mail.com",
+                "phone": "589-200-0246",
+                "apn_token": null,
+                "fcm_token": null,
+                "email_verified_at": "2020-09-22T13:23:54.000000Z",
+                "last_seen_at": null,
+                "deleted_at": null,
+                "created_at": "2020-09-22T13:23:54.000000Z",
+                "updated_at": "2020-09-22T13:23:54.000000Z",
+                "isActive": false,
+                "lastSeen": null,
+                "profile": {
+                    "id": 2,
+                    "user_id": 2,
+                    "image": "https:\/\/randomuser.me\/api\/portraits\/men\/92.jpg",
+                    "description": "Molestiae consequuntur dolores omnis possimus.",
+                    "created_at": "2020-09-22T13:23:54.000000Z",
+                    "updated_at": "2020-09-22T13:23:54.000000Z"
+                }
+            }
+        ],
+        "last_message": {
+            "id": 2,
+            "chat_room_id": "0f83f05a-2ad0-4026-8cab-6c1144dd702b",
+            "sender_id": 2,
+            "text": "Sunt dolor hic debitis ea qui possimus. Incidunt ipsa mollitia aut ea omnis.",
+            "read": true,
+            "created_at": "2020-09-22T13:24:04.000000Z",
+            "updated_at": "2020-09-22T13:30:30.000000Z",
+            "sender": {
+                "id": 2,
+                "first_name": "Angelina",
+                "last_name": "Jennie",
+                "username": "worker_one",
+                "email": "worker_one@mail.com",
+                "phone": "589-200-0246",
+                "apn_token": null,
+                "fcm_token": null,
+                "email_verified_at": "2020-09-22T13:23:54.000000Z",
+                "last_seen_at": null,
+                "deleted_at": null,
+                "created_at": "2020-09-22T13:23:54.000000Z",
+                "updated_at": "2020-09-22T13:23:54.000000Z",
+                "isActive": false,
+                "lastSeen": null,
+                "profile": {
+                    "id": 2,
+                    "user_id": 2,
+                    "image": "https:\/\/randomuser.me\/api\/portraits\/men\/92.jpg",
+                    "description": "Molestiae consequuntur dolores omnis possimus.",
+                    "created_at": "2020-09-22T13:23:54.000000Z",
+                    "updated_at": "2020-09-22T13:23:54.000000Z"
+                }
+            }
+        },
         "messages": [
             {
                 "id": 1,
-                "chat_room_id": "049ab3ca-c18d-4d5a-864b-f106ad5d0857",
+                "chat_room_id": "0f83f05a-2ad0-4026-8cab-6c1144dd702b",
                 "sender_id": 1,
-                "text": "Reprehenderit sapiente labore vel ducimus. Facilis magni exercitationem omnis modi quia est.",
+                "text": "Eveniet sit non sunt dignissimos ipsam nihil. Eum est saepe cupiditate accusamus omnis sunt error.",
                 "read": false,
-                "created_at": "2020-05-28T23:37:00.000000Z",
-                "updated_at": "2020-05-28T23:37:00.000000Z",
+                "created_at": "2020-09-22T13:24:04.000000Z",
+                "updated_at": "2020-09-22T13:24:04.000000Z",
                 "sender": {
                     "id": 1,
-                    "first_name": "Christ",
-                    "last_name": "Curtis",
+                    "first_name": "Peter",
+                    "last_name": "Weyland",
                     "username": "admin_one",
-                    "email": "green.coleman@example.net",
-                    "phone": "+1.627.859.3025",
+                    "email": "admin_one@mail.com",
+                    "phone": "(460) 419-8167",
                     "apn_token": null,
                     "fcm_token": null,
-                    "email_verified_at": "2020-05-28T23:36:54.000000Z",
+                    "email_verified_at": "2020-09-22T13:23:49.000000Z",
                     "last_seen_at": null,
                     "deleted_at": null,
-                    "created_at": "2020-05-28T23:36:54.000000Z",
-                    "updated_at": "2020-05-28T23:36:54.000000Z",
+                    "created_at": "2020-09-22T13:23:49.000000Z",
+                    "updated_at": "2020-09-22T13:23:49.000000Z",
                     "isActive": false,
                     "lastSeen": null,
                     "profile": {
                         "id": 1,
                         "user_id": 1,
-                        "image": "https:\/\/i.picsum.photos\/id\/668\/600\/600.jpg",
-                        "description": "Libero esse fuga omnis necessitatibus sunt ut.",
-                        "created_at": "2020-05-28T23:36:54.000000Z",
-                        "updated_at": "2020-05-28T23:36:54.000000Z"
+                        "image": "https:\/\/gigwerk-disk.s3.amazonaws.com\/seed\/peter-weyland.png",
+                        "description": "Founder and owner of the Weyland Corporation",
+                        "created_at": "2020-09-22T13:23:49.000000Z",
+                        "updated_at": "2020-09-22T13:23:49.000000Z"
                     }
                 }
             },
             {
                 "id": 2,
-                "chat_room_id": "049ab3ca-c18d-4d5a-864b-f106ad5d0857",
+                "chat_room_id": "0f83f05a-2ad0-4026-8cab-6c1144dd702b",
                 "sender_id": 2,
-                "text": "Quo eum et in sed eligendi. Nam aut officia maxime quod.",
+                "text": "Sunt dolor hic debitis ea qui possimus. Incidunt ipsa mollitia aut ea omnis.",
                 "read": false,
-                "created_at": "2020-05-28T23:37:00.000000Z",
-                "updated_at": "2020-05-28T23:37:00.000000Z",
+                "created_at": "2020-09-22T13:24:04.000000Z",
+                "updated_at": "2020-09-22T13:24:04.000000Z",
                 "sender": {
                     "id": 2,
-                    "first_name": "Marco",
-                    "last_name": "Neva",
+                    "first_name": "Angelina",
+                    "last_name": "Jennie",
                     "username": "worker_one",
-                    "email": "price72@example.com",
-                    "phone": "270-970-3273 x92163",
+                    "email": "worker_one@mail.com",
+                    "phone": "589-200-0246",
                     "apn_token": null,
                     "fcm_token": null,
-                    "email_verified_at": "2020-05-28T23:36:54.000000Z",
+                    "email_verified_at": "2020-09-22T13:23:54.000000Z",
                     "last_seen_at": null,
                     "deleted_at": null,
-                    "created_at": "2020-05-28T23:36:54.000000Z",
-                    "updated_at": "2020-05-28T23:36:54.000000Z",
+                    "created_at": "2020-09-22T13:23:54.000000Z",
+                    "updated_at": "2020-09-22T13:23:54.000000Z",
                     "isActive": false,
                     "lastSeen": null,
                     "profile": {
                         "id": 2,
                         "user_id": 2,
-                        "image": "https:\/\/i.picsum.photos\/id\/239\/600\/600.jpg",
-                        "description": "Et autem et impedit ea voluptatem.",
-                        "created_at": "2020-05-28T23:36:54.000000Z",
-                        "updated_at": "2020-05-28T23:36:54.000000Z"
+                        "image": "https:\/\/randomuser.me\/api\/portraits\/men\/92.jpg",
+                        "description": "Molestiae consequuntur dolores omnis possimus.",
+                        "created_at": "2020-09-22T13:23:54.000000Z",
+                        "updated_at": "2020-09-22T13:23:54.000000Z"
                     }
                 }
             }
@@ -200,7 +372,7 @@ Content
     "success": true,
     "message": "Find chat room",
     "data": {
-        "id": "cbe27e22-68e8-4ee3-b4dd-0eb259d1a2bc"
+        "id": "7c8133f9-135a-4a43-b3c6-31d07706bb1b"
     }
 }
 

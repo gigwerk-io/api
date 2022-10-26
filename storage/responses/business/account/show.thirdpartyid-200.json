@@ -1,0 +1,8 @@
+{
+    "success":true,
+    "message":"Show third party ids",
+    "data": {
+        "facebook_pixel_id":"test value",
+        "google_analytics_id":"test value"
+    }
+}

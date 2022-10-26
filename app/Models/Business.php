@@ -33,10 +33,6 @@ class Business extends Model implements Transformable, HasMedia
         'owner_id',
         'unique_id',
         'is_accepting_applications',
-        'facebook_pixel_id',
-        'google_analytics_id',
-        'cloudfront_id',
-        's3_bucket_id',
         'is_approved'
     ];
 
@@ -91,6 +87,17 @@ class Business extends Model implements Transformable, HasMedia
     }
 
     /**
+     * A business can have a form for their applicants.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function form()
+    {
+        return $this->hasOne(BusinessForm::class);
+    }
+
+
+    /**
      * A business can have many jobs.
      *
      * @return HasMany
@@ -108,6 +115,16 @@ class Business extends Model implements Transformable, HasMedia
     public function applications()
     {
         return $this->hasMany(Application::class);
+    }
+
+    /**
+     * A business can have an integration
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function integration()
+    {
+        return $this->hasOne(BusinessIntegration::class, 'business_id');
     }
 
     /**

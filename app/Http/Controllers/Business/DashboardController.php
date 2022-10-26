@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Business;
 
-use App\Enum\User\ApplicationStatus;
+use App\Contracts\Dashboard\Dashboard;
+use App\Dashboard\DashboardProvider;
+use App\Enums\ApplicationStatus;
+use App\Models\Application;
 use Solomon04\Documentation\Annotation\Group;
 use Solomon04\Documentation\Annotation\Meta;
 use Solomon04\Documentation\Annotation\ResponseExample;
@@ -39,46 +42,51 @@ class DashboardController extends Controller
      */
     private $databaseManager;
 
+    /**
+     * @var Dashboard
+     */
+    private $dashboard;
+
     public function __construct(
         MarketplaceJobRepository $marketplaceJobRepository,
         PaymentRepository $paymentRepository,
-        DatabaseManager $databaseManager
+        DatabaseManager $databaseManager,
+        Dashboard $dashboard
     )
     {
         $this->marketplaceJobRepository = $marketplaceJobRepository;
         $this->paymentRepository = $paymentRepository;
         $this->databaseManager = $databaseManager;
+        $this->dashboard = $dashboard;
     }
 
     /**
-     * @Meta(name="Stats", href="stats", description="Get the statistics to present on the business dashboard.")
-     * @ResponseExample(status=200, example="responses/business/dashboard/stats-200.json")
+     * @Meta(name="Metrics", description="Show a list of metrics to display as cards on the dashboard.", href="metrics")
+     * @ResponseExample(status=200, example="responses/business/dashboard/metrics-200.json")
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function stats(Request $request)
+    public function metrics(Request $request)
     {
         /** @var Business $business */
         $business = $request->get('business');
 
-        $marketplaceJobs = $business->marketplaceJobs()->with('payment')->get();
+        $applicants = $business->applications()->get();
+        $workers = $business->users()->get();
+        $jobs = $business->marketplaceJobs()->get();
 
-        $totalUsers = $business->users()->count();
-        $totalJobs = $marketplaceJobs->count();
-        $applicants = $business->applications()->where('status_id', '=', ApplicationStatus::PENDING)->count();
-        $payments = $marketplaceJobs->sum(function (MarketplaceJob $marketplaceJob) {
-            return $marketplaceJob->payment()->sum('amount');
-        });
+        $applicantMetrics = $this->dashboard->getApplicantMetrics($applicants);
+        $workerMetrics = $this->dashboard->getWorkerMetrics($workers);
+        $jobMetrics = $this->dashboard->getJobMetrics($jobs);
+        $hiringMetrics = $this->dashboard->getHiringRate($applicants);
 
-        $data = [
-            'applicants' => $applicants,
-            'jobs' => $totalJobs,
-            'payments' => $payments,
-            'users' => $totalUsers
-        ];
-
-        return ResponseFactory::success('Show dashboard stats', $data);
+        return ResponseFactory::success('Show metrics', [
+            'applications' => $applicantMetrics,
+            'workers' => $workerMetrics,
+            'jobs' => $jobMetrics,
+            'hiring' => $hiringMetrics
+        ]);
     }
 
     /**
@@ -135,36 +143,5 @@ class DashboardController extends Controller
         ];
 
         return ResponseFactory::success('Show graph data', ['jobs' => $jobsData, 'payments' => $payments]);
-    }
-
-    /**
-     * @Meta(name="Leaderboard", description="Get all users of a business in order of performance.", href="leaderboard")
-     * @ResponseExample(status=200, example="responses/business/dashboard/business.leaderboard-200.json")
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function leaderboard(Request $request)
-    {
-        /** @var Business $business */
-        $business = $request->get('business');
-
-        $workers = $business->users()->with('profile')->get();
-
-        $workers = $workers->sortBy(function (User $user) {
-            return -$user->amount;
-        })->take(10);
-
-        $workers = $workers->map(function (User $user) use ($business) {
-            $user->append(['amount']);
-            $user->rating = $user->getRating($business->id);
-            $user->makeHidden('payouts');
-            return $user;
-        })->toArray();
-
-        return ResponseFactory::success(
-            'Showing the top workers',
-            array_values($workers)
-        );
     }
 }

@@ -1,0 +1,7 @@
+{
+    "success": true,
+    "message": "Generated Google OAuth url",
+    "data": {
+        "url": "https:\/\/accounts.google.com\/o\/oauth2\/v2\/auth?scope=openid%20email%20profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events&prompt=consent&access_type=offline&state=0c2ac95bbe2da7d6d3465bd5e7659a83&response_type=code&redirect_uri=https%3A%2F%2Fapi.gigwerk.test%2Fgoogle%2Foauth&client_id=45848104174-g83g8abd9d1u9e9bljnhcm9r7bupmuu7.apps.googleusercontent.com"
+    }
+}
